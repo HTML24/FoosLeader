@@ -195,6 +195,36 @@ class ResultController extends Controller
         }
     }
 
+    public function deleteAction($id) {
+        $user = $this->getUser();
+        if (null === $user) {
+            throw new AccessDeniedException('Must be logged in for this route!');
+        }
+        $em = $this->get('doctrine.orm.entity_manager');
+        $result_repo = $em->getRepository('FoosLeaderCoreBundle:Result');
+
+        $result = $result_repo->find($id);
+        if (null === $result) {
+            throw new NotFoundHttpException('Result not found');
+        }
+
+        if ($result->userParticipating($user) && !$result->getTeam1Confirmed() && !$result->getTeam2Confirmed()) {
+            // Request performed by logged in user who participated in this result, and both team have
+            // invalidated the result
+            $elo_history_repo = $em->getRepository('FoosLeaderCoreBundle:ELOHistory');
+            $elo_histories = $elo_history_repo->findBy(array('result' => $result));
+            foreach ($elo_histories as $elo_history) {
+                $em->remove($elo_history);
+            }
+
+            $em->remove($result);
+            $em->flush();
+            return new JsonResponse(true);
+        } else {
+            throw new AccessDeniedException('Can not delete: conditions not met. User participating, both teams disputed');
+        }
+    }
+
     public function confirmAction($id) {
         $em = $this->get('doctrine.orm.entity_manager');
         $result_repo = $em->getRepository('FoosLeaderCoreBundle:Result');
