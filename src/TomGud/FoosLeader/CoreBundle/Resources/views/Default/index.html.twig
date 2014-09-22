@@ -51,7 +51,7 @@
             {% if elo_history is empty %}
                 <strong> You have not played any games yet, sportsman </strong>
             {% else %}
-                {% include "FoosLeaderCoreBundle:Widgets:elo_graph.html.twig"  with { results: elo_history } %}
+                {% include "FoosLeaderCoreBundle:Widgets:elo_graph_single.html.twig"  with { results: elo_history } %}
             {% endif %}
         </div>
 	</div>

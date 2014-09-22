@@ -1,4 +1,6 @@
 <div id="chart">
+    {% set latestResults = results[results|length - 30:results|length] %}
+
     <script>
         $(function () {
             $('#chart').highcharts({
@@ -20,7 +22,7 @@
                         text:''
                     },
                     categories: [
-                        {% for result in results[results|length - 30:results|length] %}
+                        {% for result in latestResults %}
                             '{{ result.registered|date('Y-m-d') }}',
                         {% endfor %}
                     ]
@@ -36,23 +38,26 @@
                     }]
                 },
                 tooltip: {
+                    useHTML : true,
                     formatter: function() {
-                        return    '<span style="font-size:10px">'+ this.x + "</span><br/>" +
-                                  '<b>'+ Highcharts.numberFormat(this.y, 0) +'</b>';
-
+                        return  '<b>'+ Highcharts.numberFormat(this.y, 0) +'</b><br/>'+
+                                '<span>'+this.x + "</span><br/>"+
+                                '<a href="'+Routing.generate('detail_result', {id: this.point.resultID})+'">Result</a>';
                     }
                 },
+
                 series: [{
                     name: '',
                     color: '#999999',
                     data: [
-                        {% for result in results[results|length - 30:results|length] %}
-                            {{ result.NewElo }},
+                        {% for result in latestResults %}
+                            { y : {{ result.NewElo }}, resultID : {{result.result.id}} },
                         {% endfor %}
                     ]
 
                 }]
             });
+
         });
     </script>
 </div>

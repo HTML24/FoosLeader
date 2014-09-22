@@ -68,6 +68,18 @@ body {
   color: white;
   background-color: #A0D468;
 }
+.highcharts-tooltip {
+    text-align: center;
+}
+.highcharts-tooltip b {
+    text-align: center;
+}
+.highcharts-tooltip span {
+     font-size: 10px;
+ }
+.highcharts-tooltip a {
+
+}
 @media (max-width: 767px) {
   .navbar-success .navbar-nav > li > a:hover, .navbar-success .navbar-nav > li > a:focus {
     background-color: #A0D468;
