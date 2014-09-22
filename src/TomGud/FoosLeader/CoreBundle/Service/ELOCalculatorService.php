@@ -51,8 +51,8 @@ class ELOCalculatorService
             $p2ELO->setNewELO($p2ELO->getCurrentELO() + round($p2ELO->getPlayerK() * ($team2Won - $team2ChanceOfWin)));
             $p4ELO->setNewELO($p4ELO->getCurrentELO() + round($p4ELO->getPlayerK() * ($team2Won - $team2ChanceOfWin)));
 
-            $results[$p3ELO->getPlayer()->getId()] = $p1ELO;
-            $results[$p4ELO->getPlayer()->getId()] = $p2ELO;
+            $results[$p3ELO->getPlayer()->getId()] = $p3ELO;
+            $results[$p4ELO->getPlayer()->getId()] = $p4ELO;
         }
         $results[$p1ELO->getPlayer()->getId()] = $p1ELO;
         $results[$p2ELO->getPlayer()->getId()] = $p2ELO;
