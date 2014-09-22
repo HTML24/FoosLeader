@@ -3,6 +3,8 @@
 namespace TomGud\FoosLeader\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use TomGud\FoosLeader\CoreBundle\Entity\Result;
@@ -168,6 +170,34 @@ class ResultController extends Controller
         		'result' => $result
         		)
         	);
+    }
+
+    public function invalidateResultAction($id) {
+        $user = $this->getUser();
+        if (null === $user) {
+            throw new AccessDeniedException('Must be logged in for this route!');
+        }
+        $em = $this->get('doctrine.orm.entity_manager');
+        $result_repo = $em->getRepository('FoosLeaderCoreBundle:Result');
+
+        $result = $result_repo->find($id);
+        if (null === $result) {
+            throw new NotFoundHttpException('Result not found');
+        }
+
+        if ($result->userParticipating($user)) {
+            if ($result->userInTeam1($user)) {
+                $result->setTeam1Confirmed(false);
+            } else {
+                $result->setTeam2Confirmed(false);
+            }
+            $em->persist($result);
+            $em->flush();
+
+            return new JsonResponse(true);
+        } else {
+            throw new AccessDeniedException('User did not participate in this result.');
+        }
     }
 
     public function confirmAction($id) {

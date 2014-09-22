@@ -23,3 +23,10 @@ confirm_result:
     methods: [GET,POST]
     options:
         expose: true
+
+invalidate_result:
+    pattern: /result/invalidate/{id}
+    defaults: { _controller: FoosLeaderCoreBundle:Result:invalidateResult }
+    methods: [GET,POST]
+    options:
+        expose: true
