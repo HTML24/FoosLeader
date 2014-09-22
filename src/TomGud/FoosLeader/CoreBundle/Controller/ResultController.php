@@ -127,7 +127,7 @@ class ResultController extends Controller
     	$result_repo = $this->getDoctrine()->getManager()->getRepository('FoosLeaderCoreBundle:Result');
     	$result = $result_repo->find($id);
     	if ($result === null) {
-    		// TODO: Redirect to a 404 page
+    		throw new NotFoundHttpException('Result does not exist');
     	}
 
         $userConfirmed = ($result->userInTeam1($user) && $result->getTeam1Confirmed()) ||
