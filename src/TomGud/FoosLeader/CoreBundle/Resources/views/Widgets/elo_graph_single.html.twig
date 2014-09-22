@@ -22,6 +22,10 @@
                     title:{
                         text:''
                     },
+                    labels:
+                    {
+                        enabled: false
+                    },
                     categories: [
                         {% for result in results %}
                             '{{ result.registered|date('Y-m-d') }}',

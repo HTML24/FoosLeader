@@ -26,13 +26,18 @@ class ProfileController extends BaseController
 
         $paginator = $this->container->get('knp_paginator');
         $pagination =$paginator->paginate($eloHistories, $this->container->get('request')->get('page', 1),  5);
+
+        $elo_repo = $this->container->get('doctrine.orm.entity_manager')->getRepository('FoosLeaderCoreBundle:ELOHistory');
+        $elo_history = $elo_repo->findEloHistoryForPlayer($user);
+
         return $this->container->get('templating')->renderResponse(
             'FOSUserBundle:Profile:show.html.twig',
         	array(
                 'user' => $user,
                 'pagination' => $pagination,
                 'goalStatistics' => $goalStatistics,
-                'gameStatistics' => $gameStatistics
+                'gameStatistics' => $gameStatistics,
+                'elo_history' => $elo_history,
             )
         );
     }

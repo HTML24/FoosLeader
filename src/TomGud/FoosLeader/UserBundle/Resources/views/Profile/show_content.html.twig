@@ -2,6 +2,23 @@
 	<h1> Your profile </h1>
 </div>
 <div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Progress</h3>
+            </div>
+            <div class="panel-body">
+                {% if elo_history is empty %}
+                    <strong> You have not played any games yet, sportsman </strong>
+                {% else %}
+                    {% include "FoosLeaderCoreBundle:Widgets:elo_graph_single.html.twig"  with { results: elo_history } %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
 	<div class="col-xs-4">
 		<div class="panel panel-success">
 			<div class="panel-heading">

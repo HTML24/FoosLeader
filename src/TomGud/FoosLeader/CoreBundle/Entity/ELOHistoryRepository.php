@@ -47,10 +47,9 @@ class ELOHistoryRepository extends EntityRepository
         $qb = $this
             ->createQueryBuilder('eh')
             ->where('eh.player = :player')
-            ->andWhere('eh.registered > :currentDate')
             ->orderBy('eh.registered', 'ASC')
             ->setParameter('player', $player)
-            ->setParameter('currentDate', date('Y-m-d', strtotime("now -30 days") ));
+            ->setMaxResults(30);
         $results = $qb->getQuery()->getResult();
         return $results;
     }
@@ -58,10 +57,11 @@ class ELOHistoryRepository extends EntityRepository
     public function findEloHistoryForAll(){
         $qb = $this
             ->createQueryBuilder('eh')
-            ->andWhere('eh.registered > :currentDate')
+            ->where('eh.registered > :currentDate')
             ->orderBy('eh.registered', 'ASC')
             ->setParameter('currentDate', date('Y-m-d', strtotime("now -30 days") ));
         $results = $qb->getQuery()->getResult();
         return $results;
     }
+
 }

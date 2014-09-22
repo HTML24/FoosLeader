@@ -1,5 +1,4 @@
 <div class="chartAll">
-    {% set latestResults = results[results|length - 30:results|length] %}
 
     <script>
         $(function () {
@@ -18,15 +17,15 @@
                     text:''
                 },
                 legend: {
-                    enabled: false
+
                 },
                 xAxis: {
                     title:{
                         text:''
                     },
                     categories: [
-                        {% for result in latestResults %}
-                            '{{ result.registered|date('Y-m-d') }}',
+                        {% for key,value in results %}
+                            '{{ key }}',
                         {% endfor %}
                     ]
                 },
@@ -43,22 +42,30 @@
                 tooltip: {
                     useHTML : true,
                     formatter: function() {
-                        return  '<b>'+ Highcharts.numberFormat(this.y, 0) +'</b><br/>'+
-                        '<span>'+this.x + "</span><br/>"+
-                        '<a href="'+Routing.generate('detail_result', {id: this.point.resultID})+'">Result</a>';
+                        return '<b>'+ this.point.name +'</b><br/>'+
+                        '<b>'+ Highcharts.numberFormat(this.y, 0) +'</b><br/>'+
+                        '<span>'+this.x + "</span><br/>";
                     }
                 },
 
-                series: [{
-                    name: '',
-                    color: '#999999',
-                    data: [
-                        {% for result in latestResults %}
-                            { y : {{ result.NewElo }}, resultID : {{result.result.id}} },
-                        {% endfor %}
-                    ]
-
-                }]
+                series: [
+                    {% for name,player in players %}
+                        {
+                            name: '{{ name }}',
+                            connectNulls: true,
+                            color: "#"+((1<<24)*Math.random()|0).toString(16),
+                            data: [
+                                {% for value in player %}
+                                    {% if value == -1 %}
+                                { y : null, name : '{{ name }}' },
+                                    {% else %}
+                                        { y : {{ value }}, name : '{{ name }}' },
+                                    {% endif %}
+                                {% endfor %}
+                            ],
+                        },
+                    {% endfor %}
+                ]
             });
 
         });

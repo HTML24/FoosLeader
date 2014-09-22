@@ -46,22 +46,13 @@
 				{% endfor %}
 			{% endif %}
 		</div>
-        <div class="col-md-12">
-            <h3>Progress</h3>
-            {% if elo_history is empty %}
-                <strong> You have not played any games yet, sportsman </strong>
-            {% else %}
-                {% include "FoosLeaderCoreBundle:Widgets:elo_graph_single.html.twig"  with { results: elo_history } %}
-            {% endif %}
-        </div>
 
-        <!-- Move this to stats page -->
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <h3>League stats</h3>
-            {% if elo_history_all is empty %}
+            {% if elo_history_all_dates is empty %}
                 <strong>Let the season begin ! </strong>
             {% else %}
-                {% include "FoosLeaderCoreBundle:Widgets:elo_graph_all.html.twig"  with { results: elo_history_all } %}
+                {% include "FoosLeaderCoreBundle:Widgets:elo_graph_all.html.twig"  with { results: elo_history_all_dates, players : elo_history_all_players} %}
             {% endif %}
         </div>
 	</div>

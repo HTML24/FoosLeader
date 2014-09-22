@@ -80,6 +80,13 @@ body {
 .highcharts-tooltip a {
 
 }
+.col-x-4 {
+    padding-right: 15px;
+
+}
+.chart .highcharts-axis {
+    display:none;
+}
 @media (max-width: 767px) {
   .navbar-success .navbar-nav > li > a:hover, .navbar-success .navbar-nav > li > a:focus {
     background-color: #A0D468;
