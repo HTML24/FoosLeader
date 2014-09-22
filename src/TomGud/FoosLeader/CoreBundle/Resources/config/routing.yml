@@ -1,6 +1,8 @@
 home:
     pattern:  /
     defaults: { _controller: FoosLeaderCoreBundle:Default:index }
+    options:
+        expose: true
 
 new_result:
     pattern: /new_result

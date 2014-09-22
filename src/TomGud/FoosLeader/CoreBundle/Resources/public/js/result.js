@@ -26,6 +26,7 @@
 		$(document).on('click', '#create_result', fbd.result.validateNewResultForm);
 		$(document).on('click', '.confirm-single-result', fbd.result.confirmResult);
 		$(document).on('click', '.invalidate-single-result', fbd.result.invalidateResult);
+		$(document).on('click', '.delete-single-result', fbd.result.deleteResult);
 	});
 
 	/**
@@ -139,4 +140,25 @@
         });
 
     };
+
+    fbd.result.deleteResult = function() {
+        var $this = $(this),
+            action = $this.data('action');
+        $.ajax({
+            url: Routing.generate('invalidate_result', {id: $this.data('result-id')}),
+            type: 'post',
+            success: function() {
+                if (action === 'close-alert') {
+                    $this.parents('.alert').remove();
+                } else if (action === 'close-result') {
+                    $this.parents('.single-result').remove();
+                } else if (action === 'home') {
+                    location.replace(Routing.generate('home'));
+                }
+            },
+            error: function() {
+                alert('Could not invalidate your result at this time. Please try again later');
+            }
+        });
+    }
 })(jQuery);
