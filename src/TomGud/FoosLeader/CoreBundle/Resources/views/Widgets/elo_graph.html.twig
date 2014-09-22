@@ -1,0 +1,58 @@
+<div id="chart">
+    <script>
+        $(function () {
+            $('#chart').highcharts({
+                exporting: { enabled: false },
+                title:{
+                    text:''
+                },
+                labels: {
+                    enabled: false
+                },
+                subTitle:{
+                    text:''
+                },
+                legend: {
+                    enabled: false
+                },
+                xAxis: {
+                    title:{
+                        text:''
+                    },
+                    categories: [
+                        {% for result in results[results|length - 30:results|length] %}
+                            '{{ result.registered|date('Y-m-d') }}',
+                        {% endfor %}
+                    ]
+                },
+                yAxis: {
+                    title:{
+                        text:''
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#cccccc'
+                    }]
+                },
+                tooltip: {
+                    formatter: function() {
+                        return    '<span style="font-size:10px">'+ this.x + "</span><br/>" +
+                                  '<b>'+ Highcharts.numberFormat(this.y, 0) +'</b>';
+
+                    }
+                },
+                series: [{
+                    name: '',
+                    color: '#999999',
+                    data: [
+                        {% for result in results[results|length - 30:results|length] %}
+                            {{ result.NewElo }},
+                        {% endfor %}
+                    ]
+
+                }]
+            });
+        });
+    </script>
+</div>

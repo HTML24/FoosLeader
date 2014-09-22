@@ -42,4 +42,13 @@ class ELOHistoryRepository extends EntityRepository
         $paginator = new Paginator($query);
         return $paginator;
     }
+    public function findEloHistoryForPlayer(User $player){
+        $qb = $this
+            ->createQueryBuilder('eh')
+            ->where('eh.player = :player')
+            ->orderBy('eh.registered', 'ASC')
+            ->setParameter('player', $player);
+        $results = $qb->getQuery()->getResult();
+        return $results;
+    }
 }

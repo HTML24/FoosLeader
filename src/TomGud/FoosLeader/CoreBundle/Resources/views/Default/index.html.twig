@@ -45,8 +45,15 @@
 					{% include "FoosLeaderCoreBundle:Widgets:unconfirmed_single.html.twig"  with { result: result } %}
 				{% endfor %}
 			{% endif %}
-
 		</div>
+        <div class="col-md-12">
+            <h3>Progress</h3>
+            {% if elo_history is empty %}
+                <strong> You have not played any games yet, sportsman </strong>
+            {% else %}
+                {% include "FoosLeaderCoreBundle:Widgets:elo_graph.html.twig"  with { results: elo_history } %}
+            {% endif %}
+        </div>
 	</div>
 </div>
 
