@@ -54,6 +54,16 @@
                 {% include "FoosLeaderCoreBundle:Widgets:elo_graph_single.html.twig"  with { results: elo_history } %}
             {% endif %}
         </div>
+
+        <!-- Move this to stats page -->
+        <div class="col-md-12">
+            <h3>League stats</h3>
+            {% if elo_history_all is empty %}
+                <strong>Let the season begin ! </strong>
+            {% else %}
+                {% include "FoosLeaderCoreBundle:Widgets:elo_graph_all.html.twig"  with { results: elo_history_all } %}
+            {% endif %}
+        </div>
 	</div>
 </div>
 

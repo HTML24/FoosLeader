@@ -1,7 +1,9 @@
-<div class="chart">
+<div class="chartAll">
+    {% set latestResults = results[results|length - 30:results|length] %}
+
     <script>
         $(function () {
-            $('.chart').highcharts({
+            $('.chartAll').highcharts({
                 exporting: { enabled: false },
                 title:{
                     text:''
@@ -23,7 +25,7 @@
                         text:''
                     },
                     categories: [
-                        {% for result in results %}
+                        {% for result in latestResults %}
                             '{{ result.registered|date('Y-m-d') }}',
                         {% endfor %}
                     ]
@@ -51,7 +53,7 @@
                     name: '',
                     color: '#999999',
                     data: [
-                        {% for result in results %}
+                        {% for result in latestResults %}
                             { y : {{ result.NewElo }}, resultID : {{result.result.id}} },
                         {% endfor %}
                     ]

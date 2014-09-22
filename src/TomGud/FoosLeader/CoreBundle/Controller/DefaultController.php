@@ -16,6 +16,8 @@ class DefaultController extends Controller
         $elo_repo = $this->getDoctrine()->getManager()->getRepository('FoosLeaderCoreBundle:ELOHistory');
         $elo_history = $elo_repo->findEloHistoryForPlayer($this->getUser());
 
+        $elo_history_all = $elo_repo->findEloHistoryForAll();  // move this
+
         return $this->render('FoosLeaderCoreBundle:Default:index.html.twig',
         	array(
         		'latest_user' => $latest_for_user,
@@ -23,6 +25,7 @@ class DefaultController extends Controller
         		'unconfirmed' => $unconfirmed_for_user,
         		'notifications' => array(),
                 'elo_history' => $elo_history,
+                'elo_history_all' => $elo_history_all, // move this
         	)
         );
     }
