@@ -104,6 +104,8 @@
 					$this.parents('.alert').remove();
 				} else if (action === 'close-result') {
 					$this.parents('.single-result').remove();
+                } else if (action === 'reload') {
+                    location.reload();
 				} else {
 					alert('Successfully confirmed your result');
 				}
