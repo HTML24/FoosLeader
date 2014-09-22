@@ -56,7 +56,7 @@ class ELOHistory
      * @var ELOHistory
      *
      * @ORM\OneToOne(targetEntity="EloHistory")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      **/
     protected $parent;
 
