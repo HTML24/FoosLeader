@@ -123,26 +123,18 @@ class ResultController extends Controller
     }
 
     public function detailAction($id) {
+        $user = $this->getUser();
     	$result_repo = $this->getDoctrine()->getManager()->getRepository('FoosLeaderCoreBundle:Result');
     	$result = $result_repo->find($id);
     	if ($result === null) {
     		// TODO: Redirect to a 404 page
     	}
 
-        if (!$result->isConfirmed()) {
-            $userNotConfirmed = ($result->userInTeam1($this->getUser()) && !$result->getTeam1Confirmed()) ||
-                ($result->userInTeam2($this->getUser()) && !$result->getTeam2Confirmed());
-            if ($result->userParticipating($this->getUser()) && $userNotConfirmed) {
-                $this->get('session')->getFlashBag()->add('warning',
-                    "This match has not been confirmed yet. You can confirm the result by clicking this button."
-                    . "<div class=\"single-result-action\"><button type=\"button\" class=\"confirm-single-result btn btn-success\" "
-                    . "id=\"confirm-". $result->getId() . "\" data-action=\"close-alert\""
-                    . "data-result-id=\"" . $result->getId() . "\">Confirm</button></div>");
-            }
-            $this->get('session')->getFlashBag()->add('warning', "This match has not been confirmed yet.");
-        }
+        $userConfirmed = ($result->userInTeam1($user) && $result->getTeam1Confirmed()) ||
+            ($result->userInTeam2($user) && $result->getTeam2Confirmed());
+        $canBeDeleted = !$result->getTeam1Confirmed() && !$result->getTeam2Confirmed();
 
-    	$victors = $result->getVictors();
+        $victors = $result->getVictors();
     	$losers = $result->getLosers();
 
     	// TODO: Create a service that generates random messages that describe games
@@ -167,7 +159,10 @@ class ResultController extends Controller
     	return $this->render('FoosLeaderCoreBundle:Result:detail.html.twig',
         	array(
         		'game_description' => $game_description,
-        		'result' => $result
+        		'result' => $result,
+                'userParticipated' => $result->userParticipating($user),
+                'userConfirmed' => $userConfirmed,
+                'canBeDeleted' => $canBeDeleted,
         		)
         	);
     }

@@ -53,5 +53,51 @@
 			<span class="score {{ team2class }}">{{ result.team2score }}</span>
 		</div>
 	</div>
+    <div class="row">
+        {% if not result.confirmed %}
+            {% if userParticipated and not userConfirmed %}
+                <div class="alert alert-warning">
+                    <strong>
+                        This match has not been confirmed yet. You can confirm the result by clicking this button.
+                    </strong>
+                    <div class="single-result-action">
+                        <button type="button" class="confirm-single-result btn btn-success" id="confirm-{{ result.id }}"
+                                data-action="close-alert" data-result-id="{{  result.id }}">Confirm</button>
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-warning">
+                    <strong>This match has not been confirmed yet.</strong>
+                </div>
+            {% endif %}
+            {% if canBeDeleted %}
+                <div class="alert alert-danger">
+                    <strong>
+                        To delete this match press the delete button. This can not be undone. This will recalculate all
+                        ELO scores that happen after this match.
+                    </strong>
+                    <div class="single-result-action">
+                        <button type="button" class="delete-single-result btn btn-danger"
+                                id="delete-{{ result.id }}" data-action="close-alert" data-result-id="{{ result.id }}"
+                                >Delete</button>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+        {% if userParticipated and userConfirmed %}
+            <div class="alert alert-warning">
+                <strong>
+                    If you believe this match did not happen, you can dispute the result here. Remind your opponent to
+                    confirm the dispute.
+                </strong>
+                <div class="single-result-action">
+                    <button type="button" class="invalidate-single-result btn btn-warning" id="invalidate-{{ result.id }}"
+                            data-action="close-alert" data-result-id="{{ result.id }}">
+                        Dispute.
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
