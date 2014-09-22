@@ -62,7 +62,7 @@
                     </strong>
                     <div class="single-result-action">
                         <button type="button" class="confirm-single-result btn btn-success" id="confirm-{{ result.id }}"
-                                data-action="close-alert" data-result-id="{{  result.id }}">Confirm</button>
+                                data-action="reload" data-result-id="{{  result.id }}">Confirm</button>
                     </div>
                 </div>
             {% else %}
@@ -92,7 +92,7 @@
                 </strong>
                 <div class="single-result-action">
                     <button type="button" class="invalidate-single-result btn btn-warning" id="invalidate-{{ result.id }}"
-                            data-action="close-alert" data-result-id="{{ result.id }}">
+                            data-action="reload" data-result-id="{{ result.id }}">
                         Dispute.
                     </button>
                 </div>
