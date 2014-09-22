@@ -37,32 +37,4 @@ class AppKernel extends Kernel
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
-
-    /**
-     * Overwrite the cache directory when in the development environment
-     * to speed up loading on windows when using vagrant
-     * @return string
-     */
-    public function getCacheDir()
-    {
-        if ($this->environment === 'dev') {
-            return '/dev/shm/appname/cache/' .  $this->environment;
-        }
-
-        return parent::getCacheDir();
-    }
-
-    /**
-     * Overwrite the log directory when in the development environment
-     * to speed up loading on windows when using vagrant
-     * @return string
-     */
-    public function getLogDir()
-    {
-        if ($this->environment === 'dev') {
-            return '/dev/shm/appname/logs';
-        }
-
-        return parent::getLogDir();
-    }
 }
