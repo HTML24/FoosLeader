@@ -21,4 +21,4 @@ deploy/
 .DS_Store
 .project
 .setting/
-.ssh-config
+ssh-config
