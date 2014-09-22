@@ -110,6 +110,8 @@ class ResultController extends Controller
 		$new_result->setTeam1Score($p_score_1);
 		$new_result->setTeam2Score($p_score_2);
 		$new_result->setSubmitted(new \Datetime('now', new \DateTimeZone('UTC')));
+        $new_result->setTeam1Confirmed(true);
+        $new_result->setTeam2Confirmed(true);
         $this->getDoctrine()->getManager()->persist($new_result);
         $this->getDoctrine()->getManager()->flush();
         $this->createEloHistory($new_result);
