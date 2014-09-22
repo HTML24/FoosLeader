@@ -1,0 +1,17 @@
+<div class="single-result row bottom-buffer">
+{% if result.player3 != null %}
+	{% set first_team = result.player1.username ~ ' and ' ~ result.player3.username %}
+	{% set second_team = result.player2.username ~ ' and ' ~ result.player4.username %}
+{% else %}
+	{% set first_team = result.player1.username %}
+	{% set second_team = result.player2.username %}
+{% endif %}
+{% if result.team1score > result.team2score %}
+	{% set status = 'won' %}
+{% else %}
+	{% set status = 'lost to' %}
+{% endif %}
+	<div class="first-team col-xs-12">
+		<a href="{{ path("detail_result", { "id" :  result.id }) }}">{{ first_team }} <strong>{{ status }}</strong> {{ second_team }}</a>
+	</div>
+</div>

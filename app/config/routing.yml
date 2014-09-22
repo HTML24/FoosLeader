@@ -1,0 +1,14 @@
+foos_leader_core:
+    resource: "@FoosLeaderCoreBundle/Resources/config/routing.yml"
+    prefix:   /
+
+
+foos_leader_user:
+    resource: "@FoosLeaderUserBundle/Resources/config/routing.yml"
+    prefix:   /user/
+
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

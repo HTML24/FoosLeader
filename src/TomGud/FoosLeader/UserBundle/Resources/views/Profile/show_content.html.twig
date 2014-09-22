@@ -1,0 +1,120 @@
+<div class="page-header clearfix">
+	<h1> Your profile </h1>
+</div>
+<div class="row">
+	<div class="col-xs-4">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h3 class="panel-title">Username</h3>
+			</div>
+			<div class="panel-body">
+				{{ user.username }}
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-4">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h3 class="panel-title">ELO Points</h3>
+			</div>
+			<div class="panel-body">
+				{{ user.ELORanking}}
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-4">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h3 class="panel-title">Email</h3>
+			</div>
+			<div class="panel-body">
+				{{ user.email }}
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-4">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				 <h3 class="panel-title">Games played</h3>
+			</div>
+			<table class="table table-hover table-striped">
+				<thead>
+					<tr>
+						<td>Played</td>
+						<td>Won</td>
+						<td>Lost</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{ gameStatistics.games }}</td>
+						<td>{{ gameStatistics.won }}</td>
+						<td>{{ gameStatistics.lost }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="col-xs-4">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h3 class="panel-title">Goals</h3>
+			</div>
+			<table class="table table-hover table-striped">
+				<thead>
+					<tr>
+						<td>Scored</td>
+						<td>Conceded</td>
+						<td>Difference</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{ goalStatistics.scored }}</td>
+						<td>{{ goalStatistics.conceded }}</td>
+						<td>{{ goalStatistics.difference }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="col-x-4">
+		<a href="{{ path("fos_user_profile_edit") }}" class="btn btn-warning btn-lg pull-right">Edit profile</a>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h3 class="panel-title">ELO History</h3>
+			</div>
+				<table class="table table-hover table-striped">
+					<thead>
+						<tr>
+							<th>Team 1</th>
+							<th>Team 2</th>
+							<th>Score</th>
+							<th>ELO rank</th>
+							<th>New ELO rank</th>
+							<th>Change</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for history in pagination %}
+						<tr>
+							<td>{{ history.result.player1 }} {% if history.result.player3 != null %} & {{ history.result.player3}} {% endif %}</td>
+							<td>{{ history.result.player2 }} {% if history.result.player4 != null %} & {{ history.result.player4}} {% endif %}</td>
+							<td>{{ history.result.team1Score }} - {{ history.result.team2Score }}</td>
+							<td>{{ history.oldELO }}</td>
+							<td>{{ history.newELO }}</td>
+							<td>{{ history.newELO - history.oldELO }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+		</div>
+	</div>
+	<div class="col-xs-4 pull-right">
+	    {{ knp_pagination_render(pagination) }}
+	</div>
+</div>

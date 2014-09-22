@@ -1,0 +1,7 @@
+parameters:
+#    foos_leader_user.example.class: TomGud\FoosLeader\UserBundle\Example
+
+services:
+#    foos_leader_user.example:
+#        class: %foos_leader_user.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

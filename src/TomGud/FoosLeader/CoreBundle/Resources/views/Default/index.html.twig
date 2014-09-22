@@ -1,0 +1,53 @@
+{% extends "FoosLeaderCoreBundle::layout.html.twig" %}
+
+{% block content %}
+
+<h1> Welcome to Fussball Duels, {{ app.user.username }}</h1>
+<h3> Here you can view your progress and add a new match result </h3>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-6">
+			<h3>Your last results</h3>
+				{% if latest_user is empty %}
+					<strong>Looks like you have no confirmed results</strong>
+				{% else %}
+					{% for result in latest_user[0:5] %}
+						{% include "FoosLeaderCoreBundle:Widgets:single_result.html.twig"  with { result: result } %}
+					{% endfor %}
+				{% endif %}
+		</div>
+		<div class="col-xs-6">
+			<h3>Latest results</h3>
+			{% if latest_all is empty %}
+				<strong>Looks like no one has any confirmed results </strong>
+			{% else %}
+				{% for result in latest_all[0:5] %}
+					{% include "FoosLeaderCoreBundle:Widgets:single_result.html.twig"  with { result: result } %}
+				{% endfor %}
+			{% endif %}
+		</div>
+		<div class="col-xs-6">
+			<h3>Notifications</h3>
+				{% if notifications is empty %}
+					<strong> You have no new notifications </strong>
+				{% else %}
+					{% for notification in notifications %}
+						notification.text
+					{% endfor %}
+				{% endif %}
+		</div>
+		<div class="col-xs-6">
+			<h3>Unconfirmed results</h3>
+			{% if unconfirmed is empty %}
+				<strong>No unconfirmed matches</strong>
+			{% else %}
+				{% for result in unconfirmed %}
+					{% include "FoosLeaderCoreBundle:Widgets:unconfirmed_single.html.twig"  with { result: result } %}
+				{% endfor %}
+			{% endif %}
+
+		</div>
+	</div>
+</div>
+
+{% endblock %}

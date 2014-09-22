@@ -1,0 +1,12 @@
+{% extends "FoosLeaderCoreBundle::layout.html.twig" %}
+
+{% block navigation %}
+	{% if app.user %}
+		{{ parent() }}
+	{% endif %}
+{% endblock %}
+
+
+{% block content %}
+    {% block fos_user_content %}{% endblock %}
+{% endblock %}

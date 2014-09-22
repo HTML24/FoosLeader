@@ -1,0 +1,57 @@
+{% extends "FoosLeaderCoreBundle::layout.html.twig" %}
+
+{% block content %}
+
+{% if result.player3 != null and result.player4 != null %}
+   <h1>{{ result.player1.username }} & {{ result.player3.username }} vs {{ result.player2.username }} & {{ result.player4.username }}</h1>
+{% else %}
+   <h1>{{ result.player1.username }} vs {{ result.player2.username }}</h1>
+{% endif %}
+<div class="container">
+	<div class="row">
+
+		{% for flashMessage in app.session.flashbag.get('warning') %}
+		<div class="row">
+		    <div class="alert alert-warning">
+		        <strong class="text-warning">{{ flashMessage|raw }}</strong>
+		    </div>
+		</div>
+		{% endfor %}
+		<div class="col-xs-12 description">
+			{{ game_description }}
+		</div>
+		{% if result.team1score > result.team2score %}
+			{% set team1class = 'text-success' %}
+			{% set team2class = 'text-danger' %}
+		{% else %}
+			{% set team1class = 'text-danger' %}
+			{% set team2class = 'text-success' %}
+		{% endif %}
+	</div>
+	<div class="row">
+		<div class="col-xs-4 col-xs-offset-1 text-center">
+			<h3>Brown team</h3><h4>{{- result.player1 -}}</h4>
+			{% if result.player3 is defined %}
+				<h4>{{ result.player3 }}</h4>
+			{% endif %}
+		</div>
+		<div class="col-xs-4 col-xs-offset-1 text-center">
+			<h3>White team</h3>
+			<h4>{{- result.player2 -}}</h4>
+			{% if result.player4 is defined %}
+				<h4>{{ result.player4 }}</h4>
+			{% endif %}
+		</div>
+		<div class="clearfix"></div>
+		<div class="col-xs-4 col-xs-offset-1 text-center">
+			<span class="score {{ team1class }}">{{ result.team1score }}</span>
+		</div>
+		<div class="col-xs-1 text-center">
+			<span class="score-divider">:</span>
+		</div>
+		<div class="col-xs-4 text-center">
+			<span class="score {{ team2class }}">{{ result.team2score }}</span>
+		</div>
+	</div>
+</div>
+{% endblock %}

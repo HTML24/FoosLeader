@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="robots" content="noindex,nofollow"/>
+    {# Selectize css if wanted
+
+    {% stylesheets filter="cssrewrite, ?uglifycss" 'bundles/bordduelbundle/selectize.js/css/selectize.css' %}
+    <link href="{{  asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
+    #}
+    {% stylesheets filter="cssrewrite, ?uglifycss "
+    'bundles/foos_leader_core/css/bootstrap.min.css'
+    'bundles/foos_leader_core/css/selectize.bootstrap3.css'
+    'bundles/foos_leader_core/css/bootflat.min.css'
+    'bundles/foos_leader_core/css/main.css'
+    %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet"/>
+    {% endstylesheets %}
+    {% javascripts filter="?uglifyjs2"
+    'bundles/foos_leader_core/js/jquery-2.1.0.min.js'
+    'bundles/foos_leader_core/js/bootstrap.min.js'
+    'bundles/foos_leader_core/js/icheck.js'
+    'bundles/foos_leader_core/js/selectize.min.js'
+    'bundles/foos_leader_core/js/result.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    {% endjavascripts %}
+    <title>Foosball Duels</title>
+</head>
+<body>
+{% block body %}
+
+    {% block navigation %}
+        <header class="main-header">
+            <!-- Fixed navbar -->
+            <div class="navbar navbar-success navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="{{ path('home') }}">Foosball Duels</a>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li class=""><a href="{{ path('new_result') }}">New result</a></li>
+                            <li class=""><a href="">Users</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                        {% if app.user %}
+                            <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown">
+                                        <i class="glyphicon glyphicon-user"></i>
+                                        Hiya, {{ app.user.username }} <b class="caret"></b>
+                                    </a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header">Your Profile</li>
+                                    <li><a href="{{ path("fos_user_profile_show") }}">View my profile</a></li>
+                                    <li><a href="{{ path("fos_user_change_password") }}">Change password</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{{ path("fos_user_profile_show") }}"><span class="badge badge-danger">ELO: {{ app.user.getELORanking() }}</span></a></li>
+                        {% else %}
+                            <li><a href="{{ path('fos_user_security_login') }}">Login</a></li>
+                        {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+    {% endblock %}
+    <div class="container">
+    {% block container %}
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
+    {% endblock %}
+    </div>
+{% endblock %}
+</body>
+</html>
