@@ -60,9 +60,15 @@ class StatisticsController  extends Controller {
                 $dataPoints[$user->getUsername()] = $allDates;
             }
 
+            /* highest
             if ($dataPoints[$user->getUsername()][$date] < $eloHistory->getNewElo()) {
                 $dataPoints[$user->getUsername()][$date]  = $eloHistory->getNewElo();
             }
+            */
+
+            // latest
+            $dataPoints[$user->getUsername()][$date]  = $eloHistory->getNewElo();
+
         }
 
         return $dataPoints;
