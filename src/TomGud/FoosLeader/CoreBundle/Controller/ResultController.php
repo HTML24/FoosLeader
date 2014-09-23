@@ -211,7 +211,7 @@ class ResultController extends Controller
             // Request performed by logged in user who participated in this result, and both team have
             // invalidated the result
             $this->updateELOScores($result);
-            return new JsonResponse(true);
+            return $this->redirect($this->generateUrl('home'));
         } else {
             throw new AccessDeniedException('Can not delete: conditions not met. User participating, both teams disputed');
         }

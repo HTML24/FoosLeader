@@ -77,9 +77,8 @@
                         ELO scores that happen after this match.
                     </strong>
                     <div class="single-result-action">
-                        <button type="button" class="delete-single-result btn btn-danger"
-                                id="delete-{{ result.id }}" data-action="home" data-result-id="{{ result.id }}"
-                                >Delete</button>
+                        <a class="delete-single-result btn btn-danger" id="delete-{{ result.id }}" href="{{ path('delete_result', { id: result.id }) }}"
+                                >Delete</a>
                     </div>
                 </div>
             {% endif %}
