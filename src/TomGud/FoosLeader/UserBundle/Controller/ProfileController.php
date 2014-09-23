@@ -20,12 +20,12 @@ class ProfileController extends BaseController
         $eloHistoryRepo = $this->container->get('doctrine.orm.entity_manager')->getRepository('FoosLeaderCoreBundle:ELOHistory');
         $resultRepo = $this->container->get('doctrine.orm.entity_manager')->getRepository('FoosLeaderCoreBundle:Result');
 
-        $eloHistories = $eloHistoryRepo->findBy(array('player' => $user));
+        $eloHistories = $eloHistoryRepo->findBy(array('player' => $user), array('id' => 'DESC'));
         $goalStatistics = $resultRepo->getGoalStatisticsForPlayer($user);
         $gameStatistics = $resultRepo->getGameStatisticsForPlayer($user);
 
         $paginator = $this->container->get('knp_paginator');
-        $pagination =$paginator->paginate($eloHistories, $this->container->get('request')->get('page', 1),  5);
+        $pagination =$paginator->paginate($eloHistories, $this->container->get('request')->get('page', 1),  5); //
 
         $elo_repo = $this->container->get('doctrine.orm.entity_manager')->getRepository('FoosLeaderCoreBundle:ELOHistory');
         $elo_history = $elo_repo->findEloHistoryForPlayer($user);

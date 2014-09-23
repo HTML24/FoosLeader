@@ -30,6 +30,7 @@ class ELOHistoryRepository extends EntityRepository
         }
 	}
 
+    // detele this ?
     public function findPaginatedResultsForPlayer(User $player, $start, $pageSize)
     {
         $query = $this->createQueryBuilder('eh')    // Example - $qb->innerJoin('u.Group', 'g', 'WITH', 'u.status = ?1')
