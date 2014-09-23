@@ -211,14 +211,7 @@ class ResultController extends Controller
         if ($result->userParticipating($user) && !$result->getTeam1Confirmed() && !$result->getTeam2Confirmed()) {
             // Request performed by logged in user who participated in this result, and both team have
             // invalidated the result
-            $elo_history_repo = $em->getRepository('FoosLeaderCoreBundle:ELOHistory');
-            $elo_histories = $elo_history_repo->findBy(array('result' => $result));
-            foreach ($elo_histories as $elo_history) {
-                $em->remove($elo_history);
-            }
-
-            $em->remove($result);
-            $em->flush();
+            $this->updateELOScores($result);
             return new JsonResponse(true);
         } else {
             throw new AccessDeniedException('Can not delete: conditions not met. User participating, both teams disputed');
@@ -298,47 +291,40 @@ class ResultController extends Controller
     public function updateELOScores(Result $result)
     {
         $em = $this->get('doctrine.orm.entity_manager');
-        $historyRepo = $em->getRepository('FoosLeaderCoreBundle:ELOHistory');
+        $elo_history_repo = $em->getRepository('FoosLeaderCoreBundle:ELOHistory');
+        $result_repo = $em->getRepository('FoosLeaderCoreBundle:Result');
+        $elo_histories = $result->getELOHistories();
+        $results = $result_repo->getAllAfter($result);
 
-        $players = array($result->getPlayer1(), $result->getPlayer2(), $result->getPlayer3(), $result->getPlayer4());
-        foreach ($players as $player)
-        {
-            if ($player === null) {
-                continue;
+        if (count($elo_histories) > 0) {
+            // Have some elo histories to go through
+            $lowest_id_elo_history = $elo_histories[0];
+            $invalid_elo_histories = $elo_history_repo->getAllAfter($lowest_id_elo_history->getId());
+            $players_found = array();
+            // Make sure all elo histories are deleted
+            foreach ($elo_histories as $elo_history) {
+                // Update the players ELO history to what it was before
+                $elo_history->getPlayer()->setELORanking($elo_history->getOldElo());
+                $players_found[$elo_history->getPlayer()->getId()] = true;
+                $em->persist($elo_history->getPlayer());
+                $em->remove($elo_history);
             }
-
-            $history = $historyRepo->findOneBy(array('player' => $player, 'result' => $result));
-            if ($history !== null) {
-                // Start by checking in the past
-                $parentResult = $history->getParent();
-                if ($parentResult !== null && !$parentResult->getResult()->isConfirmed()) {
-                    // Parent history's result is not confirmed so we can't update scores for this player
-                    continue;
-                } else if ($parentResult !== null && $parentResult->getResult()->isConfirmed()) {
-                    // Parent history's result is confirmed, let's update current history
-                    // Let's find out if there are newer elo history records that have a confirmed result
-                    $childHistory = $historyRepo->findOneBy(array('parent' => $history));
-                    while ($childHistory !== null) {
-                        if ($childHistory->getResult()->isConfirmed()) {
-                            $childHistory = $historyRepo->findOneBy(array('parent' => $childHistory));
-                        } else {
-                            break;
-                        }
-                    }
-                    // Check on if the child history we arrived at is confirmed
-                    if ($childHistory !== null) {
-                        if ($childHistory->getResult->isConfirmed()) {
-                            // Found a child history and it has been confirmed
-                            $player->setELORanking($history->getNewELO());
-                        }
-                    } else if ($history->getResult()->isConfirmed()) {
-                        // no confirmed child history found, check if the current result's history is confirmed
-                        $player->setELORanking($history->getNewELO());
-                    }
-                    $em->persist($player);
+            // Delete all older elo histories
+            foreach ($invalid_elo_histories as $elo_history) {
+                $player = $elo_history->getPlayer();
+                if (!array_key_exists($player->getId(), $players_found)) {
+                    $players_found[$player->getId()] = true;
+                    $player->setELORanking($elo_history->getOldElo());
                 }
+                $em->remove($elo_history);
             }
+
         }
+        $em->remove($result);
         $em->flush();
+
+        foreach ($results as $key => $current_result) {
+            $this->createEloHistory($current_result);
+        }
     }
 }
