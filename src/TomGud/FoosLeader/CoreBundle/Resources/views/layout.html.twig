@@ -52,7 +52,8 @@
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li class=""><a href="{{ path('new_result') }}">New result</a></li>
-                            <li class=""><a href="">Users</a></li>
+                           <!-- <li class=""><a href="">Users</a></li>-->
+                            <li class=""><a href="{{ path('statistics_global') }}">Stats</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                         {% if app.user %}
