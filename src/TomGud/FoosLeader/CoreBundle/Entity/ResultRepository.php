@@ -118,4 +118,17 @@ class ResultRepository extends EntityRepository
             return $statistics;
         }
     }
+
+    /**
+     * @param Result $result
+     * @return Result[]
+     */
+    public function getAllAfter(Result $result) {
+        $qb = $this->createQueryBuilder('r')
+            ->where('r.id > :id')
+            ->orderBy('r.id', 'ASC')
+            ->setParameter('id', $result->getId());
+        $results = $qb->getQuery()->getResult();
+        return $results;
+    }
 }

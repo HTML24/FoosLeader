@@ -16,32 +16,18 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 class ELOHistoryRepository extends EntityRepository
 {
 	public function findNewestRanking(User $player)
-	{
-		 $qb = $this
+    {
+        $qb = $this
             ->createQueryBuilder('eh')
             ->where('eh.player = :player')
             ->orderBy('eh.parent', 'DESC')
             ->setParameter('player', $player);
         $results = $qb->getQuery()->getResult();
         if (count($results) > 0) {
-        	return array_shift($results);
+            return array_shift($results);
         } else {
-        	return null;
+            return null;
         }
-	}
-
-    // detele this ?
-    public function findPaginatedResultsForPlayer(User $player, $start, $pageSize)
-    {
-        $query = $this->createQueryBuilder('eh')    // Example - $qb->innerJoin('u.Group', 'g', 'WITH', 'u.status = ?1')
-            ->leftJoin('eh.result', 'r')
-            ->setFirstResult($start)
-            ->setMaxResults($pageSize)
-            ->where('eh.player = :p')
-            ->setParameter('p', $player)
-            ->orderBy('r.submitted', 'DESC');
-        $paginator = new Paginator($query);
-        return $paginator;
     }
 
     public function findEloHistoryForPlayer(User $player){
@@ -63,6 +49,21 @@ class ELOHistoryRepository extends EntityRepository
             ->setParameter('currentDate', date('Y-m-d', strtotime("now -30 days") ));
         $results = $qb->getQuery()->getResult();
         return $results;
+    }
+
+    /**
+     * @param int $id
+     * @return ELOHistory[]
+     */
+    public function getAllAfter($id)
+    {
+        $qb = $this->createQueryBuilder('eh')
+            ->where('eh.id > :id')
+            ->orderBy('eh.id', 'ASC')
+            ->setParameter('id', $id);
+        $results = $qb->getQuery()->getResult();
+        return $results;
+
     }
 
 }
