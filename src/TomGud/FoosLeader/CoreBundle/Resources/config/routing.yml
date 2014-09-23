@@ -46,4 +46,7 @@ statistics_global:
     pattern: /stats
     defaults: { _controller: FoosLeaderCoreBundle:Statistics:global }
     methods: [GET]
+    options:
+            expose: true
+
     

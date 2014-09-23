@@ -1,5 +1,25 @@
 {% extends "FoosLeaderCoreBundle::layout.html.twig" %}
 
 {% block content %}
-<H1>HELLO STATISTICS</H1>
+    <div class="page-header clearfix">
+        <h1> League statistics </h1>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">League progress</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-xs-12">
+                        {% if elo_history_all_dates is empty %}
+                            <strong>Let the season begin ! </strong>
+                        {% else %}
+                            {% include "FoosLeaderCoreBundle:Widgets:elo_graph_all.html.twig"  with { results: elo_history_all_dates, players : elo_history_all_players} %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
