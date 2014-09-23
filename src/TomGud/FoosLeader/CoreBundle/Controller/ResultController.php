@@ -249,7 +249,6 @@ class ResultController extends Controller
             }
             $em->persist($result);
             $em->flush();
-            $this->updateELOScores($result);
             return new JsonResponse(true);
         } else {
             throw new \Exception('User did not participate in this game');
@@ -289,6 +288,7 @@ class ResultController extends Controller
                 continue;
             }
             $eloHistories[$player->getId()]->setNewElo($newELORankings[$player->getId()]->getNewELO());
+            $player->setELORanking($newELORankings[$player->getId()]->getNewELO());
             $em->persist($eloHistories[$player->getId()]);
         }
 
