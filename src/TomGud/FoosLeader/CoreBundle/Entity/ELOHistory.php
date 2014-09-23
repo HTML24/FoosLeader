@@ -33,7 +33,7 @@ class ELOHistory
     /**
      * @var Result
      *
-     * @ORM\ManyToOne(targetEntity="TomGud\FoosLeader\CoreBundle\Entity\Result")
+     * @ORM\ManyToOne(targetEntity="TomGud\FoosLeader\CoreBundle\Entity\Result", inversedBy="eloHistories")
      * @ORM\JoinColumn(name="result", referencedColumnName="id", nullable=false)
      */
     protected $result;

@@ -90,7 +90,17 @@ class Result
      */
     protected $team2Confirmed = false;
 
-    public function __construct() {}
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="ELOHistory", mappedBy="result")
+     * @ORM\OrderBy({"id" = "ASC"})
+     */
+    protected $eloHistories;
+
+    public function __construct() {
+        $this->eloHistories = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -371,4 +381,45 @@ class Result
     public function userInTeam2(User $user) {
         return ($this->player2 === $user || $this->player4 === $user);
     }
+
+
+    /**
+     * @param ELOHistory[] $eloHistories
+     * @return Result
+     */
+    public function setAnswers($eloHistories)
+    {
+        $this->eloHistories = $eloHistories;
+
+        return $this;
+    }
+
+    /**
+     * @return ELOHistory[]
+     */
+    public function getELOHistories()
+    {
+        return $this->eloHistories;
+    }
+
+    /**
+     * @param ELOHistory $eloHistory
+     * @return Result
+     */
+    public function addELOHistory(ELOHistory $eloHistory) {
+        $eloHistory->setResult($this);
+        $this->eloHistories->add($eloHistory);
+
+        return $this;
+    }
+
+    /**
+     * @param ELOHistory $eloHistory
+     * @return bool
+     */
+    public function removeELOHistory(ELOHistory $eloHistory) {
+        $eloHistory->setResult(null);
+        return $this->eloHistories->removeElement($eloHistory);
+    }
+
 }
