@@ -84,6 +84,44 @@ body {
     padding-right: 15px;
 
 }
+.firstPlace {
+     text-indent: -99999px;
+ }
+.firstPlace span {
+    background: url('../img/first.png');
+    background-size: 19px 20px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    float: left;
+    width: 20px;
+    height: 20px;
+}
+.secondPlace {
+    text-indent: -99999px;
+}
+.secondPlace span {
+    background: url('../img/second.png');
+    background-size: 17px 20px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    float: left;
+    width: 20px;
+    height: 20px;
+}
+.thirdPlace {
+    text-indent: -99999px;
+}
+.thirdPlace span {
+    background: url('../img/third.png');
+    background-size: 17px 20px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    float: left;
+    width: 20px;
+    height: 20px;
+}
+
+
 .chart .highcharts-axis {
     display:none;
 }

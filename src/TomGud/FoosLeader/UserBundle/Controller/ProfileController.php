@@ -37,6 +37,11 @@ class ProfileController extends BaseController
                 'goalStatistics' => $goalStatistics,
                 'gameStatistics' => $gameStatistics,
                 'elo_history' => $elo_history,
+                // move and change into nice code these lines bellow
+                'WinRatio' => (((float)$gameStatistics->getWon() * 100) / (float)$gameStatistics->getGames()),
+                'ScoreRatio' => ((float)$goalStatistics->getScored() / (float)$goalStatistics->getConceded()),
+                'AvgScore' => ((float)$goalStatistics->getScored() / (float)$gameStatistics->getGames()),
+                'AvgConceded' => ((float)$goalStatistics->getConceded() / (float)$gameStatistics->getGames()),
             )
         );
     }

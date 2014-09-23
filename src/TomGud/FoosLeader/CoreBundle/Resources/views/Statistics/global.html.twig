@@ -22,7 +22,41 @@
             </div>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Elo</h3>
+                </div>
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <td>Rank</td>
+                        <td>Name</td>
+                        <td>Elo</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for key,player in games_elo %}
+                        <tr>
+                            {% if loop.index == 1 %}
+                                <td class="firstPlace"><span></span>{{ loop.index }}</td>
+                            {% elseif loop.index == 2 %}
+                                <td class="secondPlace"><span></span>{{ loop.index }}</td>
+                            {% elseif loop.index == 3 %}
+                                <td class="thirdPlace"><span></span>{{ loop.index }}</td>
+                            {% else %}
+                                <td>{{ loop.index }}</td>
+                            {% endif %}
+                            <td>{{ player.name }}</td>
+                            <td>{{ player.elo }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-xs-6">
             <div class="panel panel-success">
@@ -41,11 +75,11 @@
                         {% for key,player in games_played %}
                             <tr>
                                 {% if loop.index == 1 %}
-                                    <td class="firstPlace">{{ loop.index }}</td>
+                                    <td class="firstPlace"><span></span>{{ loop.index }}</td>
                                 {% elseif loop.index == 2 %}
-                                    <td class="secondPlace">{{ loop.index }}</td>
+                                    <td class="secondPlace"><span></span>{{ loop.index }}</td>
                                 {% elseif loop.index == 3 %}
-                                    <td class="thirdPlace">{{ loop.index }}</td>
+                                    <td class="thirdPlace"><span></span>{{ loop.index }}</td>
                                 {% else %}
                                     <td>{{ loop.index }}</td>
                                 {% endif %}
@@ -74,11 +108,11 @@
                     {% for key,player in games_won %}
                         <tr>
                             {% if loop.index == 1 %}
-                                <td class="firstPlace">{{ loop.index }}</td>
+                                <td class="firstPlace"><span></span>{{ loop.index }}</td>
                             {% elseif loop.index == 2 %}
-                                <td class="secondPlace">{{ loop.index }}</td>
+                                <td class="secondPlace"><span></span>{{ loop.index }}</td>
                             {% elseif loop.index == 3 %}
-                                <td class="thirdPlace">{{ loop.index }}</td>
+                                <td class="thirdPlace"><span></span>{{ loop.index }}</td>
                             {% else %}
                                 <td>{{ loop.index }}</td>
                             {% endif %}
@@ -96,25 +130,25 @@
         <div class="col-xs-6">
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Games won ratio</h3>
+                    <h3 class="panel-title">Win %</h3>
                 </div>
                 <table class="table table-hover table-striped">
                     <thead>
                     <tr>
                         <td>Rank</td>
                         <td>Name</td>
-                        <td>Win ratio</td>
+                        <td>Win %</td>
                     </tr>
                     </thead>
                     <tbody>
                     {% for key,player in games_won_ratio %}
                         <tr>
                             {% if loop.index == 1 %}
-                                <td class="firstPlace">{{ loop.index }}</td>
+                                <td class="firstPlace"><span></span>{{ loop.index }}</td>
                             {% elseif loop.index == 2 %}
-                                <td class="secondPlace">{{ loop.index }}</td>
+                                <td class="secondPlace"><span></span>{{ loop.index }}</td>
                             {% elseif loop.index == 3 %}
-                                <td class="thirdPlace">{{ loop.index }}</td>
+                                <td class="thirdPlace"><span></span>{{ loop.index }}</td>
                             {% else %}
                                 <td>{{ loop.index }}</td>
                             {% endif %}
@@ -126,38 +160,178 @@
                 </table>
             </div>
         </div>
+
         <div class="col-xs-6">
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Elo</h3>
+                    <h3 class="panel-title">Score ratio</h3>
                 </div>
                 <table class="table table-hover table-striped">
                     <thead>
                     <tr>
                         <td>Rank</td>
                         <td>Name</td>
-                        <td>Elo</td>
+                        <td>Score ratio</td>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for key,player in games_elo %}
+                    {% for key,player in games_score_ratio %}
                         <tr>
                             {% if loop.index == 1 %}
-                                <td class="firstPlace">{{ loop.index }}</td>
+                                <td class="firstPlace"><span></span>{{ loop.index }}</td>
                             {% elseif loop.index == 2 %}
-                                <td class="secondPlace">{{ loop.index }}</td>
+                                <td class="secondPlace"><span></span>{{ loop.index }}</td>
                             {% elseif loop.index == 3 %}
-                                <td class="thirdPlace">{{ loop.index }}</td>
+                                <td class="thirdPlace"><span></span>{{ loop.index }}</td>
                             {% else %}
                                 <td>{{ loop.index }}</td>
                             {% endif %}
                             <td>{{ player.name }}</td>
-                            <td>{{ player.elo }}</td>
+                            <td>{{ player.scoreRatio|number_format(2, '.', ',') }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
             </div>
-        </div>.
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Scored</h3>
+                </div>
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <td>Rank</td>
+                        <td>Name</td>
+                        <td>Scored</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for key,player in games_score %}
+                        <tr>
+                            {% if loop.index == 1 %}
+                                <td class="firstPlace"><span></span>{{ loop.index }}</td>
+                            {% elseif loop.index == 2 %}
+                                <td class="secondPlace"><span></span>{{ loop.index }}</td>
+                            {% elseif loop.index == 3 %}
+                                <td class="thirdPlace"><span></span>{{ loop.index }}</td>
+                            {% else %}
+                                <td>{{ loop.index }}</td>
+                            {% endif %}
+                            <td>{{ player.name }}</td>
+                            <td>{{ player.scored }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-xs-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Conceded</h3>
+                </div>
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <td>Rank</td>
+                        <td>Name</td>
+                        <td>Conceded</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for key,player in games_conceded %}
+                        <tr>
+                            {% if loop.index == 1 %}
+                                <td class="firstPlace"><span></span>{{ loop.index }}</td>
+                            {% elseif loop.index == 2 %}
+                                <td class="secondPlace"><span></span>{{ loop.index }}</td>
+                            {% elseif loop.index == 3 %}
+                                <td class="thirdPlace"><span></span>{{ loop.index }}</td>
+                            {% else %}
+                                <td>{{ loop.index }}</td>
+                            {% endif %}
+                            <td>{{ player.name }}</td>
+                            <td>{{ player.conceded }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Avg. scored</h3>
+                </div>
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <td>Rank</td>
+                        <td>Name</td>
+                        <td>Avg. scored</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for key,player in games_avg_scored %}
+                        <tr>
+                            {% if loop.index == 1 %}
+                                <td class="firstPlace"><span></span>{{ loop.index }}</td>
+                            {% elseif loop.index == 2 %}
+                                <td class="secondPlace"><span></span>{{ loop.index }}</td>
+                            {% elseif loop.index == 3 %}
+                                <td class="thirdPlace"><span></span>{{ loop.index }}</td>
+                            {% else %}
+                                <td>{{ loop.index }}</td>
+                            {% endif %}
+                            <td>{{ player.name }}</td>
+                            <td>{{ player.avgScored|number_format(2, '.', ',') }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-xs-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Avg. conceded</h3>
+                </div>
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <td>Rank</td>
+                        <td>Name</td>
+                        <td>Avg. conceded</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for key,player in games_avg_conceded %}
+                        <tr>
+                            {% if loop.index == 1 %}
+                                <td class="firstPlace"><span></span>{{ loop.index }}</td>
+                            {% elseif loop.index == 2 %}
+                                <td class="secondPlace"><span></span>{{ loop.index }}</td>
+                            {% elseif loop.index == 3 %}
+                                <td class="thirdPlace"><span></span>{{ loop.index }}</td>
+                            {% else %}
+                                <td>{{ loop.index }}</td>
+                            {% endif %}
+                            <td>{{ player.name }}</td>
+                            <td>{{ player.avgConceded|number_format(2, '.', ',') }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 {% endblock %}

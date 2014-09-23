@@ -52,7 +52,7 @@
 	<div class="col-xs-4">
 		<div class="panel panel-success">
 			<div class="panel-heading">
-				 <h3 class="panel-title">Games played</h3>
+				 <h3 class="panel-title">Games</h3>
 			</div>
 			<table class="table table-hover table-striped">
 				<thead>
@@ -60,6 +60,7 @@
 						<td>Played</td>
 						<td>Won</td>
 						<td>Lost</td>
+                        <td>Win %</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -67,12 +68,13 @@
 						<td>{{ gameStatistics.games }}</td>
 						<td>{{ gameStatistics.won }}</td>
 						<td>{{ gameStatistics.lost }}</td>
+                        <td>{{ WinRatio|number_format(2, '.', ',') }}</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
-	<div class="col-xs-4">
+	<div class="col-xs-8">
 		<div class="panel panel-success">
 			<div class="panel-heading">
 				<h3 class="panel-title">Goals</h3>
@@ -83,6 +85,9 @@
 						<td>Scored</td>
 						<td>Conceded</td>
 						<td>Difference</td>
+                        <td>Score ratio</td>
+                        <td>Avg. score</td>
+                        <td>Avg. conceded</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -90,15 +95,21 @@
 						<td>{{ goalStatistics.scored }}</td>
 						<td>{{ goalStatistics.conceded }}</td>
 						<td>{{ goalStatistics.difference }}</td>
+						<td>{{ ScoreRatio|number_format(2, '.', ',') }}</td>
+						<td>{{ AvgScore|number_format(2, '.', ',') }}</td>
+						<td>{{ AvgConceded|number_format(2, '.', ',') }}</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
-	<div class="col-x-4">
-		<a href="{{ path("fos_user_profile_edit") }}" class="btn btn-warning btn-lg pull-right">Edit profile</a>
-	</div>
 </div>
+<div class="row">
+    <div class="col-x-4 pull-right">
+        <a href="{{ path("fos_user_profile_edit") }}" class="btn btn-warning btn-lg pull-right">Edit profile</a>
+    </div>
+</div>
+<br/>
 <div class="row">
 	<div class="col-xs-12">
 		<div class="panel panel-success">
