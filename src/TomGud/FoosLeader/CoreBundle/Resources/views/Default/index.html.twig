@@ -9,7 +9,7 @@
 		<div class="col-xs-6">
 			<h3>Your last results</h3>
 				{% if latest_user is empty %}
-					<strong>Looks like you have no confirmed results</strong>
+					<strong>Looks like you have no results yet</strong>
 				{% else %}
 					{% for result in latest_user[0:5] %}
 						{% include "FoosLeaderCoreBundle:Widgets:single_result.html.twig"  with { result: result } %}
@@ -19,7 +19,7 @@
 		<div class="col-xs-6">
 			<h3>Latest results</h3>
 			{% if latest_all is empty %}
-				<strong>Looks like no one has any confirmed results </strong>
+				<strong>Looks like no one has any results yet</strong>
 			{% else %}
 				{% for result in latest_all[0:5] %}
 					{% include "FoosLeaderCoreBundle:Widgets:single_result.html.twig"  with { result: result } %}
