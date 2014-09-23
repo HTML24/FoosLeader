@@ -70,7 +70,7 @@
                     <strong>This match has not been confirmed yet.</strong>
                 </div>
             {% endif %}
-            {% if canBeDeleted %}
+            {% if userParticipated and canBeDeleted %}
                 <div class="alert alert-danger">
                     <strong>
                         To delete this match press the delete button. This can not be undone. This will recalculate all
