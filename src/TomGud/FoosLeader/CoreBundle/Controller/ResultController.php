@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use TomGud\FoosLeader\CoreBundle\Entity\Result;
 use TomGud\FoosLeader\CoreBundle\Entity\ELOHistory;
-use TomGud\FoosLeader\CoreBundle\Entity\ResultConfirmation;
 
 class ResultController extends Controller
 {
