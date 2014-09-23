@@ -2,6 +2,7 @@
 
 namespace TomGud\FoosLeader\CoreBundle\Service;
 
+use TomGud\FoosLeader\CoreBundle\Entity\ELOHistory;
 use TomGud\FoosLeader\CoreBundle\Entity\Result;
 use TomGud\FoosLeader\CoreBundle\Model\ELOPlayerResultModel;
 
