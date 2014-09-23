@@ -49,4 +49,7 @@ statistics_global:
     options:
             expose: true
 
-    
+
+api:
+    resource: "@FoosLeaderCoreBundle/Resources/config/api/routing.yml"
+    prefix: /api

@@ -1,0 +1,5 @@
+create_available_result:
+    pattern: /new-score/
+    defaults: { _controller: FoosLeaderCoreBundle:API:createAvailableResult }
+    options:
+        expose: true
