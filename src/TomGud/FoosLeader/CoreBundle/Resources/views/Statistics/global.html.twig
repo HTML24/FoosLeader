@@ -22,6 +22,7 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-xs-6">
             <div class="panel panel-success">
@@ -83,6 +84,75 @@
                             {% endif %}
                             <td>{{ player.name }}</td>
                             <td>{{ player.won }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>.
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Games won ratio</h3>
+                </div>
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <td>Rank</td>
+                        <td>Name</td>
+                        <td>Win ratio</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for key,player in games_won_ratio %}
+                        <tr>
+                            {% if loop.index == 1 %}
+                                <td class="firstPlace">{{ loop.index }}</td>
+                            {% elseif loop.index == 2 %}
+                                <td class="secondPlace">{{ loop.index }}</td>
+                            {% elseif loop.index == 3 %}
+                                <td class="thirdPlace">{{ loop.index }}</td>
+                            {% else %}
+                                <td>{{ loop.index }}</td>
+                            {% endif %}
+                            <td>{{ player.name }}</td>
+                            <td>{{ player.ratio|number_format(2, '.', ',') }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Elo</h3>
+                </div>
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <td>Rank</td>
+                        <td>Name</td>
+                        <td>Elo</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for key,player in games_elo %}
+                        <tr>
+                            {% if loop.index == 1 %}
+                                <td class="firstPlace">{{ loop.index }}</td>
+                            {% elseif loop.index == 2 %}
+                                <td class="secondPlace">{{ loop.index }}</td>
+                            {% elseif loop.index == 3 %}
+                                <td class="thirdPlace">{{ loop.index }}</td>
+                            {% else %}
+                                <td>{{ loop.index }}</td>
+                            {% endif %}
+                            <td>{{ player.name }}</td>
+                            <td>{{ player.elo }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

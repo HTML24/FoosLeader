@@ -25,8 +25,11 @@ class StatisticsController  extends Controller {
 
         $all_players = $players_repo->getAllUsers();
 
-        $games_played = $this->getGamesPlayedForAll($all_players,$result_repo, "games");
-        $games_won = $this->getGamesPlayedForAll($all_players,$result_repo, "won");
+        $games_played = $this->getGamesForAll($all_players,$result_repo, "games");
+        $games_won = $this->getGamesForAll($all_players,$result_repo, "won");
+        $games_won_ratio = $this->getGamesForAll($all_players,$result_repo, "ratio");
+        $games_elo = $this->getGamesForAll($all_players,$result_repo, "elo");
+
 
         return $this->render('FoosLeaderCoreBundle:Statistics:global.html.twig',
             array(
@@ -34,6 +37,8 @@ class StatisticsController  extends Controller {
                 'elo_history_all_players' => $elo_history_all_players,
                 'games_played' => $games_played,
                 'games_won' => $games_won,
+                'games_won_ratio' => $games_won_ratio,
+                'games_elo' => $games_elo,
             )
         );
     }
@@ -86,7 +91,7 @@ class StatisticsController  extends Controller {
     }
 
     // tables
-    public function getGamesPlayedForAll($players, $result_repo, $sort = "games"){
+    public function getGamesForAll($players, $result_repo, $sort = "games"){
 
         $dataPoints = array();
 
@@ -96,6 +101,12 @@ class StatisticsController  extends Controller {
                 $dataPoints[$player->getUsername()]["games"] = $stats->getGames();
                 $dataPoints[$player->getUsername()]["won"] = $stats->getWon();
                 $dataPoints[$player->getUsername()]["name"] = $player->getUsername();
+                $dataPoints[$player->getUsername()]["elo"] = $player->getELORanking();
+                if((int)$stats->getGames() != 0 && (int)$stats->getWon() != 0){
+                    $dataPoints[$player->getUsername()]["ratio"] = (float)$stats->getGames() / (float)$stats->getWon();
+                }else{
+                    $dataPoints[$player->getUsername()]["ratio"] = 0;
+                }
             }
         }
 
