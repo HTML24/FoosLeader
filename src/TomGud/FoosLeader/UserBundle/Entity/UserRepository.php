@@ -21,6 +21,13 @@ class UserRepository extends EntityRepository
 	            ->from($this->_entityName, 'u')
 	            ->where('u.roles LIKE :roles')
 	            ->setParameter('roles', '%"' . $role . '"%');
-    return $qb->getQuery()->getResult();
+        return $qb->getQuery()->getResult();
 	}
+
+    public function getAllUsers() {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('u')
+            ->from($this->_entityName, 'u');
+        return $qb->getQuery()->getResult();
+    }
 }

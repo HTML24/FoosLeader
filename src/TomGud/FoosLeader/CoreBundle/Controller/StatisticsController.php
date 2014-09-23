@@ -17,17 +17,28 @@ class StatisticsController  extends Controller {
     public function globalAction() {
 
         $elo_repo = $this->getDoctrine()->getManager()->getRepository('FoosLeaderCoreBundle:ELOHistory');
+        $players_repo = $this->getDoctrine()->getManager()->getRepository('FoosLeaderUserBundle:User');
+        $result_repo = $this->getDoctrine()->getManager()->getRepository('FoosLeaderCoreBundle:Result');
 
         $elo_history_all_dates = $this->getEloDates($elo_repo->findEloHistoryForAll());
         $elo_history_all_players = $this->getELODataPoints($elo_repo->findEloHistoryForAll());
+
+        $all_players = $players_repo->getAllUsers();
+
+        $games_played = $this->getGamesPlayedForAll($all_players,$result_repo, "games");
+        $games_won = $this->getGamesPlayedForAll($all_players,$result_repo, "won");
 
         return $this->render('FoosLeaderCoreBundle:Statistics:global.html.twig',
             array(
                 'elo_history_all_dates' => $elo_history_all_dates,
                 'elo_history_all_players' => $elo_history_all_players,
+                'games_played' => $games_played,
+                'games_won' => $games_won,
             )
         );
     }
+
+    // graph
     public function getEloDates($eloHistories){
         $dataPoints = array();
 
@@ -74,5 +85,26 @@ class StatisticsController  extends Controller {
         return $dataPoints;
     }
 
+    // tables
+    public function getGamesPlayedForAll($players, $result_repo, $sort = "games"){
+
+        $dataPoints = array();
+
+        foreach($players as $player){
+            $stats = $result_repo->getGameStatisticsForPlayer($player);
+            if($stats != null && $stats->getGames() > 0){
+                $dataPoints[$player->getUsername()]["games"] = $stats->getGames();
+                $dataPoints[$player->getUsername()]["won"] = $stats->getWon();
+                $dataPoints[$player->getUsername()]["name"] = $player->getUsername();
+            }
+        }
+
+        // this mesess name as key
+        usort($dataPoints, function($a, $b) use ($sort){
+            return $b[$sort] - $a[$sort];
+        });
+
+        return $dataPoints;
+    }
 
 } 
