@@ -27,7 +27,7 @@ class Result
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="TomGud\FoosLeader\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="player_1", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="player_1", referencedColumnName="id", nullable=true)
      */
     protected $player1;
 
@@ -35,7 +35,7 @@ class Result
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="TomGud\FoosLeader\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="player_2", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="player_2", referencedColumnName="id", nullable=true)
      */
     protected $player2;
 
