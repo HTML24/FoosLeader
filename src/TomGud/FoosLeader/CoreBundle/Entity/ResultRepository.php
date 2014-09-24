@@ -126,6 +126,7 @@ class ResultRepository extends EntityRepository
     public function getAllAfter(Result $result) {
         $qb = $this->createQueryBuilder('r')
             ->where('r.id > :id')
+            ->andWhere('r.player1 IS NOT NULL OR r.player2 IS NOT NULL OR r.player3 IS NOT NULL OR r.player4 IS NOT NULL')
             ->orderBy('r.id', 'ASC')
             ->setParameter('id', $result->getId());
         $results = $qb->getQuery()->getResult();
