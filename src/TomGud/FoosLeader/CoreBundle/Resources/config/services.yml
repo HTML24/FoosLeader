@@ -1,6 +1,10 @@
 parameters:
     foos_leader.elo_calculator.class: TomGud\FoosLeader\CoreBundle\Service\ELOCalculatorService
+    foos_leader.message_service.class: TomGud\FoosLeader\CoreBundle\Service\MessageService
 
 services:
     foos_leader.elo_calculator:
         class: %foos_leader.elo_calculator.class%
+
+    foos_leader.message_service:
+      class: %foos_leader.message_service.class%

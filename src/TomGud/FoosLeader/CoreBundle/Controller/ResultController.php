@@ -134,6 +134,8 @@ class ResultController extends Controller
         $user = $this->getUser();
     	$result_repo = $this->getDoctrine()->getManager()->getRepository('FoosLeaderCoreBundle:Result');
     	$result = $result_repo->find($id);
+        $messageService = $this->get('foos_leader.message_service');
+
     	if ($result === null) {
     		throw new NotFoundHttpException('Result does not exist');
     	}
@@ -142,27 +144,8 @@ class ResultController extends Controller
             ($result->userInTeam2($user) && $result->getTeam2Confirmed());
         $canBeDeleted = !$result->getTeam1Confirmed() && !$result->getTeam2Confirmed();
 
-        $victors = $result->getVictors();
-    	$losers = $result->getLosers();
-
-    	// TODO: Create a service that generates random messages that describe games
-    	$two_player_message = 'After a very tight match, where __LOSER__ put up a good fight, __VICTOR__ emerged victorious.';
-    	$four_player_message = '__VICTOR_ONE__ and __VICTOR_TWO__ proved their worth by showing __LOSER_ONE__ and __LOSER_TWO__ '
-    		. 'how this game is played.';
-    	if (count($victors) === 1) {
-    		// Two player result
-    		$game_description = $two_player_message;
-    		$game_description = str_replace('__VICTOR__', $victors[0]->getUsername(), $game_description);
-    		$game_description = str_replace('__LOSER__', $losers[0]->getUsername(), $game_description);
-    	} else {
-    		// Four player result
-    		$game_description = $four_player_message;
-    		$game_description = str_replace('__VICTOR_ONE__', $victors[0]->getUsername(), $game_description);
-    		$game_description = str_replace('__VICTOR_TWO__', $victors[1]->getUsername(), $game_description);
-    		$game_description = str_replace('__LOSER_ONE__', $losers[0]->getUsername(), $game_description);
-    		$game_description = str_replace('__LOSER_TWO__', $losers[1]->getUsername(), $game_description);
-    	}
-
+        //MessageService
+        $game_description = $messageService->getMessageForScore($result);
 
     	return $this->render('FoosLeaderCoreBundle:Result:detail.html.twig',
         	array(
