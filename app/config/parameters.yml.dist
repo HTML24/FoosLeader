@@ -13,3 +13,5 @@ parameters:
 
     locale:            en
     secret:            tnNln3kNSeDJf44fkZExoWfDcKL2hXcK
+
+    api_key: tomasAPI
