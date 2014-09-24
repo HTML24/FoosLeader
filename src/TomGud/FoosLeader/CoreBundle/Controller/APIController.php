@@ -42,7 +42,7 @@ class APIController extends FOSRestController {
         $view = new View();
         $view->setFormat('json');
 
-        if (null === $whiteScore || null === $redScore || null === $key) {
+        if (null === $whiteScore || null === $redScore || null === $hashRequest) {
             $view
                 ->setStatusCode(400)
                 ->setData(array('message' => 'Malformed request. Missing either white score, red score or the key.'));
@@ -81,7 +81,7 @@ class APIController extends FOSRestController {
         $result = array(
             'white' => $whiteScore,
             'red' => $redScore,
-            'key' => $key,
+            'key' => $hashRequest,
             'message' => 'Thanks for the new result.',
         );
 
