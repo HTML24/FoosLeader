@@ -105,6 +105,15 @@ class ResultController extends Controller
     		return $this->redirect($this->generateUrl('new_result'));
     	}
 
+        $user = $this->getUser();
+        if ($player_1 !== $user && $player_2 !== $user && $player_3 !== $user && $player_4 !== $user) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Can not create a match which you (' . $user->getUsername() . ') did not participate in.'
+            );
+            return $this->redirect($this->generateUrl('new_result'));
+        }
+
 		// Set the values for the Result
 		$new_result->setPlayer1($player_1);
 		$new_result->setPlayer2($player_2);
