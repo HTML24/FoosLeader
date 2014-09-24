@@ -131,4 +131,15 @@ class ResultRepository extends EntityRepository
         $results = $qb->getQuery()->getResult();
         return $results;
     }
+
+    /**
+     * @return Result[]
+     */
+    public function getAvailableResults() {
+        $qb = $this->createQueryBuilder('r')
+            ->where('r.player1 IS NULL AND r.player2 IS NULL AND r.player3 IS NULL AND r.player4 IS NULL')
+            ->andWhere('r.team1Confirmed = 0 AND r.team2Confirmed = 0')
+            ->orderBy('r.submitted', 'DESC');
+        return $qb->getQuery()->getResult();
+    }
 }

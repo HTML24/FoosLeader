@@ -26,6 +26,14 @@
 				{% endfor %}
 			{% endif %}
 		</div>
+        {% if availables is not empty %}
+        <div class="col-xs-12">
+            <h3>Unclaimed results</h3>
+            {% for available in availables %}
+                {% include "FoosLeaderCoreBundle:Widgets:available_match.html.twig" with { available: available } %}
+            {% endfor %}
+        </div>
+        {% endif %}
 		<!--
         <div class="col-xs-6">
 			<h3>Notifications</h3>

@@ -13,13 +13,14 @@ class DefaultController extends Controller
     	$latest_for_user = $result_repo->getLatestForUser($this->getUser());
     	$latest_for_all = $result_repo->getLatestForAll();
     	$unconfirmed_for_user = $result_repo->getUnconfirmedResultsForUser($this->getUser());
-
+        $available_results = $result_repo->getAvailableResults();
 
         return $this->render('FoosLeaderCoreBundle:Default:index.html.twig',
         	array(
         		'latest_user' => $latest_for_user,
         		'latest_all' => $latest_for_all,
         		'unconfirmed' => $unconfirmed_for_user,
+                'availables' => $available_results,
         		'notifications' => array()
         	)
         );
