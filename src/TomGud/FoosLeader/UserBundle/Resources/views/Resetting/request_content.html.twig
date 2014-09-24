@@ -1,12 +1,22 @@
-<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
-    <div>
-        {% if invalid_username is defined %}
-            <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}, 'FOSUserBundle') }}</p>
-        {% endif %}
-        <label for="username">{{ 'resetting.request.username'|trans({}, 'FOSUserBundle') }}</label>
-        <input type="text" id="username" name="username" required="required" />
+<div class="page-header">
+    <h1>Reset password </h1>
+</div>
+<div class="row">
+    <div class="col-xs-6">
+        <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+            <div>
+                {% if invalid_username is defined %}
+                    <div class="alert alert-warning">
+                        <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}, 'FOSUserBundle') }}</p>
+                    </div>
+                {% endif %}
+                <label for="username" class="control-label">{{ 'resetting.request.username'|trans({}, 'FOSUserBundle') }}</label>
+                <input type="text" id="username" name="username" required="required" class="form-control" />
+            </div>
+            <br/>
+            <div>
+                <input type="submit" value="{{ 'resetting.request.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-success pull-right" />
+            </div>
+        </form>
     </div>
-    <div>
-        <input type="submit" value="{{ 'resetting.request.submit'|trans({}, 'FOSUserBundle') }}" />
-    </div>
-</form>
+</div>
