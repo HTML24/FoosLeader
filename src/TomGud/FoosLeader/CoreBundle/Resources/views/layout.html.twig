@@ -9,7 +9,7 @@
     <link href="{{  asset_url }}" type="text/css" rel="stylesheet" />
     {% endstylesheets %}
     #}
-    {% stylesheets filter="cssrewrite, ?uglifycss "
+    {% stylesheets filter="cssrewrite"
     'bundles/foosleadercore/css/bootstrap.min.css'
     'bundles/foosleadercore/css/selectize.bootstrap3.css'
     'bundles/foosleadercore/css/bootflat.min.css'
@@ -17,7 +17,7 @@
     %}
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet"/>
     {% endstylesheets %}
-    {% javascripts filter="?uglifyjs2"
+    {% javascripts filter=""
     'bundles/foosleadercore/js/jquery-2.1.0.min.js'
     'bundles/foosleadercore/js/bootstrap.min.js'
     'bundles/foosleadercore/js/icheck.js'
