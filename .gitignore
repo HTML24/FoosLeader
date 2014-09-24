@@ -15,7 +15,6 @@ web/js
 web/images/
 web/temp/
 .vagrant/
-deploy/
 
 
 .DS_Store
