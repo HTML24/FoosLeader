@@ -15,8 +15,8 @@ class ResultController extends Controller
     public function newAction()
     {
     	// Show all users in a drop down
-    	$user_repo = $this->getDoctrine()->getManager()->getRepository('FoosLeaderUserBundle:User');
-    	$users = $user_repo->findByRole('ROLE_USER');
+    	$user_repo = $this->get('doctrine.orm.entity_manager')->getRepository('FoosLeaderUserBundle:User');
+    	$users = $user_repo->findAll();
 
         $result = new Result();
         $form = $this->createFormBuilder($result)
