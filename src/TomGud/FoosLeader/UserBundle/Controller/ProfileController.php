@@ -29,6 +29,30 @@ class ProfileController extends BaseController
         $paginator = $this->container->get('knp_paginator');
         $pagination =$paginator->paginate($eloHistories, $this->container->get('request')->get('page', 1),  5); //
 
+
+        // move and change into nice code these lines bellow
+        if((float)$gameStatistics->getGames() > 0){
+            $WinRatio = (((float)$gameStatistics->getWon() * 100) / (float)$gameStatistics->getGames());
+        } else{
+            $WinRatio = 0;
+        };
+        if((float)$goalStatistics->getConceded() > 0){
+            $ScoreRatio = ((float)$goalStatistics->getScored() / (float)$goalStatistics->getConceded());
+        } else{
+            $ScoreRatio = 0;
+        };
+        if((float)$gameStatistics->getGames() > 0){
+            $AvgScore = ((float)$goalStatistics->getScored() / (float)$gameStatistics->getGames());
+        } else{
+            $AvgScore = 0;
+        };
+        if((float)$gameStatistics->getGames() > 0){
+            $AvgConceded =  ((float)$goalStatistics->getConceded() / (float)$gameStatistics->getGames());
+        } else{
+            $AvgConceded = 0;
+        };
+
+
         return $this->container->get('templating')->renderResponse(
             'FOSUserBundle:Profile:show.html.twig',
         	array(
@@ -38,10 +62,10 @@ class ProfileController extends BaseController
                 'gameStatistics' => $gameStatistics,
                 'elo_history' => $elo_history,
                 // move and change into nice code these lines bellow
-                'WinRatio' => (((float)$gameStatistics->getWon() * 100) / (float)$gameStatistics->getGames()),
-                'ScoreRatio' => ((float)$goalStatistics->getScored() / (float)$goalStatistics->getConceded()),
-                'AvgScore' => ((float)$goalStatistics->getScored() / (float)$gameStatistics->getGames()),
-                'AvgConceded' => ((float)$goalStatistics->getConceded() / (float)$gameStatistics->getGames()),
+                'WinRatio' =>  $WinRatio,
+                'ScoreRatio' => $ScoreRatio,
+                'AvgScore' => $AvgScore,
+                'AvgConceded' => $AvgConceded,
             )
         );
     }
