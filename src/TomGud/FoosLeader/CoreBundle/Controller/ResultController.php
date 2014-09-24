@@ -277,6 +277,11 @@ class ResultController extends Controller
         }
 
         $em->flush();
+
+        // send request to leaderboard
+
+        $leaderboardService = $this->get('foos_leader.leader_board');
+        $leaderboardService->sendLeaderBoardRequest();
     }
 
     public function updateELOScores(Result $result)

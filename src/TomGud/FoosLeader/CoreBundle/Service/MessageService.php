@@ -2,9 +2,7 @@
 
 namespace TomGud\FoosLeader\CoreBundle\Service;
 
-use TomGud\FoosLeader\CoreBundle\Entity\ELOHistory;
 use TomGud\FoosLeader\CoreBundle\Entity\Result;
-use TomGud\FoosLeader\CoreBundle\Model\ELOPlayerResultModel;
 
 class MessageService
 {
@@ -45,19 +43,6 @@ class MessageService
         $closestMessageIndex = $this->recursive_array_search((int)$result->getTeam1Score() - (int)$result->getTeam2Score(),$message_list[$victorsCount]);
         $randomMessage = rand(0, count($message_list[$victorsCount][$closestMessageIndex])-1);
         $game_description = $message_list[$victorsCount][$closestMessageIndex][$randomMessage];
-
-        /* debug
-        var_dump( $this->recursive_array_search(10,$message_list[$victorsCount]));
-        var_dump( $this->recursive_array_search(9,$message_list[$victorsCount]));
-        var_dump( $this->recursive_array_search(8,$message_list[$victorsCount]));
-        var_dump( $this->recursive_array_search(7,$message_list[$victorsCount]));
-        var_dump( $this->recursive_array_search(6,$message_list[$victorsCount]));
-        var_dump( $this->recursive_array_search(5,$message_list[$victorsCount]));
-        var_dump( $this->recursive_array_search(4,$message_list[$victorsCount]));
-        var_dump( $this->recursive_array_search(3,$message_list[$victorsCount]));
-        var_dump( $this->recursive_array_search(2,$message_list[$victorsCount]));
-        var_dump( $this->recursive_array_search(1,$message_list[$victorsCount]));
-        */
 
         //replace names
         $game_description = str_replace('__VICTOR_ONE__', $victors[0]->getUsername(), $game_description);

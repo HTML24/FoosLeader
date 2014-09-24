@@ -1,6 +1,7 @@
 parameters:
     foos_leader.elo_calculator.class: TomGud\FoosLeader\CoreBundle\Service\ELOCalculatorService
     foos_leader.message_service.class: TomGud\FoosLeader\CoreBundle\Service\MessageService
+    foos_leader.leader_board.class: TomGud\FoosLeader\CoreBundle\Service\LeaderBoardService
 
 services:
     foos_leader.elo_calculator:
@@ -8,3 +9,7 @@ services:
 
     foos_leader.message_service:
       class: %foos_leader.message_service.class%
+
+    foos_leader.leader_board:
+          class: %foos_leader.leader_board.class%
+          arguments: [ "@doctrine.orm.entity_manager"]
