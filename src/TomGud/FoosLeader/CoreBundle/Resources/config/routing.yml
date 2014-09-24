@@ -42,6 +42,16 @@ delete_result:
     options:
         expose: true
 
+claim_result_show:
+    pattern: /result/claim/{id}
+    defaults: { _controller: FoosLeaderCoreBundle:Result:claimShow }
+    methods: [GET]
+
+claim_result_save:
+    pattern: /result/claim/{id}
+    defaults: { _controller: FoosLeaderCoreBundle:Result:claim }
+    methods: [POST]
+
 statistics_global:
     pattern: /stats
     defaults: { _controller: FoosLeaderCoreBundle:Statistics:global }

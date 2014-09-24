@@ -1,5 +1,5 @@
 <div class="unclaimed-match row bottom-buffer">
-    <a href="#">
+    <a href="{{ path('claim_result_show', { id : available.id}) }}">
         At {{ available.submitted|date('H:i:s d/m/Y') }} a game was played. White : {{ available.team1Score }} -
         Red : {{ available.team2Score }}. Click to claim this result.
     </a>

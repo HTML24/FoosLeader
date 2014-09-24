@@ -1,0 +1,119 @@
+{% extends "FoosLeaderCoreBundle::layout.html.twig" %}
+
+{% block content %}
+    <h3> Claim result </h3>
+    <p> Here you can claim a result for a game you have just played.</p>
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="alert alert-danger">
+            <strong class="text-danger">{{ flashMessage }}</strong>
+        </div>
+    {% endfor %}
+
+    {% for flashMessage in app.session.flashbag.get('warning') %}
+        <div class="row">
+            <div class="alert alert-warning">
+                <strong class="text-warning">{{ flashMessage }}</strong>
+            </div>
+        </div>
+    {% endfor %}
+    {% if users|length >= 2 %}
+        <div class="container">
+            <form action="{{ path("claim_result_save", { id : result.id }) }}" method="post" class="form-horizontal" role="form">
+                <div class="row">
+                    <div class="col-xs-4 col-xs-offset-2">
+                        <h1>White team</h1>
+                    </div>
+                    <div class="col-xs-4">
+                        <h1>Red team</h1>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xs-4 col-xs-offset-2">
+                        <div class="input-group">
+                            <label for="player_1">
+                                Player 1
+                            </label>
+                            <select id="player_1" name="player_1" class="form-control col-xs-6 input-lg player-choice">
+                                {% for user in users %}
+                                    <option {% if app.user.id == user.id %}selected="selected"{% endif %} value="{{ user.id }}">{{ user.username }}</option>
+                                {% endfor %}
+                            </select>
+                        </div><!-- /input-group -->
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="input-group">
+                            <label for="player_2">
+                                Player 2
+                            </label>
+                            <select id="player_2" name="player_2" class="form-control col-xs-6 input-lg player-choice">
+                                {% for user in users %}
+                                    <option {% if app.user.id != user.id %}selected="selected"{% endif %} value="{{ user.id }}">{{ user.username }}</option>
+                                {% endfor %}
+                            </select>
+                        </div><!-- /input-group -->
+                    </div>
+                </div>
+                <br />
+                {% if users|length >= 4 %}
+                    <div class="row">
+                        <div class="col-xs-4 col-xs-offset-2">
+                            <div class="input-group">
+                                <label for="player_3">
+                                    Player 3
+                                </label>
+                                <select id="player_3" name="player_3" class="form-control col-xs-6 input-lg player-choice">
+                                    <option value="none-3">None</option>
+                                    {% for user in users %}
+                                        <option value="{{ user.id }}">{{ user.username }}</option>
+                                    {% endfor %}
+                                </select>
+
+                            </div><!-- /input-group -->
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="input-group">
+                                <label for="player_4">
+                                    Player 4
+                                </label>
+                                <select id="player_4" name="player_4" class="form-control col-xs-6 input-lg player-choice">
+                                    <option value="none-4">None</option>
+                                    {% for user in users %}
+                                        <option value="{{ user.id }}">{{ user.username }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div><!-- /input-group -->
+                        </div>
+                    </div>
+                    <br />
+                {% endif %}
+                <div class="row">
+                    <div class="col-xs-4 col-xs-offset-2">
+                        <div class="input-group">
+                            <label for="score_team_1">
+                                Score
+                            </label>
+                            <input class="form-control input-lg" type="text" placeholder="Score" id="score_team_1" name="score_1"
+                                    disabled="disabled" value="{{ result.team1Score }}">
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="input-group">
+                            <label for="score_team_2">
+                                Score
+                            </label>
+                            <input class="form-control input-lg" type="text" placeholder="Score" id="score_team_2" name="score_2"
+                                    disabled="disabled" value="{{ result.team2Score }}">
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xs-5 col-xs-offset-3">
+                        <button id="create_result" type="submit" class="btn btn-success btn-lg btn-block">Add result</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}

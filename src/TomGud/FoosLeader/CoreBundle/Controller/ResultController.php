@@ -318,4 +318,113 @@ class ResultController extends Controller
             $this->createEloHistory($current_result);
         }
     }
+
+    public function claimShowAction($id) {
+        // Show all users in a drop down
+        $user_repo = $this->get('doctrine.orm.entity_manager')->getRepository('FoosLeaderUserBundle:User');
+        $result_repo = $this->get('doctrine.orm.entity_manager')->getRepository('FoosLeaderCoreBundle:Result');
+        $users = $user_repo->findAll();
+
+        $result = $result_repo->find($id);
+
+        if (count($users) < 2) {
+            $this->get('session')->getFlashBag()->add('error', "There aren't enough players to register a result.
+                Please wait for more users to join");
+        } else if (count($users) < 4) {
+            $this->get('session')->getFlashBag()->add('warning', "There aren't enough players to register a team result.
+                Please wait for more users to join");
+        }
+
+        return $this->render('FoosLeaderCoreBundle:Result:claim.html.twig',
+            array(
+                'users' => $users,
+                'result' => $result,
+            )
+        );
+    }
+
+    public function claimAction($id, Request $request)
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $result_repo = $em->getRepository('FoosLeaderCoreBundle:Result');
+        $user_repo = $em->getRepository('FoosLeaderUserBundle:User');
+
+        $p_player_1 = $request->get('player_1');
+        $p_player_2 = $request->get('player_2');
+        $p_player_3 = $request->get('player_3');
+        $p_player_4 = $request->get('player_4');
+
+        if ($p_player_1 === $p_player_2 || $p_player_1 === $p_player_3 || $p_player_1 === $p_player_4 ||
+            $p_player_2 === $p_player_3 || $p_player_2 === $p_player_4 ||
+            ($p_player_3 === $p_player_4 && $p_player_3 !== 'null')
+        ) {
+            // Player 1 and Player 2 are the same player
+            // Player 1 and Player 3 or Player 4 are the same player
+            // Player 2 and Player 3 or Player 4 are the same player
+            // Player 3 and Player 4 are the same player if they have been set
+            // Set flash bag error message
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'You can not choose the same player twice.'
+            );
+            return $this->redirect($this->generateUrl('new_result'));
+        }
+
+        // Find the result
+        $result = $result_repo->find($id);
+        if ($result === null) {
+            // Not found exception?
+            throw new NotFoundHttpException('Result not found. Can not claim it.');
+        }
+
+        // Find the users
+        $player_1 = $user_repo->find($p_player_1);
+        $player_2 = $user_repo->find($p_player_2);
+        $player_3 = $player_4 = null;
+        if ($p_player_3 !== 'none-3' && $p_player_4 !== 'none-4') {
+            $player_3 = $user_repo->find($p_player_3);
+            $player_4 = $user_repo->find($p_player_4);
+            if ($player_3 === null || $player_4 === null) {
+                // Set flash bag error message
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'Could not find player 3 or player 4.'
+                );
+                return $this->redirect($this->generateUrl('claim_result_show', array('id' => $id)));
+            } else {
+                $result->setPlayer3($player_3);
+                $result->setPlayer4($player_4);
+            }
+        }
+        if ($player_1 === null || $player_2 === null) {
+            // Set flash bag error message
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Could not find player 1 or 2.'
+            );
+            return $this->redirect($this->generateUrl('claim_result_show', array('id' => $id)));
+        }
+
+        $user = $this->getUser();
+        if ($player_1 !== $user && $player_2 !== $user && $player_3 !== $user && $player_4 !== $user) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Can not create a match which you (' . $user->getUsername() . ') did not participate in.'
+            );
+            return $this->redirect($this->generateUrl('claim_result_show', array('id' => $id)));
+        }
+
+        // Set the values for the Result
+        $result->setPlayer1($player_1);
+        $result->setPlayer2($player_2);
+        $result->setSubmitted(new \Datetime('now', new \DateTimeZone('UTC')));
+        $result->setTeam1Confirmed(true);
+        $result->setTeam2Confirmed(true);
+        $em->persist($result);
+        $em->flush();
+        $this->createEloHistory($result);
+
+        // Redirect to detail page for Result
+        return $this->redirect($this->generateUrl('detail_result', array('id' => $result->getId())));
+    }
 }
