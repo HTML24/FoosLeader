@@ -16,7 +16,7 @@ class ResultController extends Controller
     {
     	// Show all users in a drop down
     	$user_repo = $this->getDoctrine()->getManager()->getRepository('FoosLeaderUserBundle:User');
-    	$users = $user_repo->findByRole('ROLE_PLAYER');
+    	$users = $user_repo->findByRole('ROLE_USER');
 
         $result = new Result();
         $form = $this->createFormBuilder($result)
