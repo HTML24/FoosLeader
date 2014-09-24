@@ -1,5 +1,8 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
 {% block fos_user_content %}
-    <p>{{ 'registration.check_email'|trans({'%email%': user.email}, 'FOSUserBundle') }}</p>
+    <div class="alert alert-success">
+        <p>{{ 'registration.check_email'|trans({'%email%': user.email}, 'FOSUserBundle') }}</p>
+    </div>
+    <a class="navbar-brand" href="{{ path('home') }}">FoosLeader</a>
 {% endblock fos_user_content %}
