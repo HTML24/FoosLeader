@@ -9,7 +9,7 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-    	$result_repo = $this->getDoctrine()->getManager()->getRepository('FoosLeaderCoreBundle:Result');
+    	$result_repo = $this->get('doctrine.orm.entity_manager')->getRepository('FoosLeaderCoreBundle:Result');
     	$latest_for_user = $result_repo->getLatestForUser($this->getUser());
     	$latest_for_all = $result_repo->getLatestForAll();
     	$unconfirmed_for_user = $result_repo->getUnconfirmedResultsForUser($this->getUser());
