@@ -20,12 +20,13 @@ class StatisticsController  extends Controller {
         $players_repo = $this->getDoctrine()->getManager()->getRepository('FoosLeaderUserBundle:User');
         $result_repo = $this->getDoctrine()->getManager()->getRepository('FoosLeaderCoreBundle:Result');
 
-        $elo_history_all_dates = $this->getEloDates($elo_repo->findEloHistoryForAll());
-        $elo_history_all_players = $this->getELODataPoints($elo_repo->findEloHistoryForAll());
+        $leaderboardService = $this->get('foos_leader.leader_board');
+
+        $elo_history_all_dates = $leaderboardService->getEloDates($elo_repo->findEloHistoryForAll());
+        $elo_history_all_players = $leaderboardService->getELODataPoints($elo_repo->findEloHistoryForAll());
 
         $all_players = $players_repo->getAllUsers();
 
-        $leaderboardService = $this->get('foos_leader.leader_board');
 
         $games_played = $leaderboardService->getGamesForAll($all_players,$result_repo, "games");
         $games_won = $leaderboardService->getGamesForAll($all_players,$result_repo, "won");
