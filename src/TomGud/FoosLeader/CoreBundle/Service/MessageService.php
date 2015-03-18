@@ -40,7 +40,7 @@ class MessageService
         $losers = $result->getLosers();
         // get messages
         $victorsCount = count($victors);
-        $closestMessageIndex = $this->recursive_array_search((int)$result->getTeam1Score() - (int)$result->getTeam2Score(),$message_list[$victorsCount]);
+        $closestMessageIndex = $this->recursive_array_search(abs((int)$result->getTeam1Score() - (int)$result->getTeam2Score()),$message_list[$victorsCount]);
         $randomMessage = rand(0, count($message_list[$victorsCount][$closestMessageIndex])-1);
         $game_description = $message_list[$victorsCount][$closestMessageIndex][$randomMessage];
 
@@ -67,10 +67,9 @@ class MessageService
         return $closest;
     }
     private function recursive_array_search($needle,$haystack) {
-        foreach($haystack as $key=>$value) {
-            $current_key=$key;
+        foreach(array_keys($haystack) as $key) {
             if($key <= $needle ) {
-                return $current_key;
+                return $key;
             }
         }
         return false;
