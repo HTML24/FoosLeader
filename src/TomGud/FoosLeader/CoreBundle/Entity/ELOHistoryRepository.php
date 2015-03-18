@@ -45,7 +45,7 @@ class ELOHistoryRepository extends EntityRepository
         $qb = $this
             ->createQueryBuilder('eh')
             ->where('eh.registered > :currentDate')
-            ->orderBy('eh.registered', 'ASC')
+            ->orderBy('eh.registered', 'DESC')
             ->setParameter('currentDate', date('Y-m-d', strtotime("now -30 days") ));
         $results = $qb->getQuery()->getResult();
         return $results;
