@@ -28,13 +28,9 @@ class StatisticsController  extends Controller {
         $all_players = $players_repo->getAllUsers();
 
 
-        $games_played = $leaderboardService->getGamesForAll($all_players,$result_repo, "games");
-        $games_won = $leaderboardService->getGamesForAll($all_players,$result_repo, "won");
         $games_won_ratio = $leaderboardService->getGamesForAll($all_players,$result_repo, "ratio");
         $games_elo = $leaderboardService->getGamesForAll($all_players,$result_repo, "elo");
         $games_score_ratio = $leaderboardService->getGamesForAll($all_players,$result_repo, "scoreRatio");
-        $games_score = $leaderboardService->getGamesForAll($all_players,$result_repo, "scored");
-        $games_conceded = $leaderboardService->getGamesForAll($all_players,$result_repo, "conceded", "asc");
         $games_avg_scored = $leaderboardService->getGamesForAll($all_players,$result_repo, "avgScored");
         $games_avg_conceded = $leaderboardService->getGamesForAll($all_players,$result_repo, "avgConceded", "asc");
 
@@ -43,17 +39,13 @@ class StatisticsController  extends Controller {
             array(
                 'elo_history_all_dates' => $elo_history_all_dates,
                 'elo_history_all_players' => $elo_history_all_players,
-                'games_played' => $games_played,
-                'games_won' => $games_won,
                 'games_won_ratio' => $games_won_ratio,
                 'games_elo' => $games_elo,
                 'games_score_ratio' => $games_score_ratio,
-                'games_score' => $games_score,
-                'games_conceded' => $games_conceded,
                 'games_avg_scored' => $games_avg_scored,
                 'games_avg_conceded' => $games_avg_conceded,
             )
         );
     }
 
-} 
+}
