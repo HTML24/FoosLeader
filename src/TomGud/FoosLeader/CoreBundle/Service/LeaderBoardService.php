@@ -19,7 +19,7 @@ class LeaderBoardService
     public function sendLeaderBoardRequest()
     {
         $players_repo = $this->em->getRepository('FoosLeaderUserBundle:User');
-        $all_players = $players_repo->getAllUsers();
+        $all_players = $players_repo->getActiveUsers();
         $result_repo = $this->em->getRepository('FoosLeaderCoreBundle:Result');
 
         $players_elo = $this->getGamesForAll($all_players,$result_repo, "elo");

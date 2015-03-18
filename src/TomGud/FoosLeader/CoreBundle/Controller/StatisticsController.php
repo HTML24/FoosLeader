@@ -25,7 +25,7 @@ class StatisticsController  extends Controller {
         $elo_history_all_dates = $leaderboardService->getEloDates($elo_repo->findEloHistoryForAll());
         $elo_history_all_players = $leaderboardService->getELODataPoints($elo_repo->findEloHistoryForAll());
 
-        $all_players = $players_repo->getAllUsers();
+        $all_players = $players_repo->getActiveUsers();
 
 
         $games_won_ratio = $leaderboardService->getGamesForAll($all_players,$result_repo, "ratio");

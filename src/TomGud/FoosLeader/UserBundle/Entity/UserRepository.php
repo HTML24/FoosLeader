@@ -24,10 +24,15 @@ class UserRepository extends EntityRepository
         return $qb->getQuery()->getResult();
 	}
 
-    public function getAllUsers() {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('u')
-            ->from($this->_entityName, 'u');
+    public function getActiveUsers() {
+        $monthAgo = new \DateTime('now', new \DateTimeZone('utc'));
+        $monthAgo->sub(\DateInterval::createFromDateString('1 month'));
+        $qb = $this->createQueryBuilder('u');
+        $qb
+            ->innerJoin("TomGud\FoosLeader\CoreBundle\Entity\Result", "r", 'WITH',
+                'u.id = r.player1 OR u.id = r.player2 OR u.id = r.player3 OR u.id = r.player4')
+            ->where('r.submitted > :monthAgo')
+            ->setParameter('monthAgo', $monthAgo);
         return $qb->getQuery()->getResult();
     }
 }
