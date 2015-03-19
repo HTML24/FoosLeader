@@ -12,7 +12,7 @@ class ELOCalculatorService
 	 * Calculate new elo rankings for player participating in a result
 	 * @param  Result $result       		The result needed for calculation
 	 * @param  ELOHistory[] $eloHistories 	An array of elo history for each player
-	 * @return ELOPlayerResultModel[]       An array of updated calculateions
+	 * @return ELOPlayerResultModel[]       An array of updated calculations
 	 */
 	public function calculateELOForResult(Result $result, $eloHistories)
 	{
