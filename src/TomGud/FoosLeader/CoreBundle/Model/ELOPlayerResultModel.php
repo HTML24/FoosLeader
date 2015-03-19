@@ -149,6 +149,8 @@ class ELOPlayerResultModel
     {
         $this->currentELO = $currentELO;
 
+        $this->change = $this->newELO - $this->currentELO;
+
         return $this;
     }
 
@@ -176,6 +178,8 @@ class ELOPlayerResultModel
     public function setNewELO($newELO)
     {
         $this->newELO = $newELO;
+
+        $this->change = $this->newELO - $this->currentELO;
 
         return $this;
     }
