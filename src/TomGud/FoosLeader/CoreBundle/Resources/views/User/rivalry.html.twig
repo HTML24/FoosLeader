@@ -1,0 +1,237 @@
+{% extends "FoosLeaderCoreBundle::layout.html.twig" %}
+
+{% block content %}
+<div class="page-header clearfix">
+    <h1> {{ app.user.username }} vs {{ rival.username }} </h1>
+    <h3> You have played {{ totalGames }} game{%- if totalGames > 1 -%}s{%- endif %} against each other</h3>
+    <p>Here you can find a few statistics on your rivalry with {{ rival.username }}</p>
+</div>
+<div class="row">
+    <div class="col-xs-8">
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Rival</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{ rival.username }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">ELO Points</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{ rival.ELORanking }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Goals</h3>
+                    </div>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>Scored</th>
+                            <th>Conceded</th>
+                            <th>Difference</th>
+                            <th>Score ratio</th>
+                            <th>Avg. score</th>
+                            <th>Avg. conceded</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{ goalStatistics.scored }}</td>
+                            <td>{{ goalStatistics.conceded }}</td>
+                            <td>{{ goalStatistics.difference }}</td>
+                            <td>{{ ScoreRatio|number_format(2, '.', ',') }}</td>
+                            <td>{{ AvgScore|number_format(2, '.', ',') }}</td>
+                            <td>{{ AvgConceded|number_format(2, '.', ',') }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Rivalry</h3>
+                    </div>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Games won</th>
+                            <th>Goals scored</th>
+                            <th>Games won ratio</th>
+                            <th>Goals scored ratio</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{ app.user.username }}</td>
+                            <td>{{ gamesUserWon }}</td>
+                            <td>{{ goalsUserScored }}</td>
+                            <td>{{ gamesUserWonRatio }}</td>
+                            <td>{{ goalsUserScoredRatio }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ rival.username }}</td>
+                            <td>{{ gamesRivalWon }}</td>
+                            <td>{{ goalsRivalScored }}</td>
+                            <td>{{ gamesRivalWonRatio }}</td>
+                            <td>{{ goalsRivalScoredRatio }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Games</h3>
+            </div>
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Played</th>
+                    <th>Won</th>
+                    <th>Lost</th>
+                    <th>Win Ratio</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ gameStatistics.games }}</td>
+                    <td>{{ gameStatistics.won }}</td>
+                    <td>{{ gameStatistics.lost }}</td>
+                    <td>{{ winRatio|number_format(0, '.', ',') }}%</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Possible changes</h3>
+            </div>
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Result</th>
+                    <th>Old ELO</th>
+                    <th>New ELO</th>
+                    <th>Changes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ app.user.username }} wins</td>
+                    <td>{{ possibleWinOutcome[app.user.id].currentELO }}</td>
+                    <td>{{ possibleWinOutcome[app.user.id].newELO }}</td>
+                    <td>{{ possibleWinOutcome[app.user.id].change }}</td>
+                </tr>
+                <tr>
+                    <td>{{ rival.username }} loses</td>
+                    <td>{{ possibleWinOutcome[rival.id].currentELO }}</td>
+                    <td>{{ possibleWinOutcome[rival.id].newELO }}</td>
+                    <td>{{ possibleWinOutcome[rival.id].change }}</td>
+                </tr>
+                <tr>
+                    <td>{{ app.user.username }} loses</td>
+                    <td>{{ possibleLossOutcome[app.user.id].currentELO }}</td>
+                    <td>{{ possibleLossOutcome[app.user.id].newELO }}</td>
+                    <td>{{ possibleLossOutcome[app.user.id].change }}</td>
+                </tr>
+                <tr>
+                    <td>{{ rival.username }} wins</td>
+                    <td>{{ possibleLossOutcome[rival.id].currentELO }}</td>
+                    <td>{{ possibleLossOutcome[rival.id].newELO }}</td>
+                    <td>{{ possibleLossOutcome[rival.id].change }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+<br/>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Result History</h3>
+            </div>
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Player 1 (Team 1)</th>
+                    <th>Player 3 (Team 1)</th>
+                    <th>Player 2 (Team 2)</th>
+                    <th>Player 4 (Team 2)</th>
+                    <th>Team 1 Score</th>
+                    <th>Team 2 Score</th>
+                    <th>Played</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for result in pagination %}
+                    <tr>
+                        <td>
+                            {% if result.player1.id == rival.id or result.player1.id == app.user.id %}
+                                <strong>{{ result.player1.username }}</strong>
+                            {% else %}
+                                {{ result.player1.username }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if result.player3.id == rival.id or result.player3.id == app.user.id %}
+                                <strong>{{ result.player3.username }}</strong>
+                            {% else %}
+                                {{ result.player3.username }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if result.player2.id == rival.id or result.player2.id == app.user.id %}
+                                <strong>{{ result.player2.username }}</strong>
+                            {% else %}
+                                {{ result.player2.username }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if result.player4.id == rival.id or result.player4.id == app.user.id %}
+                                <strong>{{ result.player4.username }}</strong>
+                            {% else %}
+                                {{ result.player4.username }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ result.team1Score }}
+                        </td>
+                        <td>
+                            {{ result.team2Score }}
+                        </td>
+                        <td>
+                            {{ result.submitted|date('d/m/Y') }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-xs-4 pull-right">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+</div>
+{% endblock %}

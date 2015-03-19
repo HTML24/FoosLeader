@@ -59,6 +59,11 @@ statistics_global:
     options:
             expose: true
 
+view_user_profile:
+    pattern: /duel/{userId}
+    defaults: { _controller: FoosLeaderCoreBundle:User:profile }
+    methods: [GET]
+
 
 api:
     resource: "@FoosLeaderCoreBundle/Resources/config/api/routing.yml"
