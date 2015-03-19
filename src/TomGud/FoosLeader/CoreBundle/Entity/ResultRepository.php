@@ -143,4 +143,18 @@ class ResultRepository extends EntityRepository
             ->orderBy('r.submitted', 'DESC');
         return $qb->getQuery()->getResult();
     }
+
+    public function getResultsIncludingPlayers(User $player1, User $player2)
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->where('r.player1 = :player1 AND r.player2 = :player2')
+            ->orWhere('r.player1 = :player2 AND r.player1 = :player1')
+            ->orWhere('(r.player1 = :player1 OR r.player3 = :player1) AND (r.player2 = :player2 OR r.player4 = :player2)')
+            ->orWhere('(r.player1 = :player2 OR r.player3 = :player2) AND (r.player2 = :player1 OR r.player4 = :player1)')
+            ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
+            ->setParameter('player1', $player1)
+            ->setParameter('player2', $player2)
+            ->orderBy('r.submitted', 'DESC');
+        return $qb->getQuery()->getResult();
+    }
 }
