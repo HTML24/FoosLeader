@@ -195,10 +195,14 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if result.player3.id == rival.id or result.player3.id == app.user.id %}
-                                <strong>{{ result.player3.username }}</strong>
+                            {% if result.player3 %} 
+                                {% if (result.player3.id == rival.id or result.player3.id == app.user.id) %}
+                                    <strong>{{ result.player3.username }}</strong>
+                                {% else %}
+                                    {{ result.player3.username }}
+                                {% endif %} 
                             {% else %}
-                                {{ result.player3.username }}
+                                -
                             {% endif %}
                         </td>
                         <td>
@@ -209,10 +213,14 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if result.player4.id == rival.id or result.player4.id == app.user.id %}
-                                <strong>{{ result.player4.username }}</strong>
+                            {% if result.player4 %} 
+                                {% if (result.player4.id == rival.id or result.player4.id == app.user.id) %}
+                                    <strong>{{ result.player4.username }}</strong>
+                                {% else %}
+                                    {{ result.player4.username }}
+                                {% endif %} 
                             {% else %}
-                                {{ result.player4.username }}
+                                -
                             {% endif %}
                         </td>
                         <td>
