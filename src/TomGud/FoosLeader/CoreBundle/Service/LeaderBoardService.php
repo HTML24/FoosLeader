@@ -9,15 +9,26 @@ use TomGud\FoosLeader\CoreBundle\Model\ELOPlayerResultModel;
 
 class LeaderBoardService
 {
-    const INFO_SCREEN_API_LEADERBOARD = "http://infoscreen.html24-dev.dk/api/foosball/leaderboard";
+
     protected $em;
 
-    public function __construct(EntityManager $entityManager) {
+    /**
+     * URL for the leaderboard API
+     * @var string
+     */
+    protected $leaderboardUrl;
+
+    public function __construct(EntityManager $entityManager, $leaderboardUrl) {
         $this->em = $entityManager;
+        $this->leaderboardUrl = $leaderboardUrl;
     }
 
     public function sendLeaderBoardRequest()
     {
+        if ($this->leaderboardUrl === null) {
+            return;
+        }
+
         $players_repo = $this->em->getRepository('FoosLeaderUserBundle:User');
         $all_players = $players_repo->getActiveUsers();
         $result_repo = $this->em->getRepository('FoosLeaderCoreBundle:Result');
@@ -41,7 +52,7 @@ class LeaderBoardService
         //open connection
         $ch = curl_init();
 
-        curl_setopt($ch,CURLOPT_URL, LeaderBoardService::INFO_SCREEN_API_LEADERBOARD);
+        curl_setopt($ch,CURLOPT_URL, $this->leaderboardUrl);
         //curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: multipart/form-data"));
         curl_setopt($ch,CURLOPT_POST, true);
         curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);

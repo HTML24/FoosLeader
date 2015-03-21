@@ -12,4 +12,4 @@ services:
 
     foos_leader.leader_board:
           class: %foos_leader.leader_board.class%
-          arguments: [ "@doctrine.orm.entity_manager"]
+          arguments: [ "@doctrine.orm.entity_manager", "%leaderboard_endpoint%"]

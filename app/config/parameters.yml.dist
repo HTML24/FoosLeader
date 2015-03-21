@@ -15,3 +15,4 @@ parameters:
     secret:            tnNln3kNSeDJf44fkZExoWfDcKL2hXcK
 
     api_key: tomasAPI
+    leaderboard_endpoint: "http://infoscreen.html24-dev.dk/api/foosball/leaderboard"
