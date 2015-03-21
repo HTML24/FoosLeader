@@ -82,6 +82,9 @@ class UserController extends Controller {
             $AvgConceded = 0;
         };
 
+        // Make sure we set the old elo to the current ranking for calculations
+        $userLatestHistory->setOldELO($this->getUser()->getELORanking());
+        $rivalLatestHistory->setOldELO($rival->getELORanking());
         $eloHistories = array($rival->getId() => $rivalLatestHistory, $this->getUser()->getId() => $userLatestHistory);
         $possibleResult = new Result();
         $userClone = clone $this->getUser();
