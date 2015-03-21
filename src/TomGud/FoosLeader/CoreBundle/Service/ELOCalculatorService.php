@@ -21,8 +21,8 @@ class ELOCalculatorService
 		// Setting up the model
 		$p1ELO = new ELOPlayerResultModel($result, $result->getPlayer1());
 		$p2ELO = new ELOPlayerResultModel($result, $result->getPlayer2());
-		$p1ELO->setCurrentELO($eloHistories[$p1ELO->getPlayer()->getId()]->getNewELO());
-		$p2ELO->setCurrentELO($eloHistories[$p2ELO->getPlayer()->getId()]->getNewELO());
+		$p1ELO->setCurrentELO($eloHistories[$p1ELO->getPlayer()->getId()]->getOldELO());
+		$p2ELO->setCurrentELO($eloHistories[$p2ELO->getPlayer()->getId()]->getOldELO());
         if ($result->getPlayer3() === null || $result->getPlayer4() === null) {
             // 2 player ELO calculations
             $team1ChanceOfWin = 1 / (1 + pow(10, (($p2ELO->getCurrentELO() - $p1ELO->getCurrentELO())/400)));
@@ -37,8 +37,8 @@ class ELOCalculatorService
             // 4 player ELO calculations
 			$p3ELO = new ELOPlayerResultModel($result, $result->getPlayer3());
 			$p4ELO = new ELOPlayerResultModel($result, $result->getPlayer4());
-			$p3ELO->setCurrentELO($eloHistories[$p3ELO->getPlayer()->getId()]->getNewELO());
-			$p4ELO->setCurrentELO($eloHistories[$p4ELO->getPlayer()->getId()]->getNewELO());
+			$p3ELO->setCurrentELO($eloHistories[$p3ELO->getPlayer()->getId()]->getOldELO());
+			$p4ELO->setCurrentELO($eloHistories[$p4ELO->getPlayer()->getId()]->getOldELO());
 
             $team1ChanceOfWin = 1 / (1 + pow(10, (($p2ELO->getCurrentELO() + $p4ELO->getCurrentELO()
                 - $p1ELO->getCurrentELO() - $p3ELO->getCurrentELO())/400)));
@@ -63,3 +63,4 @@ class ELOCalculatorService
 }
 
 ?>
+
