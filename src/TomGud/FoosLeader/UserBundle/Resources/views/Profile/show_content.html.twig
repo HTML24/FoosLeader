@@ -130,8 +130,34 @@
 					<tbody>
 						{% for history in pagination %}
 						<tr>
-							<td>{{ history.result.player1 }} {% if history.result.player3 != null %} & {{ history.result.player3}} {% endif %}</td>
-							<td>{{ history.result.player2 }} {% if history.result.player4 != null %} & {{ history.result.player4}} {% endif %}</td>
+							<td>
+							{% if history.result.player1 == app.user %}
+								<strong>{{ history.result.player1 }}</strong>
+							{%  else %}
+								<a href={{ path('view_user_profile', { 'userId' : history.result.player1.id }) }}>{{ history.result.player1 }}</a>
+							{% endif %} 
+							{% if history.result.player3 != null %} & 
+								{% if history.result.player3 == app.user %}
+									<strong>{{ history.result.player3 }}</strong>
+								{%  else %}
+									<a href={{ path('view_user_profile', { 'userId' : history.result.player3.id }) }}>{{ history.result.player3 }}</a>
+								{% endif %} 
+							{% endif %}
+							</td>
+							<td>
+							{% if history.result.player2 == app.user %}
+								<strong>{{ history.result.player2 }}</strong>
+							{%  else %}
+								<a href={{ path('view_user_profile', { 'userId' : history.result.player2.id }) }}>{{ history.result.player2 }}</a>
+							{% endif %} 
+							{% if history.result.player4 != null %} & 
+								{% if history.result.player4 == app.user %}
+									<strong>{{ history.result.player4 }}</strong>
+								{%  else %}
+									<a href={{ path('view_user_profile', { 'userId' : history.result.player4.id }) }}>{{ history.result.player4 }}</a>
+								{% endif %} 
+							{% endif %}
+							</td>
 							<td>{{ history.result.team1Score }} - {{ history.result.team2Score }}</td>
 							<td>{{ history.oldELO }}</td>
 							<td>{{ history.newELO }}</td>

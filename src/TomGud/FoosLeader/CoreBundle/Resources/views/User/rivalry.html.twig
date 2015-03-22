@@ -191,7 +191,7 @@
                             {% if result.player1.id == rival.id or result.player1.id == app.user.id %}
                                 <strong>{{ result.player1.username }}</strong>
                             {% else %}
-                                {{ result.player1.username }}
+                                  <a href={{ path('view_user_profile', { 'userId' : result.player1.id }) }}>{{ result.player1.username }}</a>
                             {% endif %}
                         </td>
                         <td>
@@ -199,7 +199,7 @@
                                 {% if (result.player3.id == rival.id or result.player3.id == app.user.id) %}
                                     <strong>{{ result.player3.username }}</strong>
                                 {% else %}
-                                    {{ result.player3.username }}
+                                    <a href={{ path('view_user_profile', { 'userId' : result.player3.id }) }}>{{ result.player3.username }}</a>
                                 {% endif %} 
                             {% else %}
                                 -
@@ -209,7 +209,7 @@
                             {% if result.player2.id == rival.id or result.player2.id == app.user.id %}
                                 <strong>{{ result.player2.username }}</strong>
                             {% else %}
-                                {{ result.player2.username }}
+                                <a href={{ path('view_user_profile', { 'userId' : result.player2.id }) }}>{{ result.player2.username }}</a>
                             {% endif %}
                         </td>
                         <td>
@@ -217,7 +217,7 @@
                                 {% if (result.player4.id == rival.id or result.player4.id == app.user.id) %}
                                     <strong>{{ result.player4.username }}</strong>
                                 {% else %}
-                                    {{ result.player4.username }}
+                                    <a href={{ path('view_user_profile', { 'userId' : result.player4.id }) }}>{{ result.player4.username }}</a>
                                 {% endif %} 
                             {% else %}
                                 -
