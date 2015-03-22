@@ -13,7 +13,7 @@ class DefaultController extends Controller
     	$result_repo = $em->getRepository('FoosLeaderCoreBundle:Result');
     	$latest_for_user = $result_repo->getLatestForUser($this->getUser());
     	$latest_for_all = $result_repo->getLatestForAll();
-    	$unconfirmed_for_user = $result_repo->getUnconfirmedResultsForUser($this->getUser());
+    	$disputed_for_user = $result_repo->getUnconfirmedResultsForUser($this->getUser());
 
         $available_results = $result_repo->getAvailableResults();
         $available_results_remaining = array();
@@ -34,8 +34,8 @@ class DefaultController extends Controller
         	array(
         		'latest_user' => $latest_for_user,
         		'latest_all' => $latest_for_all,
-        		'unconfirmed' => $unconfirmed_for_user,
                 'availables' => $available_results_remaining,
+                'disputed' => $disputed_for_user,
         		'notifications' => array()
         	)
         );

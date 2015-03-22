@@ -27,13 +27,24 @@
 			{% endif %}
 		</div>
         {% if availables is not empty %}
-        <div class="col-xs-12">
+        <div class="col-xs-6">
             <h3>Unclaimed results</h3>
             {% for available in availables %}
                 {% include "FoosLeaderCoreBundle:Widgets:available_match.html.twig" with { available: available } %}
             {% endfor %}
         </div>
         {% endif %}
+
+		<div class="col-xs-6">
+			<h3>Disputed results</h3>
+			{% if disputed is empty %}
+				<strong>No disputed matches</strong>
+			{% else %}
+				{% for result in disputed %}
+					{% include "FoosLeaderCoreBundle:Widgets:single_result.html.twig"  with { result: result } %}
+				{% endfor %}
+			{% endif %}
+		</div>
 		<!--
         <div class="col-xs-6">
 			<h3>Notifications</h3>
@@ -44,16 +55,6 @@
 						notification.text
 					{% endfor %}
 				{% endif %}
-		</div>
-		<div class="col-xs-6">
-			<h3>Unconfirmed results</h3>
-			{% if unconfirmed is empty %}
-				<strong>No unconfirmed matches</strong>
-			{% else %}
-				{% for result in unconfirmed %}
-					{% include "FoosLeaderCoreBundle:Widgets:unconfirmed_single.html.twig"  with { result: result } %}
-				{% endfor %}
-			{% endif %}
 		</div>
 		-->
 
