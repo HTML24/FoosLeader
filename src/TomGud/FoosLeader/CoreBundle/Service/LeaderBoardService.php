@@ -125,6 +125,7 @@ class LeaderBoardService
                 $dataPoints[$player->getUsername()]["games"] = $stats->getGames();
                 $dataPoints[$player->getUsername()]["won"] = $stats->getWon();
                 $dataPoints[$player->getUsername()]["name"] = $player->getUsername();
+                $dataPoints[$player->getUsername()]["userId"] = $player->getId();
                 $dataPoints[$player->getUsername()]["elo"] = $player->getELORanking();
                 $dataPoints[$player->getUsername()]["scored"] =  (int)$goalStats->getScored();
                 $dataPoints[$player->getUsername()]["conceded"] =  (int)$goalStats->getConceded();

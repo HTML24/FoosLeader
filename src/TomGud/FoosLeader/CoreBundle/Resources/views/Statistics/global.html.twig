@@ -48,7 +48,13 @@
                             {% else %}
                                 <td>{{ loop.index }}</td>
                             {% endif %}
-                            <td>{{ player.name }}</td>
+                            <td>
+                                {% if app.user.id == player.userId %}
+                                    <strong>{{ player.name }}</strong>
+                                {% else %} 
+                                    <a href={{ path('view_user_profile', { 'userId' : player.userId }) }}>{{ player.name }}</a>
+                                {% endif %}
+                            </td>
                             <td>{{ player.elo }}</td>
                         </tr>
                     {% endfor %}
@@ -85,7 +91,13 @@
                             {% else %}
                                 <td>{{ loop.index }}</td>
                             {% endif %}
-                            <td>{{ player.name }}</td>
+                            <td>
+                                {% if app.user.id == player.userId %}
+                                    <strong>{{ player.name }}</strong>
+                                {% else %} 
+                                    <a href={{ path('view_user_profile', { 'userId' : player.userId }) }}>{{ player.name }}</a>
+                                {% endif %}
+                            </td>
                             <td>{{ player.ratio|number_format(2, '.', ',') }}</td>
                         </tr>
                     {% endfor %}
@@ -119,7 +131,13 @@
                             {% else %}
                                 <td>{{ loop.index }}</td>
                             {% endif %}
-                            <td>{{ player.name }}</td>
+                            <td>
+                                {% if app.user.id == player.userId %}
+                                    <strong>{{ player.name }}</strong>
+                                {% else %} 
+                                    <a href={{ path('view_user_profile', { 'userId' : player.userId }) }}>{{ player.name }}</a>
+                                {% endif %}
+                            </td>
                             <td>{{ player.scoreRatio|number_format(2, '.', ',') }}</td>
                         </tr>
                     {% endfor %}
@@ -155,7 +173,13 @@
                             {% else %}
                                 <td>{{ loop.index }}</td>
                             {% endif %}
-                            <td>{{ player.name }}</td>
+                            <td>
+                                {% if app.user.id == player.userId %}
+                                    <strong>{{ player.name }}</strong>
+                                {% else %} 
+                                    <a href={{ path('view_user_profile', { 'userId' : player.userId }) }}>{{ player.name }}</a>
+                                {% endif %}
+                            </td>
                             <td>{{ player.avgScored|number_format(2, '.', ',') }}</td>
                         </tr>
                     {% endfor %}
@@ -189,7 +213,13 @@
                             {% else %}
                                 <td>{{ loop.index }}</td>
                             {% endif %}
-                            <td>{{ player.name }}</td>
+                            <td>
+                                {% if app.user.id == player.userId %}
+                                    <strong>{{ player.name }}</strong>
+                                {% else %} 
+                                    <a href={{ path('view_user_profile', { 'userId' : player.userId }) }}>{{ player.name }}</a>
+                                {% endif %}
+                            </td>
                             <td>{{ player.avgConceded|number_format(2, '.', ',') }}</td>
                         </tr>
                     {% endfor %}
