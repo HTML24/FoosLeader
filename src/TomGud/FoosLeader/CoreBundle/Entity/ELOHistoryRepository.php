@@ -34,7 +34,7 @@ class ELOHistoryRepository extends EntityRepository
         $qb = $this
             ->createQueryBuilder('eh')
             ->where('eh.player = :player')
-            ->orderBy('eh.registered', 'ASC')
+            ->orderBy('eh.registered', 'DESC')
             ->setParameter('player', $player)
             ->setMaxResults(30);
         $results = $qb->getQuery()->getResult();
