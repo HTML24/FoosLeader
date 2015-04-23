@@ -9,11 +9,8 @@
     <link href="{{  asset_url }}" type="text/css" rel="stylesheet" />
     {% endstylesheets %}
     #}
-    {% stylesheets filter="cssrewrite"
-    'bundles/foosleadercore/css/bootstrap.min.css'
-    'bundles/foosleadercore/css/selectize.bootstrap3.css'
-    'bundles/foosleadercore/css/bootflat.min.css'
-    'bundles/foosleadercore/css/main.css'
+    {% stylesheets filter="compass"
+        '@FoosLeaderCoreBundle/Resources/public/sass/materialize.scss'
     %}
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet"/>
     {% endstylesheets %}
