@@ -5,6 +5,8 @@ namespace TomGud\FoosLeader\CoreBundle\Service;
 use TomGud\FoosLeader\CoreBundle\Entity\ELOHistory;
 use TomGud\FoosLeader\CoreBundle\Entity\Result;
 use TomGud\FoosLeader\CoreBundle\Model\ELOPlayerResultModel;
+use TomGud\FoosLeader\CoreBundle\Model\PossibleOutcomeModel;
+use TomGud\FoosLeader\UserBundle\Entity\User;
 
 class ELOCalculatorService
 {
@@ -60,6 +62,81 @@ class ELOCalculatorService
 
         return $results;
 	}
+
+    /**
+     * @param ELOHistory $player1
+     * @param ELOHistory $player2
+     * @param ELOHistory $player3
+     * @param ELOHistory $player4
+     * @return PossibleOutcomeModel
+     */
+    public function possibleOutcomes(ELOHistory $player1History, ELOHistory $player2History,
+                                     ELOHistory $player3History = null, ELOHistory $player4History = null)
+    {
+        $team1Victorious = new Result();
+        $team2Victorious = new Result();
+        $team1VictoriousELO = null;
+        $team2VictoriousELO = null;
+        $possibleOutcome = new PossibleOutcomeModel();
+
+        $team1Victorious
+            ->setPlayer1($player1History->getPlayer())
+            ->setPlayer2($player2History->getPlayer())
+            ->setTeam1Score(10)
+            ->setTeam2Score(0);
+        $team2Victorious
+            ->setPlayer1($player1History->getPlayer())
+            ->setPlayer2($player2History->getPlayer())
+            ->setTeam1Score(0)
+            ->setTeam2Score(10);
+
+        if ($player3History === null && $player4History === null) {
+            $team1VictoriousELO = $this->calculateELOForResult($team1Victorious, array(
+                $player1History->getPlayer()->getId() => $player1History,
+                $player2History->getPlayer()->getId() => $player2History
+            ));
+            $team2VictoriousELO = $this->calculateELOForResult($team2Victorious, array(
+                $player1History->getPlayer()->getId() => $player1History,
+                $player2History->getPlayer()->getId() => $player2History
+            ));
+
+            $possibleOutcome->setTeam1VictoriousELOHistory($team1VictoriousELO[$player1History->getPlayer()->getId()]);
+            $possibleOutcome->setTeam1VictoriousELOHistory($team1VictoriousELO[$player2History->getPlayer()->getId()]);
+
+            $possibleOutcome->setTeam2VictoriousELOHistory($team2VictoriousELO[$player1History->getPlayer()->getId()]);
+            $possibleOutcome->setTeam2VictoriousELOHistory($team2VictoriousELO[$player2History->getPlayer()->getId()]);
+        } else {
+            $team1Victorious
+                ->setPlayer3($player3History->getPlayer())
+                ->setPlayer4($player4History->getPlayer());
+            $team2Victorious
+                ->setPlayer3($player3History->getPlayer())
+                ->setPlayer4($player4History->getPlayer());
+            $team1VictoriousELO = $this->calculateELOForResult($team1Victorious, array(
+                $player1History->getPlayer()->getId() => $player1History,
+                $player2History->getPlayer()->getId() => $player2History,
+                $player3History->getPlayer()->getId() => $player3History,
+                $player4History->getPlayer()->getId() => $player4History
+            ));
+            $team2VictoriousELO = $this->calculateELOForResult($team2Victorious, array(
+                $player1History->getPlayer()->getId() => $player1History,
+                $player2History->getPlayer()->getId() => $player2History,
+                $player3History->getPlayer()->getId() => $player3History,
+                $player4History->getPlayer()->getId() => $player4History
+            ));
+
+            $possibleOutcome->setTeam1VictoriousELOHistory($team1VictoriousELO[$player1History->getPlayer()->getId()]);
+            $possibleOutcome->setTeam1VictoriousELOHistory($team1VictoriousELO[$player2History->getPlayer()->getId()]);
+            $possibleOutcome->setTeam1VictoriousELOHistory($team1VictoriousELO[$player3History->getPlayer()->getId()]);
+            $possibleOutcome->setTeam1VictoriousELOHistory($team1VictoriousELO[$player4History->getPlayer()->getId()]);
+
+            $possibleOutcome->setTeam2VictoriousELOHistory($team2VictoriousELO[$player1History->getPlayer()->getId()]);
+            $possibleOutcome->setTeam2VictoriousELOHistory($team2VictoriousELO[$player2History->getPlayer()->getId()]);
+            $possibleOutcome->setTeam2VictoriousELOHistory($team2VictoriousELO[$player3History->getPlayer()->getId()]);
+            $possibleOutcome->setTeam2VictoriousELOHistory($team2VictoriousELO[$player4History->getPlayer()->getId()]);
+        }
+        return $possibleOutcome;
+    }
 }
 
 ?>
