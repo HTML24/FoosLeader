@@ -137,27 +137,27 @@
                 <tbody>
                 <tr>
                     <td>{{ app.user.username }} wins</td>
-                    <td>{{ possibleWinOutcome[app.user.id].currentELO }}</td>
-                    <td>{{ possibleWinOutcome[app.user.id].newELO }}</td>
-                    <td>{{ possibleWinOutcome[app.user.id].change }}</td>
+                    <td>{{ possibleOutcome.getTeam1VictoriousELOHistory(app.user).currentELO }}</td>
+                    <td>{{ possibleOutcome.getTeam1VictoriousELOHistory(app.user).newELO }}</td>
+                    <td>{{ possibleOutcome.getTeam1VictoriousELOHistory(app.user).change }}</td>
                 </tr>
                 <tr>
                     <td>{{ rival.username }} loses</td>
-                    <td>{{ possibleWinOutcome[rival.id].currentELO }}</td>
-                    <td>{{ possibleWinOutcome[rival.id].newELO }}</td>
-                    <td>{{ possibleWinOutcome[rival.id].change }}</td>
+                    <td>{{ possibleOutcome.getTeam1VictoriousELOHistory(rival).currentELO }}</td>
+                    <td>{{ possibleOutcome.getTeam1VictoriousELOHistory(rival).newELO }}</td>
+                    <td>{{ possibleOutcome.getTeam1VictoriousELOHistory(rival).change }}</td>
                 </tr>
                 <tr>
                     <td>{{ app.user.username }} loses</td>
-                    <td>{{ possibleLossOutcome[app.user.id].currentELO }}</td>
-                    <td>{{ possibleLossOutcome[app.user.id].newELO }}</td>
-                    <td>{{ possibleLossOutcome[app.user.id].change }}</td>
+                    <td>{{ possibleOutcome.getTeam2VictoriousELOHistory(app.user).currentELO }}</td>
+                    <td>{{ possibleOutcome.getTeam2VictoriousELOHistory(app.user).newELO }}</td>
+                    <td>{{ possibleOutcome.getTeam2VictoriousELOHistory(app.user).change }}</td>
                 </tr>
                 <tr>
                     <td>{{ rival.username }} wins</td>
-                    <td>{{ possibleLossOutcome[rival.id].currentELO }}</td>
-                    <td>{{ possibleLossOutcome[rival.id].newELO }}</td>
-                    <td>{{ possibleLossOutcome[rival.id].change }}</td>
+                    <td>{{ possibleOutcome.getTeam2VictoriousELOHistory(rival).currentELO }}</td>
+                    <td>{{ possibleOutcome.getTeam2VictoriousELOHistory(rival).newELO }}</td>
+                    <td>{{ possibleOutcome.getTeam2VictoriousELOHistory(rival).change }}</td>
                 </tr>
                 </tbody>
             </table>

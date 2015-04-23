@@ -85,18 +85,7 @@ class UserController extends Controller {
         // Make sure we set the old elo to the current ranking for calculations
         $userLatestHistory->setOldELO($this->getUser()->getELORanking());
         $rivalLatestHistory->setOldELO($rival->getELORanking());
-        $eloHistories = array($rival->getId() => $rivalLatestHistory, $this->getUser()->getId() => $userLatestHistory);
-        $possibleResult = new Result();
-        $userClone = clone $this->getUser();
-        $rivalClone = clone $rival;
-        $possibleResult->setPlayer1($userClone)->setPlayer2($rivalClone);
-
-        $possibleResult->setTeam1Score(10)->setTeam2Score(9);
-        $possibleWinOutcome = $eloCalculatorService->calculateELOForResult($possibleResult, $eloHistories);
-
-        $possibleResult->setTeam1Score(9)->setTeam2Score(10);
-        $possibleLossOutcome = $eloCalculatorService->calculateELOForResult($possibleResult, $eloHistories);
-
+        $possibleOutcome = $eloCalculatorService->possibleOutcomes($userLatestHistory, $rivalLatestHistory);
         $paginator = $this->container->get('knp_paginator');
         $pagination =$paginator->paginate($duelResults, $this->container->get('request')->get('page', 1),  5); //
 
@@ -104,8 +93,7 @@ class UserController extends Controller {
             array(
                 'rival' => $rival,
                 'duelResults' => $duelResults,
-                'possibleWinOutcome' => $possibleWinOutcome,
-                'possibleLossOutcome' => $possibleLossOutcome,
+                'possibleOutcome' => $possibleOutcome,
                 'gamesUserWonRatio' => ($totalGames === 0) ? "-" : round(100*($gamesUserWon/$totalGames)) . "%",
                 'gamesRivalWonRatio' => ($totalGames === 0) ? "-" : round(100*($gamesRivalWon/$totalGames)) . "%",
                 'gamesUserWon' => $gamesUserWon,
