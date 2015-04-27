@@ -3,3 +3,8 @@
 {% block fos_user_content %}
 {% include "FOSUserBundle:Profile:show_content.html.twig" %}
 {% endblock fos_user_content %}
+{% block navigation_items %}
+    {{ parent() }}
+    <a class="collection-item" href="{{ path("fos_user_change_password") }}">Change password</a>
+    <a class="collection-item" href="{{ path('fos_user_security_logout') }}">Logout</a>
+{% endblock %}

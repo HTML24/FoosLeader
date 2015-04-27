@@ -9,4 +9,7 @@
 
 {% block content %}
     {% block fos_user_content %}{% endblock %}
+    {% block navigation_items %}
+        {{ parent() }}
+    {% endblock %}
 {% endblock %}

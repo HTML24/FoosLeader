@@ -3,24 +3,22 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="robots" content="noindex,nofollow"/>
-    {# Selectize css if wanted
-
-    {% stylesheets filter="cssrewrite, ?uglifycss" 'bundles/bordduelbundle/selectize.js/css/selectize.css' %}
-    <link href="{{  asset_url }}" type="text/css" rel="stylesheet" />
-    {% endstylesheets %}
-    #}
     {% stylesheets filter="compass"
         '@FoosLeaderCoreBundle/Resources/public/sass/materialize.scss'
     %}
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet"/>
     {% endstylesheets %}
+    {% stylesheets filter=""
+        '@FoosLeaderCoreBundle/Resources/public/css/main.css'
+    %}
+
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet"/>
+    {% endstylesheets %}
     {% javascripts filter=""
-    'bundles/foosleadercore/js/jquery-2.1.0.min.js'
-    'bundles/foosleadercore/js/bootstrap.min.js'
-    'bundles/foosleadercore/js/selectize.min.js'
-    'bundles/foosleadercore/js/result.js'
-    'bundles/foosleadercore/js/highcharts.js'
-    'bundles/foosleadercore/js/exporting.js'
+        'bundles/foosleadercore/js/jquery-2.1.0.min.js'
+        'bundles/foosleadercore/js/highcharts.js'
+        'bundles/foosleadercore/js/*'
+        'bundles/foosleadercore/js/bin/materialize.min.js'
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
@@ -30,57 +28,36 @@
 </head>
 <body>
 {% block body %}
-
-    {% block navigation %}
+    {% block header %}
         <header class="main-header">
-            <!-- Fixed navbar -->
-            <div class="navbar navbar-success navbar-fixed-top" role="navigation">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="{{ path('home') }}">FoosLeader</a>
-                    </div>
-                    <div class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav">
-                            <li class=""><a href="{{ path('new_result') }}">New result</a></li>
-                           <!-- <li class=""><a href="">Users</a></li>-->
-                            <li class=""><a href="{{ path('statistics_global') }}">Stats</a></li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                        {% if app.user %}
-                            <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown">
-                                        <i class="glyphicon glyphicon-user"></i>
-                                        Hiya, {{ app.user.username }} <b class="caret"></b>
-                                    </a>
-                                <ul class="dropdown-menu">
-                                    <li class="dropdown-header">Your Profile</li>
-                                    <li><a href="{{ path("fos_user_profile_show") }}">View my profile</a></li>
-                                    <li><a href="{{ path("fos_user_change_password") }}">Change password</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="{{ path("fos_user_profile_show") }}"><span class="badge badge-danger">ELO: {{ app.user.getELORanking() }}</span></a></li>
-                        {% else %}
-                            <li><a href="{{ path('fos_user_security_login') }}">Login</a></li>
-                        {% endif %}
-                        </ul>
-                    </div>
+            <div class="container">
+                <div class="col s12">
+                    <h1>
+                        <a class="blue-grey-text" href="{{ path('home') }}">FoosLeader</a>
+                    </h1>
+
                 </div>
             </div>
         </header>
     {% endblock %}
     <div class="container">
     {% block container %}
-        <main class="main-content">
-            {% block content %}{% endblock %}
-        </main>
+        <div class="row">
+            <div class="col s9">
+                {% block content %}{% endblock %}
+            </div>
+            <div class="col s3">
+                {%  block navigation %}
+                <div class="collection">
+                    {% block navigation_items %}
+                        <a href="{{ path('fos_user_profile_show', { 'id' : app.user.id}) }}" class="collection-item">
+                            {{ app.user.username }} <span class="badge blue darken-4 white-text">{{ app.user.getELORanking() }}</span>
+                        </a>
+                    {% endblock %}
+                </div>
+                {% endblock %}
+            </div>
+        </div>
     {% endblock %}
     </div>
 {% endblock %}
