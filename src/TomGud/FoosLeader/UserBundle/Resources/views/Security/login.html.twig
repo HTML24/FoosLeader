@@ -2,9 +2,8 @@
 
 {% block fos_user_content %}
 <div class="row">
-    <div class="col s6">
+    <div class="col s9">
         <form role="form" class="" action="{{ path("fos_user_security_check") }}" method="post">
-            <h1>Foosball Duels</h1>
             {% if error %}
                 <div class="alert alert-warning">
                     {{ error|trans({}, 'FOSUserBundle') }}
