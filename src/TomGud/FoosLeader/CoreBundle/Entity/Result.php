@@ -26,7 +26,7 @@ class Result
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="TomGud\FoosLeader\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="TomGud\FoosLeader\UserBundle\Entity\User", inversedBy="player1Results")
      * @ORM\JoinColumn(name="player_1", referencedColumnName="id", nullable=true)
      */
     protected $player1;
@@ -34,7 +34,7 @@ class Result
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="TomGud\FoosLeader\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="TomGud\FoosLeader\UserBundle\Entity\User", inversedBy="player2Results")
      * @ORM\JoinColumn(name="player_2", referencedColumnName="id", nullable=true)
      */
     protected $player2;
@@ -42,7 +42,7 @@ class Result
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="TomGud\FoosLeader\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="TomGud\FoosLeader\UserBundle\Entity\User", inversedBy="player3Results")
      * @ORM\JoinColumn(name="player_3", referencedColumnName="id", nullable=true)
      */
     protected $player3;
@@ -50,7 +50,7 @@ class Result
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="TomGud\FoosLeader\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="TomGud\FoosLeader\UserBundle\Entity\User", inversedBy="player4Results")
      * @ORM\JoinColumn(name="player_4", referencedColumnName="id", nullable=true)
      */
     protected $player4;
