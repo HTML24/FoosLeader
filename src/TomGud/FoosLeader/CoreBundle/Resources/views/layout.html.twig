@@ -53,6 +53,8 @@
                         <a href="{{ path('fos_user_profile_show', { 'id' : app.user.id}) }}" class="collection-item">
                             {{ app.user.username }} <span class="badge blue darken-4 white-text">{{ app.user.getELORanking() }}</span>
                         </a>
+                        <a href="{{ path('new_result') }}" class="collection-item">New result</a>
+                        <a href="{{ path('statistics_global') }}" class="collection-item">Statistics</a>
 
                         <a href="{{ path('dispute_overview') }}" class="collection-item">
                             Disputes
