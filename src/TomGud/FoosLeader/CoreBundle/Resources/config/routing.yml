@@ -64,6 +64,10 @@ view_user_profile:
     defaults: { _controller: FoosLeaderCoreBundle:User:profile }
     methods: [GET]
 
+dispute_overview:
+    pattern: /disputes
+    defaults: { _controller: FoosLeaderCoreBundle:Default:disputes }
+    methods: [GET]
 
 api:
     resource: "@FoosLeaderCoreBundle/Resources/config/api/routing.yml"

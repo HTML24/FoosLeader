@@ -30,17 +30,6 @@
                     {% endfor %}
                 </div>
             {% endif %}
-
-            <div class="col s6">
-                <h3>Disputed results</h3>
-                {% if disputed is empty %}
-                    <strong>No disputed matches</strong>
-                {% else %}
-                    {% for result in disputed %}
-                        {% include "FoosLeaderCoreBundle:Widgets:single_result.html.twig"  with { result: result } %}
-                    {% endfor %}
-                {% endif %}
-            </div>
         </div>
 
 

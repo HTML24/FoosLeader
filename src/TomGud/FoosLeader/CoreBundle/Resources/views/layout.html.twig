@@ -53,6 +53,19 @@
                         <a href="{{ path('fos_user_profile_show', { 'id' : app.user.id}) }}" class="collection-item">
                             {{ app.user.username }} <span class="badge blue darken-4 white-text">{{ app.user.getELORanking() }}</span>
                         </a>
+
+                        <a href="{{ path('dispute_overview') }}" class="collection-item">
+                            Disputes
+                            {%- if app.user.getDisputedResults()|length > 0 -%}
+                                <span class="badge red lighten-2 black-text">
+                                    {{ app.user.getDisputedResults()|length }}
+                                </span>
+                            {%- else -%}
+                                <span class="badge green lighten-2 black-text">
+                                    {{ app.user.getDisputedResults()|length }}
+                                </span>
+                            {%- endif -%}
+                        </a>
                     {% endblock %}
                 </div>
                 {% endblock %}

@@ -40,4 +40,9 @@ class DefaultController extends Controller
         	)
         );
     }
+
+    public function disputesAction()
+    {
+        return $this->render('FoosLeaderCoreBundle:Default:disputes.html.twig');
+    }
 }

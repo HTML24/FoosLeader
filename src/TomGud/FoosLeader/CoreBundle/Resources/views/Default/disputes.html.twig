@@ -1,0 +1,16 @@
+{% extends "FoosLeaderCoreBundle::layout.html.twig" %}
+
+{% block content %}
+    <div class="col s6">
+        <h3>Disputes</h3>
+        <div class="col s6">
+            {% if app.user.getDisputedResults()|length == 0 is empty %}
+                <strong>No disputed matches</strong>
+            {% else %}
+                {% for result in app.user.getDisputedResults() %}
+                    {% include "FoosLeaderCoreBundle:Widgets:single_result.html.twig"  with { result: result } %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
