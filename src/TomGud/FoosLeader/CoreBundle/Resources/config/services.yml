@@ -2,6 +2,7 @@ parameters:
     foos_leader.elo_calculator.class: TomGud\FoosLeader\CoreBundle\Service\ELOCalculatorService
     foos_leader.message_service.class: TomGud\FoosLeader\CoreBundle\Service\MessageService
     foos_leader.leader_board.class: TomGud\FoosLeader\CoreBundle\Service\LeaderBoardService
+    foos_leader.statistics_service.class: TomGud\FoosLeader\CoreBundle\Service\StatisticsService
 
 services:
     foos_leader.elo_calculator:
@@ -13,3 +14,7 @@ services:
     foos_leader.leader_board:
           class: %foos_leader.leader_board.class%
           arguments: [ "@doctrine.orm.entity_manager", "%leaderboard_endpoint%"]
+
+    foos_leader.statistics:
+          class: %foos_leader.statistics_service.class%
+          arguments: [ "@doctrine.orm.entity_manager" ]
