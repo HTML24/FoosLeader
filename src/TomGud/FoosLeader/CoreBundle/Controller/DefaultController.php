@@ -40,6 +40,7 @@ class DefaultController extends Controller
                 'disputed' => $disputed_for_user,
                 'total_games' => $statistics->getTotalGames(),
                 'total_goals' => $statistics->getTotalGoals(),
+                'top_players' => $statistics->getTopPlayers(2),
         		'notifications' => array()
         	)
         );
