@@ -2,18 +2,51 @@
 
 {% block content %}
     <div class="row">
+        <div class="col s4">
+            <div class="card-panel green lighten-2">
+                <h4>Top score</h4>
+                <h5>user1: 1200</h5>
+                <h6>user2: 1150</h6>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="card-panel orange lighten-2">
+
+                <h4>Best win ratio</h4>
+                <h5>user1: 60% </h5>
+                <h6>user2: 59%</h6>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="card-panel light-blue lighten-2">
+
+                <h4>Totals</h4>
+                <h5>Games: 100</h5>
+                <h6>Goals: 8000</h6>
+            </div>
+        </div>
     <div class="col s6">
-    <h3>Your last results</h3>
-        {% if latest_user is empty %}
-            <strong>Looks like you have no results yet</strong>
+        <div class="card blue-grey lighten-2">
+            <div class="card-content white-text">
+                <span class="card-title">Your last results</span>
+                {% if latest_user is empty %}
+                    <strong>Looks like you have no results yet</strong>
                 {% else %}
                     {% for result in latest_user[0:5] %}
                         {% include "FoosLeaderCoreBundle:Widgets:single_result.html.twig"  with { result: result } %}
                     {% endfor %}
                 {% endif %}
             </div>
-            <div class="col s6">
-                <h3>Latest results</h3>
+        </div>
+    </div>
+
+
+
+    <div class="col s6">
+        <div class="card grey darken-2">
+            <div class="card-content white-text">
+                <span class="card-title">Latest results</span>
+
                 {% if latest_all is empty %}
                     <strong>Looks like no one has any results yet</strong>
                 {% else %}
@@ -22,15 +55,20 @@
                     {% endfor %}
                 {% endif %}
             </div>
-            {% if availables is not empty %}
-                <div class="col s6">
-                    <h3>Unclaimed results</h3>
-                    {% for available in availables %}
-                        {% include "FoosLeaderCoreBundle:Widgets:available_match.html.twig" with { available: available } %}
-                    {% endfor %}
-                </div>
-            {% endif %}
         </div>
+    </div>
+    {% if availables is not empty %}
+        <div class="col s6">
+            <div class="card "
+            <div class="card-content white-text">
+                <span class="card-title">Unclaimed results</span>
+                {% for available in availables %}
+                    {% include "FoosLeaderCoreBundle:Widgets:available_match.html.twig" with { available: available } %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+</div>
 
 
 
