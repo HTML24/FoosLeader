@@ -26,7 +26,7 @@
             </div>
         </div>
     <div class="col s6">
-        <div class="card blue-grey lighten-2">
+        <div class="card indigo darken-3">
             <div class="card-content white-text">
                 <span class="card-title">Your last results</span>
                 {% if latest_user is empty %}
@@ -39,11 +39,8 @@
             </div>
         </div>
     </div>
-
-
-
     <div class="col s6">
-        <div class="card grey darken-2">
+        <div class="card grey darken-3">
             <div class="card-content white-text">
                 <span class="card-title">Latest results</span>
 
@@ -59,12 +56,13 @@
     </div>
     {% if availables is not empty %}
         <div class="col s6">
-            <div class="card "
-            <div class="card-content white-text">
-                <span class="card-title">Unclaimed results</span>
-                {% for available in availables %}
-                    {% include "FoosLeaderCoreBundle:Widgets:available_match.html.twig" with { available: available } %}
-                {% endfor %}
+            <div class="card green darken-4">
+                <div class="card-content white-text">
+                    <span class="card-title">Unclaimed results</span>
+                    {% for available in availables %}
+                        {% include "FoosLeaderCoreBundle:Widgets:available_match.html.twig" with { available: available } %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
     {% endif %}
