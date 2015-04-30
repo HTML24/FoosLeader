@@ -10,6 +10,7 @@ namespace TomGud\FoosLeader\CoreBundle\Service;
 
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use TomGud\FoosLeader\UserBundle\Entity\User;
 
 class StatisticsService {
@@ -46,7 +47,7 @@ class StatisticsService {
 
     /**
      * @param int $numberOfTopPlayers
-     * @return User[]
+     * @return Paginator
      */
     public function getTopPlayers($numberOfTopPlayers = 5)
     {
@@ -57,6 +58,6 @@ class StatisticsService {
             ->where('r.team1Confirmed = true AND r.team1Confirmed = true')
             ->orderBy('user.ELORanking', 'DESC')
             ->setMaxResults($numberOfTopPlayers);
-        return $userQueryBuilder->getQuery()->getResult();
+        return new Paginator($userQueryBuilder->getQuery(), $fetchJoin = true);
     }
 }

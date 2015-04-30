@@ -16,6 +16,10 @@ class DefaultController extends Controller
     	$disputed_for_user = $result_repo->getUnconfirmedResultsForUser($this->getUser());
 
         $statistics = $this->get('foos_leader.statistics');
+        $top_players = array();
+        foreach ($statistics->getTopPlayers(2) as $player) {
+            $top_players[] = $player;
+        }
 
         $available_results = $result_repo->getAvailableResults();
         $available_results_remaining = array();
@@ -40,7 +44,7 @@ class DefaultController extends Controller
                 'disputed' => $disputed_for_user,
                 'total_games' => $statistics->getTotalGames(),
                 'total_goals' => $statistics->getTotalGoals(),
-                'top_players' => $statistics->getTopPlayers(2),
+                'top_players' => $top_players,
         		'notifications' => array()
         	)
         );
