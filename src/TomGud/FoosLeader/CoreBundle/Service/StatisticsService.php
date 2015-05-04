@@ -104,12 +104,14 @@ class StatisticsService {
         $team1WinCountsQB
             ->select('r', 'COUNT(r.player1) AS p1_victories',
                 'COUNT(r.player3) AS p3_victories',
-                'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals')
+                'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
+                'COUNT(r) as totalResults')
             ->leftJoin('TomGud\FoosLeader\UserBundle\Entity\User', 'user', Join::WITH,
                 'r.player1 = user.id OR r.player2 = user.id OR r.player3 = user.id or r.player4 = user.id')
             ->where('r.team1Score > r.team2Score')
             ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
             ->andWhere('user.lastLogin > :monthAgo')
+            ->having('totalResults > 5')
             ->setParameter('monthAgo', $monthAgo)
             ->groupBy('r.player1', 'r.player3');
 
@@ -117,12 +119,14 @@ class StatisticsService {
         $team1LossCountsQB
             ->select('r', 'COUNT(r.player1) AS p1_losses',
                 'COUNT(r.player3) AS p3_losses',
-                'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals')
+                'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
+                'COUNT(r) as totalResults')
             ->leftJoin('TomGud\FoosLeader\UserBundle\Entity\User', 'user', Join::WITH,
                 'r.player1 = user.id OR r.player2 = user.id OR r.player3 = user.id or r.player4 = user.id')
             ->where('r.team1Score < r.team2Score')
             ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
             ->andWhere('user.lastLogin > :monthAgo')
+            ->having('totalResults > 5')
             ->setParameter('monthAgo', $monthAgo)
             ->groupBy('r.player1', 'r.player3');
 
@@ -130,12 +134,14 @@ class StatisticsService {
         $team2WinCountsQB
             ->select('r', 'COUNT(r.player2) AS p2_victories',
                 'COUNT(r.player4) AS p4_victories',
-                'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals')
+                'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
+                'COUNT(r) as totalResults')
             ->leftJoin('TomGud\FoosLeader\UserBundle\Entity\User', 'user', Join::WITH,
                 'r.player1 = user.id OR r.player2 = user.id OR r.player3 = user.id or r.player4 = user.id')
             ->where('r.team1Score < r.team2Score')
             ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
             ->andWhere('user.lastLogin > :monthAgo')
+            ->having('totalResults > 5')
             ->setParameter('monthAgo', $monthAgo)
             ->groupBy('r.player2', 'r.player4');
 
@@ -143,12 +149,14 @@ class StatisticsService {
         $team2LossCountsQB
             ->select('r', 'COUNT(r.player2) AS p2_losses',
                 'COUNT(r.player4) AS p4_losses',
-                'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals')
+                'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
+                'COUNT(r) as totalResults')
             ->leftJoin('TomGud\FoosLeader\UserBundle\Entity\User', 'user', Join::WITH,
                 'r.player1 = user.id OR r.player2 = user.id OR r.player3 = user.id or r.player4 = user.id')
             ->where('r.team1Score > r.team2Score')
             ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
             ->andWhere('user.lastLogin > :monthAgo')
+            ->having('totalResults > 5')
             ->setParameter('monthAgo', $monthAgo)
             ->groupBy('r.player2', 'r.player4');
 
