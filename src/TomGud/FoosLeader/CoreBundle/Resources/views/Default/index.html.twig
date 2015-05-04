@@ -13,8 +13,8 @@
             <div class="card-panel orange lighten-2">
 
                 <h4>Best win ratio</h4>
-                <h5>user1: 60% </h5>
-                <h6>user2: 59%</h6>
+                <h5>{{ top_ratios[0].player.username }}: {{ top_ratios[0].getWinRatio()*100|number_format(0) }}%</h5>
+                <h6>{{ top_ratios[1].player.username }}: {{ top_ratios[1].getWinRatio()*100|number_format(0) }}%</h6>
             </div>
         </div>
         <div class="col s4">

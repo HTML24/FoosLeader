@@ -45,6 +45,7 @@ class DefaultController extends Controller
                 'total_games' => $statistics->getTotalGames(),
                 'total_goals' => $statistics->getTotalGoals(),
                 'top_players' => $top_players,
+                'top_ratios' => $statistics->getTopWonRatios(2),
         		'notifications' => array()
         	)
         );
