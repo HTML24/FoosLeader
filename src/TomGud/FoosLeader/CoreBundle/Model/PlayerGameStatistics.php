@@ -4,6 +4,11 @@ namespace TomGud\FoosLeader\CoreBundle\Model;
 
 use TomGud\FoosLeader\UserBundle\Entity\User;
 
+/**
+ * Class PlayerGameStatistics
+ * @package TomGud\FoosLeader\CoreBundle\Model
+ * @deprecated Please use PlayerGameStatistics
+ */
 class PlayerGameStatistics
 {
 	/**
