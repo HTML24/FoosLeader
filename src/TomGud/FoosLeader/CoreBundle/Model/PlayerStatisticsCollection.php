@@ -124,6 +124,22 @@ class PlayerStatisticsCollection implements  Countable, \IteratorAggregate {
     }
 
     /**
+     * Removes all users that are not in the array $activeUsersIds from player statistics
+     *
+     * @param int[] $activeUsersIds
+     */
+    public function filter($activeUsersIds)
+    {
+        var_dump($activeUsersIds);
+        $this->playerStatistics = array_filter($this->playerStatistics, (function($value) use ($activeUsersIds) {
+            /** @var PlayerStatisticsModel $value */
+            return in_array($value->getPlayer()->getId(), $activeUsersIds);
+        }));
+        // In case we have some inactive players in the sorted array
+        $this->sortedPlayerStatistics = array();
+    }
+
+    /**
      * @param PlayerStatisticsModel $a
      * @param PlayerStatisticsModel $b
      * @return bool
