@@ -131,7 +131,6 @@ class PlayerStatisticsCollection implements  Countable, \IteratorAggregate {
      */
     public function filter($activeUsersIds)
     {
-        var_dump($activeUsersIds);
         $this->playerStatistics = array_filter($this->playerStatistics, (function($value) use ($activeUsersIds) {
             /** @var PlayerStatisticsModel $value */
             return in_array($value->getPlayer()->getId(), $activeUsersIds);
