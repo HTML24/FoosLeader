@@ -57,6 +57,7 @@ class PlayerStatisticsCollection implements  Countable, \IteratorAggregate {
     public function __construct()
     {
         $this->playerStatistics = array();
+        $this->sortedPlayerStatistics = array();
     }
 
     /**
