@@ -27,7 +27,7 @@ class ProfileController extends BaseController
         $elo_history = $elo_repo->findEloHistoryForPlayer($user);
 
         $paginator = $this->container->get('knp_paginator');
-        $pagination =$paginator->paginate($eloHistories, $this->container->get('request')->get('page', 1),  5); //
+        $pagination =$paginator->paginate($eloHistories, $this->container->get('request')->get('page', 1),  20); //
 
 
         // move and change into nice code these lines bellow
