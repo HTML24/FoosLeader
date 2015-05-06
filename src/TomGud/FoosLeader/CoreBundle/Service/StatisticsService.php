@@ -100,113 +100,162 @@ class StatisticsService {
     {
         $monthAgo = new \DateTime('now', new \DateTimeZone('UTC'));
         $monthAgo->sub(\DateInterval::createFromDateString('1 month'));
-        $team1WinCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
-        $team1WinCountsQB
-            ->select('r', 'COUNT(r.player1) AS p1_victories',
-                'COUNT(r.player3) AS p3_victories',
+
+        $usersQueryBuilder = $this->em->getRepository('FoosLeaderUserBundle:User')->createQueryBuilder('user');
+        $usersQueryBuilder
+            ->select('DISTINCT user.id')
+            ->leftJoin('TomGud\FoosLeader\CoreBundle\Entity\Result', 'result', Join::LEFT_JOIN,
+                'user.id = result.player1 OR user.id = result.player2 OR user.id = result.player3 OR user.id = result.player4')
+            ->where('result.submitted > :monthAgo')
+            ->setParameter('monthAgo', $monthAgo);
+        $activeUsers = $usersQueryBuilder->getQuery()->getResult();
+        $activeUsersIds = array();
+        foreach ($activeUsers as $activeUserArray) {
+            // We expect each result to be an array
+            $activeUsersIds[] = $activeUserArray['id'];
+        }
+
+        $player1WinCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
+        $player1WinCountsQB
+            ->select('r', 'COUNT(r.player1) AS victories',
                 'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
                 'COUNT(r) as totalResults')
-            ->leftJoin('TomGud\FoosLeader\UserBundle\Entity\User', 'user', Join::WITH,
-                'r.player1 = user.id OR r.player2 = user.id OR r.player3 = user.id or r.player4 = user.id')
             ->where('r.team1Score > r.team2Score')
             ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
-            ->andWhere('user.lastLogin > :monthAgo')
-            ->having('totalResults > 5')
-            ->setParameter('monthAgo', $monthAgo)
-            ->groupBy('r.player1', 'r.player3');
+            ->groupBy('r.player1');
 
-        $team1LossCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
-        $team1LossCountsQB
-            ->select('r', 'COUNT(r.player1) AS p1_losses',
-                'COUNT(r.player3) AS p3_losses',
+        $player1LossCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
+        $player1LossCountsQB
+            ->select('r', 'COUNT(r.player1) AS losses',
                 'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
                 'COUNT(r) as totalResults')
-            ->leftJoin('TomGud\FoosLeader\UserBundle\Entity\User', 'user', Join::WITH,
-                'r.player1 = user.id OR r.player2 = user.id OR r.player3 = user.id or r.player4 = user.id')
             ->where('r.team1Score < r.team2Score')
             ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
-            ->andWhere('user.lastLogin > :monthAgo')
-            ->having('totalResults > 5')
-            ->setParameter('monthAgo', $monthAgo)
-            ->groupBy('r.player1', 'r.player3');
+            ->groupBy('r.player1');
 
-        $team2WinCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
-        $team2WinCountsQB
-            ->select('r', 'COUNT(r.player2) AS p2_victories',
-                'COUNT(r.player4) AS p4_victories',
+        $player2WinCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
+        $player2WinCountsQB
+            ->select('r', 'COUNT(r.player2) AS victories',
                 'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
                 'COUNT(r) as totalResults')
-            ->leftJoin('TomGud\FoosLeader\UserBundle\Entity\User', 'user', Join::WITH,
-                'r.player1 = user.id OR r.player2 = user.id OR r.player3 = user.id or r.player4 = user.id')
             ->where('r.team1Score < r.team2Score')
             ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
-            ->andWhere('user.lastLogin > :monthAgo')
-            ->having('totalResults > 5')
-            ->setParameter('monthAgo', $monthAgo)
-            ->groupBy('r.player2', 'r.player4');
+            ->groupBy('r.player2');
 
-        $team2LossCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
-        $team2LossCountsQB
-            ->select('r', 'COUNT(r.player2) AS p2_losses',
-                'COUNT(r.player4) AS p4_losses',
+        $player2LossCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
+        $player2LossCountsQB
+            ->select('r', 'COUNT(r.player2) AS losses',
                 'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
                 'COUNT(r) as totalResults')
-            ->leftJoin('TomGud\FoosLeader\UserBundle\Entity\User', 'user', Join::WITH,
-                'r.player1 = user.id OR r.player2 = user.id OR r.player3 = user.id or r.player4 = user.id')
             ->where('r.team1Score > r.team2Score')
             ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
-            ->andWhere('user.lastLogin > :monthAgo')
-            ->having('totalResults > 5')
-            ->setParameter('monthAgo', $monthAgo)
-            ->groupBy('r.player2', 'r.player4');
+            ->groupBy('r.player2');
 
-        $team1WinCountsResults = $team1WinCountsQB->getQuery()->getResult();
-        $team1LossCountsResults = $team1LossCountsQB->getQuery()->getResult();
-        $team2WinCountsResults = $team2WinCountsQB->getQuery()->getResult();
-        $team2LossCountsResults = $team2LossCountsQB->getQuery()->getResult();
+        $player3WinCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
+        $player3WinCountsQB
+            ->select('r', 'COUNT(r.player3) AS victories',
+                'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
+                'COUNT(r) as totalResults')
+            ->where('r.team1Score > r.team2Score')
+            ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
+            ->andWhere('r.player3 IS NOT NULL')
+            ->groupBy('r.player3');
 
-        foreach ($team1WinCountsResults as $statisticsResult) {
+        $player3LossCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
+        $player3LossCountsQB
+            ->select('r', 'COUNT(r.player3) AS losses',
+                'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
+                'COUNT(r) as totalResults')
+            ->where('r.team1Score < r.team2Score')
+            ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
+            ->andWhere('r.player3 IS NOT NULL')
+            ->groupBy('r.player3');
+
+        $player4WinCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
+        $player4WinCountsQB
+            ->select('r', 'COUNT(r.player4) AS victories',
+                'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
+                'COUNT(r) as totalResults')
+            ->where('r.team1Score < r.team2Score')
+            ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
+            ->andWhere('r.player4 IS NOT NULL')
+            ->groupBy('r.player4');
+
+        $player4LossCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
+        $player4LossCountsQB
+            ->select('r', 'COUNT(r.player4) AS losses',
+                'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
+                'COUNT(r) as totalResults')
+            ->where('r.team1Score > r.team2Score')
+            ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
+            ->andWhere('r.player4 IS NOT NULL')
+            ->groupBy('r.player4');
+
+        $player1WinCountsResults = $player1WinCountsQB->getQuery()->getResult();
+        $player1LossCountsResults = $player1LossCountsQB->getQuery()->getResult();
+        $player2WinCountsResults = $player2WinCountsQB->getQuery()->getResult();
+        $player2LossCountsResults = $player2LossCountsQB->getQuery()->getResult();
+        $player3WinCountsResults = $player3WinCountsQB->getQuery()->getResult();
+        $player3LossCountsResults = $player3LossCountsQB->getQuery()->getResult();
+        $player4WinCountsResults = $player4WinCountsQB->getQuery()->getResult();
+        $player4LossCountsResults = $player4LossCountsQB->getQuery()->getResult();
+
+        foreach ($player1WinCountsResults as $statisticsResult) {
             /* @var Result $result */
             $result = $statisticsResult[0];
-            $this->playerStatistics->addPlayerStatistics($result->getPlayer1(), $statisticsResult['p1_victories'], 0,
+            $this->playerStatistics->addPlayerStatistics($result->getPlayer1(), $statisticsResult['victories'], 0,
                 $statisticsResult['team1_goals'], $statisticsResult['team2_goals']);
-            if ($result->getPlayer3() !== null && $result->getPlayer4() !== null) {
-                $this->playerStatistics->addPlayerStatistics($result->getPlayer3(), $statisticsResult['p3_victories'],
-                    0,$statisticsResult['team1_goals'], $statisticsResult['team2_goals']);
-            }
         }
 
-        foreach ($team2WinCountsResults as $statisticsResult) {
+        foreach ($player1LossCountsResults as $statisticsResult) {
             /* @var Result $result */
             $result = $statisticsResult[0];
-            $this->playerStatistics->addPlayerStatistics($result->getPlayer2(), $statisticsResult['p2_victories'], 0,
-                $statisticsResult['team2_goals'], $statisticsResult['team1_goals']);
-            if ($result->getPlayer4() !== null) {
-                $this->playerStatistics->addPlayerStatistics($result->getPlayer4(), $statisticsResult['p2_victories'], 0,
-                    $statisticsResult['team2_goals'], $statisticsResult['team1_goals']);
-            }
-        }
-
-        foreach ($team1LossCountsResults as $statisticsResult) {
-            /* @var Result $result */
-            $result = $statisticsResult[0];
-            $this->playerStatistics->addPlayerStatistics($result->getPlayer1(), 0, $statisticsResult['p1_losses'],
+            $this->playerStatistics->addPlayerStatistics($result->getPlayer1(), 0, $statisticsResult['losses'],
                 $statisticsResult['team1_goals'], $statisticsResult['team2_goals']);
-            if ($result->getPlayer3() !== null) {
-                $this->playerStatistics->addPlayerStatistics($result->getPlayer3(), 0, $statisticsResult['p1_losses'],
-                    $statisticsResult['team1_goals'], $statisticsResult['team2_goals']);
-            }
         }
 
-        foreach ($team2LossCountsResults as $statisticsResult) {
+        foreach ($player2WinCountsResults as $statisticsResult) {
             /* @var Result $result */
             $result = $statisticsResult[0];
-            $this->playerStatistics->addPlayerStatistics($result->getPlayer2(), 0, $statisticsResult['p2_losses'],
+            $this->playerStatistics->addPlayerStatistics($result->getPlayer2(), $statisticsResult['victories'], 0,
                 $statisticsResult['team2_goals'], $statisticsResult['team1_goals']);
-            if ($result->getPlayer4() !== null) {
-                $this->playerStatistics->addPlayerStatistics($result->getPlayer4(), 0, $statisticsResult['p2_losses'],
-                    $statisticsResult['team2_goals'], $statisticsResult['team1_goals']);
-            }
         }
+
+        foreach ($player2LossCountsResults as $statisticsResult) {
+            /* @var Result $result */
+            $result = $statisticsResult[0];
+            $this->playerStatistics->addPlayerStatistics($result->getPlayer2(), 0, $statisticsResult['losses'],
+                $statisticsResult['team2_goals'], $statisticsResult['team1_goals']);
+        }
+
+        foreach ($player3WinCountsResults as $statisticsResult) {
+            /* @var Result $result */
+            $result = $statisticsResult[0];
+            $this->playerStatistics->addPlayerStatistics($result->getPlayer3(), $statisticsResult['victories'], 0,
+                $statisticsResult['team1_goals'], $statisticsResult['team2_goals']);
+        }
+
+        foreach ($player3LossCountsResults as $statisticsResult) {
+            /* @var Result $result */
+            $result = $statisticsResult[0];
+            $this->playerStatistics->addPlayerStatistics($result->getPlayer3(), 0, $statisticsResult['losses'],
+                $statisticsResult['team1_goals'], $statisticsResult['team2_goals']);
+        }
+
+        foreach ($player4WinCountsResults as $statisticsResult) {
+            /* @var Result $result */
+            $result = $statisticsResult[0];
+            $this->playerStatistics->addPlayerStatistics($result->getPlayer4(), $statisticsResult['victories'], 0,
+                $statisticsResult['team2_goals'], $statisticsResult['team1_goals']);
+        }
+
+        foreach ($player4LossCountsResults as $statisticsResult) {
+            /* @var Result $result */
+            $result = $statisticsResult[0];
+            $this->playerStatistics->addPlayerStatistics($result->getPlayer4(), 0, $statisticsResult['losses'],
+                $statisticsResult['team2_goals'], $statisticsResult['team1_goals']);
+        }
+
+        $this->playerStatistics->filter($activeUsersIds);
     }
 }
