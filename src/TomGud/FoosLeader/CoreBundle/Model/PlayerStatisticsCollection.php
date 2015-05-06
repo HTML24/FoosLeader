@@ -188,10 +188,10 @@ class PlayerStatisticsCollection implements  Countable, \IteratorAggregate {
     private function sortPlayersByWinRatio($a, $b)
     {
         if ($a instanceof PlayerStatisticsModel && $b instanceof PlayerStatisticsModel) {
-            if ($a->getGoalRatio() === $b->getGoalRatio()) {
+            if ($a->getWinRatio() === $b->getWinRatio()) {
                 return 0;
             }
-            return ($a->getGoalRatio() > $b->getGoalRatio()) ? -1 : 1;
+            return ($a->getWinRatio() > $b->getWinRatio()) ? -1 : 1;
         }
         return false;
     }
@@ -204,10 +204,10 @@ class PlayerStatisticsCollection implements  Countable, \IteratorAggregate {
     private function sortPlayersByGoalRatio($a, $b)
     {
         if ($a instanceof PlayerStatisticsModel && $b instanceof PlayerStatisticsModel) {
-            if ($a->getWinRatio() === $b->getWinRatio()) {
+            if ($a->getGoalRatio() === $b->getGoalRatio()) {
                 return 0;
             }
-            return ($a->getWinRatio() > $b->getWinRatio()) ? -1 : 1;
+            return ($a->getGoalRatio() > $b->getGoalRatio()) ? -1 : 1;
         }
         return false;
     }
