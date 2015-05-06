@@ -54,6 +54,11 @@ class PlayerStatisticsCollection implements  Countable, \IteratorAggregate {
      */
     const SORT_AVERAGE_CONCEDED = 5;
 
+    /**
+     * Minimum amount of games needed to be included in the sorted statistics
+     */
+    const MINIMUM_GAMES_INCLUDED = 5;
+
     public function __construct()
     {
         $this->playerStatistics = array();
@@ -122,6 +127,10 @@ class PlayerStatisticsCollection implements  Countable, \IteratorAggregate {
             default:
                 throw new \InvalidArgumentException("Only sort constants from PlayerStatisticsCollection are valid.");
         }
+        $this->sortedPlayerStatistics = array_filter($this->sortedPlayerStatistics, function($statistic) {
+            /** @var PlayerStatisticsModel $statistic */
+            return $statistic->getTotalGames() > self::MINIMUM_GAMES_INCLUDED;
+        });
     }
 
     /**
