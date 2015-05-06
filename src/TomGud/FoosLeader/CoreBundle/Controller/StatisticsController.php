@@ -19,20 +19,19 @@ class StatisticsController  extends Controller {
         $elo_repo = $this->getDoctrine()->getManager()->getRepository('FoosLeaderCoreBundle:ELOHistory');
         $players_repo = $this->getDoctrine()->getManager()->getRepository('FoosLeaderUserBundle:User');
         $result_repo = $this->getDoctrine()->getManager()->getRepository('FoosLeaderCoreBundle:Result');
-
+        $statistics = $this->get('foos_leader.statistics');
         $leaderboardService = $this->get('foos_leader.leader_board');
 
         $elo_history_all_dates = $leaderboardService->getEloDates($elo_repo->findEloHistoryForAll());
         $elo_history_all_players = $leaderboardService->getELODataPoints($elo_repo->findEloHistoryForAll());
 
-        $all_players = $players_repo->getActiveUsers();
+        $maxNumberOfPlayers = 15;
+        $games_won_ratio = $statistics->getTopWonRatios($maxNumberOfPlayers);
+        $games_elo = $statistics->getTopPlayers($maxNumberOfPlayers);
+        $games_score_ratio = $statistics->getTopScoreRatios($maxNumberOfPlayers);
+        $games_avg_scored = $statistics->getTopAverageScored($maxNumberOfPlayers);
+        $games_avg_conceded = $statistics->getTopAverageConceded($maxNumberOfPlayers);
 
-
-        $games_won_ratio = $leaderboardService->getGamesForAll($all_players,$result_repo, "ratio");
-        $games_elo = $leaderboardService->getGamesForAll($all_players,$result_repo, "elo");
-        $games_score_ratio = $leaderboardService->getGamesForAll($all_players,$result_repo, "scoreRatio");
-        $games_avg_scored = $leaderboardService->getGamesForAll($all_players,$result_repo, "avgScored");
-        $games_avg_conceded = $leaderboardService->getGamesForAll($all_players,$result_repo, "avgConceded", "asc");
 
 
         return $this->render('FoosLeaderCoreBundle:Statistics:global.html.twig',

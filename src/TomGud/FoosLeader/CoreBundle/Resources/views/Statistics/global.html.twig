@@ -23,12 +23,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col s12">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">Elo</h3>
                 </div>
-                <table class="table table-hover table-striped">
+                <table class="table hoverable striped">
                     <thead>
                     <tr>
                         <td>Rank</td>
@@ -37,7 +37,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for key,player in games_elo %}
+                    {% for player in games_elo %}
                         <tr>
                             {% if loop.index == 1 %}
                                 <td class="firstPlace"><span></span>{{ loop.index }}</td>
@@ -49,29 +49,28 @@
                                 <td>{{ loop.index }}</td>
                             {% endif %}
                             <td>
-                                {% if app.user.id == player.userId %}
-                                    <strong>{{ player.name }}</strong>
+                                {% if app.user.id == player.id %}
+                                    <strong>{{ player.username }}</strong>
                                 {% else %} 
-                                    <a href={{ path('view_user_profile', { 'userId' : player.userId }) }}>{{ player.name }}</a>
+                                    <a href={{ path('view_user_profile', { 'userId' : player.id }) }}>
+                                        {{ player.username }}
+                                    </a>
                                 {% endif %}
                             </td>
-                            <td>{{ player.elo }}</td>
+                            <td>{{ player.ELORanking }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
 
-
-    <div class="row">
-        <div class="col-xs-6">
+        <div class="col s6">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">Win %</h3>
                 </div>
-                <table class="table table-hover table-striped">
+                <table class="table hoverable striped">
                     <thead>
                     <tr>
                         <td>Rank</td>
@@ -80,7 +79,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for key,player in games_won_ratio %}
+                    {% for statistic in games_won_ratio %}
                         <tr>
                             {% if loop.index == 1 %}
                                 <td class="firstPlace"><span></span>{{ loop.index }}</td>
@@ -92,13 +91,15 @@
                                 <td>{{ loop.index }}</td>
                             {% endif %}
                             <td>
-                                {% if app.user.id == player.userId %}
-                                    <strong>{{ player.name }}</strong>
+                                {% if app.user.id == statistic.player.getId() %}
+                                    <strong>{{ statistic.player.username }}</strong>
                                 {% else %} 
-                                    <a href={{ path('view_user_profile', { 'userId' : player.userId }) }}>{{ player.name }}</a>
+                                    <a href={{ path('view_user_profile', { 'userId' : statistic.player.id }) }}>
+                                        {{ statistic.getPlayer().username }}
+                                    </a>
                                 {% endif %}
                             </td>
-                            <td>{{ player.ratio|number_format(2, '.', ',') }}</td>
+                            <td>{{ (statistic.getWinRatio() * 100)|round }}%</td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -106,12 +107,12 @@
             </div>
         </div>
 
-        <div class="col-xs-6">
+        <div class="col s6">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">Score ratio</h3>
                 </div>
-                <table class="table table-hover table-striped">
+                <table class="table hoverable striped">
                     <thead>
                     <tr>
                         <td>Rank</td>
@@ -120,7 +121,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for key,player in games_score_ratio %}
+                    {% for statistic in games_score_ratio %}
                         <tr>
                             {% if loop.index == 1 %}
                                 <td class="firstPlace"><span></span>{{ loop.index }}</td>
@@ -132,28 +133,28 @@
                                 <td>{{ loop.index }}</td>
                             {% endif %}
                             <td>
-                                {% if app.user.id == player.userId %}
-                                    <strong>{{ player.name }}</strong>
+                                {% if app.user.id == statistic.player.id %}
+                                    <strong>{{ statistic.player.username }}</strong>
                                 {% else %} 
-                                    <a href={{ path('view_user_profile', { 'userId' : player.userId }) }}>{{ player.name }}</a>
+                                    <a href={{ path('view_user_profile', { 'userId' : statistic.player.id }) }}>
+                                        {{ statistic.player.username }}
+                                    </a>
                                 {% endif %}
                             </td>
-                            <td>{{ player.scoreRatio|number_format(2, '.', ',') }}</td>
+                            <td>{{ statistic.getGoalRatio()|number_format(2, '.', ',') }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-xs-6">
+        <div class="col s6">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">Avg. scored</h3>
                 </div>
-                <table class="table table-hover table-striped">
+                <table class="table hoverable striped">
                     <thead>
                     <tr>
                         <td>Rank</td>
@@ -162,7 +163,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for key,player in games_avg_scored %}
+                    {% for statistic in games_avg_scored %}
                         <tr>
                             {% if loop.index == 1 %}
                                 <td class="firstPlace"><span></span>{{ loop.index }}</td>
@@ -174,13 +175,14 @@
                                 <td>{{ loop.index }}</td>
                             {% endif %}
                             <td>
-                                {% if app.user.id == player.userId %}
-                                    <strong>{{ player.name }}</strong>
+                                {% if app.user.id == statistic.player.id %}
+                                    <strong>{{ statistic.player.username }}</strong>
                                 {% else %} 
-                                    <a href={{ path('view_user_profile', { 'userId' : player.userId }) }}>{{ player.name }}</a>
+                                    <a href={{ path('view_user_profile', { 'userId' : statistic.player.id}) }}>
+                                        {{ statistic.player.username }}</a>
                                 {% endif %}
                             </td>
-                            <td>{{ player.avgScored|number_format(2, '.', ',') }}</td>
+                            <td>{{ statistic.getAverageGoalsScored()|number_format(2, '.', ',') }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -188,12 +190,12 @@
             </div>
         </div>
 
-        <div class="col-xs-6">
+        <div class="col s6">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">Avg. conceded</h3>
                 </div>
-                <table class="table table-hover table-striped">
+                <table class="table hoverable striped">
                     <thead>
                     <tr>
                         <td>Rank</td>
@@ -202,7 +204,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for key,player in games_avg_conceded %}
+                    {% for statistic in games_avg_conceded %}
                         <tr>
                             {% if loop.index == 1 %}
                                 <td class="firstPlace"><span></span>{{ loop.index }}</td>
@@ -214,13 +216,15 @@
                                 <td>{{ loop.index }}</td>
                             {% endif %}
                             <td>
-                                {% if app.user.id == player.userId %}
-                                    <strong>{{ player.name }}</strong>
+                                {% if app.user.id == statistic.player.id %}
+                                    <strong>{{ statistic.player.username }}</strong>
                                 {% else %} 
-                                    <a href={{ path('view_user_profile', { 'userId' : player.userId }) }}>{{ player.name }}</a>
+                                    <a href={{ path('view_user_profile', { 'userId' : statistic.player.id }) }}>
+                                        {{ statistic.player.username }}
+                                    </a>
                                 {% endif %}
                             </td>
-                            <td>{{ player.avgConceded|number_format(2, '.', ',') }}</td>
+                            <td>{{ statistic.averageGoalsConceded()|number_format(2, '.', ',') }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
