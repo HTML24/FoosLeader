@@ -7,121 +7,116 @@
 {% else %}
    <h1>{{ result.player1.username }} vs {{ result.player2.username }}</h1>
 {% endif %}
-<div class="container">
-	<div class="row">
 
-		{% for flashMessage in app.session.flashbag.get('warning') %}
-		<div class="row">
-		    <div class="alert alert-warning">
-		        <strong class="text-warning">{{ flashMessage|raw }}</strong>
-		    </div>
-		</div>
-		{% endfor %}
-		<div class="col-xs-12 description">
-			{{ game_description }}
-		</div>
-		{% if result.team1score > result.team2score %}
-			{% set team1class = 'text-success' %}
-			{% set team2class = 'text-danger' %}
-		{% else %}
-			{% set team1class = 'text-danger' %}
-			{% set team2class = 'text-success' %}
-		{% endif %}
-	</div>
-	<div class="row">
-		<div class="col-xs-4 col-xs-offset-1 text-center">
-			<h3>White team</h3>
-            <h4>
-            {% if result.player1.id == app.user.id %} 
-                {{- result.player1 -}}
-            {% else %}
-                <a href={{ path('view_user_profile', { 'userId' : result.player1.id }) }}>{{ result.player1 }}</a>
-            {% endif %}
-            </h4>
-			{% if result.player3 != null %}
-                <h4>
-                {% if result.player3.id == app.user.id %} 
-                    {{- result.player3 -}}
-                {% else %}
-                    <a href={{ path('view_user_profile', { 'userId' : result.player3.id }) }}>{{ result.player3 }}</a>
-                {% endif %}
-                </h4>
-			{% endif %}
-		</div>
-		<div class="col-xs-4 col-xs-offset-1 text-center">
-			<h3>Red team</h3>
-			<h4>
-            {% if result.player2.id == app.user.id %} 
-                {{- result.player2 -}}
-            {% else %}
-                <a href={{ path('view_user_profile', { 'userId' : result.player2.id }) }}>{{ result.player2 }}</a>
-            {% endif %}
-            </h4>
-			{% if result.player4 != null %}
-                <h4>
-                {% if result.player4.id == app.user.id %} 
-                    {{- result.player4 -}}
-                {% else %}
-                    <a href={{ path('view_user_profile', { 'userId' : result.player4.id }) }}>{{ result.player4 }}</a>
-                {% endif %}
-                </h4>
-			{% endif %}
-		</div>
-		<div class="clearfix"></div>
-		<div class="col-xs-4 col-xs-offset-1 text-center">
-			<span class="score {{ team1class }}">{{ result.team1score }}</span>
-		</div>
-		<div class="col-xs-1 text-center">
-			<span class="score-divider">:</span>
-		</div>
-		<div class="col-xs-4 text-center">
-			<span class="score {{ team2class }}">{{ result.team2score }}</span>
-		</div>
-	</div>
+<div class="row">
+
+    {% for flashMessage in app.session.flashbag.get('warning') %}
     <div class="row">
-        {% if not result.confirmed %}
-            {% if userParticipated and not userConfirmed %}
-                <div class="alert alert-warning">
-                    <strong>
-                        This match has not been confirmed yet. You can confirm the result by clicking this button.
-                    </strong>
-                    <div class="single-result-action">
-                        <button type="button" class="confirm-single-result btn btn-success" id="confirm-{{ result.id }}"
-                                data-action="reload" data-result-id="{{  result.id }}">Confirm</button>
-                    </div>
-                </div>
-            {% else %}
-                <div class="alert alert-warning">
-                    <strong>This match has not been confirmed yet.</strong>
-                </div>
-            {% endif %}
-            {% if userParticipated and canBeDeleted %}
-                <div class="alert alert-danger">
-                    <strong>
-                        To delete this match press the delete button. This can not be undone. This will recalculate all
-                        ELO scores that happen after this match.
-                    </strong>
-                    <div class="single-result-action">
-                        <a class="delete-single-result btn btn-danger" id="delete-{{ result.id }}" href="{{ path('delete_result', { id: result.id }) }}"
-                                >Delete</a>
-                    </div>
-                </div>
-            {% endif %}
+        <div class="alert alert-warning">
+            <strong class="text-warning">{{ flashMessage|raw }}</strong>
+        </div>
+    </div>
+    {% endfor %}
+    <div class="col s12 description">
+        {{ game_description }}
+    </div>
+</div>
+<div class="row">
+    <div class="col s4 offset-s1 center-align">
+        <h3>White team</h3>
+        <h4>
+        {% if result.player1.id == app.user.id %}
+            {{- result.player1 -}}
+        {% else %}
+            <a href={{ path('view_user_profile', { 'userId' : result.player1.id }) }}>{{ result.player1 }}</a>
         {% endif %}
-        {% if userParticipated and userConfirmed %}
+        </h4>
+        {% if result.player3 != null %}
+            <h4>
+            {% if result.player3.id == app.user.id %}
+                {{- result.player3 -}}
+            {% else %}
+                <a href={{ path('view_user_profile', { 'userId' : result.player3.id }) }}>{{ result.player3 }}</a>
+            {% endif %}
+            </h4>
+        {% endif %}
+    </div>
+    <div class="col s4 col offset-s1 center-align">
+        <h3>Red team</h3>
+        <h4>
+        {% if result.player2.id == app.user.id %}
+            {{- result.player2 -}}
+        {% else %}
+            <a href={{ path('view_user_profile', { 'userId' : result.player2.id }) }}>{{ result.player2 }}</a>
+        {% endif %}
+        </h4>
+        {% if result.player4 != null %}
+            <h4>
+            {% if result.player4.id == app.user.id %}
+                {{- result.player4 -}}
+            {% else %}
+                <a href={{ path('view_user_profile', { 'userId' : result.player4.id }) }}>{{ result.player4 }}</a>
+            {% endif %}
+            </h4>
+        {% endif %}
+    </div>
+    <div class="clearfix"></div>
+    <div class="col s4 offset-s1 center-align card-panel
+        {%- if result.team1Score > result.team2Score %} green accent-4{%- else %} red accent-4{%- endif -%}">
+        <span class="score">{{ result.team1score }}</span>
+    </div>
+    <div class="col s1 center-align">
+        <span class="score-divider">:</span>
+    </div>
+    <div class="col s4 center-align card-panel
+        {%- if result.team2Score > result.team1Score %} green accent-4{%- else %} red accent-4{%- endif -%}">
+        <span class="score">{{ result.team2score }}</span>
+    </div>
+</div>
+<div class="row">
+    {% if not result.confirmed %}
+        {% if userParticipated and not userConfirmed %}
             <div class="alert alert-warning">
                 <strong>
-                    If you believe this match did not happen, you can dispute the result here. Remind your opponent to
-                    confirm the dispute.
+                    This match has not been confirmed yet. You can confirm the result by clicking this button.
                 </strong>
                 <div class="single-result-action">
-                    <button type="button" class="invalidate-single-result btn btn-warning" id="invalidate-{{ result.id }}"
-                            data-action="reload" data-result-id="{{ result.id }}">
-                        Dispute.
-                    </button>
+                    <button type="button" class="confirm-single-result btn btn-success" id="confirm-{{ result.id }}"
+                            data-action="reload" data-result-id="{{  result.id }}">Confirm</button>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                <strong>This match has not been confirmed yet.</strong>
+            </div>
+        {% endif %}
+        {% if userParticipated and canBeDeleted %}
+            <div class="alert alert-danger">
+                <strong>
+                    To delete this match press the delete button. This can not be undone. This will recalculate all
+                    ELO scores that happen after this match.
+                </strong>
+                <div class="single-result-action">
+                    <a class="delete-single-result btn btn-danger top-buffer" id="delete-{{ result.id }}" href="{{ path('delete_result', { id: result.id }) }}"
+                            >Delete</a>
                 </div>
             </div>
         {% endif %}
-    </div>
+    {% endif %}
+    {% if userParticipated and userConfirmed %}
+        <div class="alert alert-warning">
+            <strong>
+                If you believe this match did not happen, you can dispute the result here. Remind your opponent to
+                confirm the dispute.
+            </strong>
+            <div class="single-result-action">
+                <button type="button" class="invalidate-single-result btn btn-warning top-buffer" id="invalidate-{{ result.id }}"
+                        data-action="reload" data-result-id="{{ result.id }}">
+                    Dispute.
+                </button>
+            </div>
+        </div>
+    {% endif %}
 </div>
+
 {% endblock %}
