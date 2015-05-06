@@ -90,6 +90,57 @@ class StatisticsService {
     }
 
     /**
+     * @param $numberOfTopPlayers
+     * @return PlayerStatisticsModel[]
+     */
+    public function getTopScoreRatios($numberOfTopPlayers)
+    {
+        $this->playerStatistics->sortPlayers(PlayerStatisticsCollection::SORT_GOAL_RATIO);
+        $topPlayers = array();
+        foreach ($this->playerStatistics as $statistic) {
+            $topPlayers[] = $statistic;
+            if (count($topPlayers) >= $numberOfTopPlayers) {
+                break;
+            }
+        }
+        return $topPlayers;
+    }
+
+    /**
+     * @param $numberOfTopPlayers
+     * @return PlayerStatisticsModel[]
+     */
+    public function getTopAverageScored($numberOfTopPlayers)
+    {
+        $this->playerStatistics->sortPlayers(PlayerStatisticsCollection::SORT_AVERAGE_SCORE);
+        $topPlayers = array();
+        foreach ($this->playerStatistics as $statistic) {
+            $topPlayers[] = $statistic;
+            if (count($topPlayers) >= $numberOfTopPlayers) {
+                break;
+            }
+        }
+        return $topPlayers;
+    }
+
+    /**
+     * @param $numberOfTopPlayers
+     * @return PlayerStatisticsModel[]
+     */
+    public function getTopAverageConceded($numberOfTopPlayers)
+    {
+        $this->playerStatistics->sortPlayers(PlayerStatisticsCollection::SORT_AVERAGE_CONCEDED);
+        $topPlayers = array();
+        foreach ($this->playerStatistics as $statistic) {
+            $topPlayers[] = $statistic;
+            if (count($topPlayers) >= $numberOfTopPlayers) {
+                break;
+            }
+        }
+        return $topPlayers;
+    }
+
+    /**
      * Fetching all statistics necessary for players in most optimal way I know how. Doing this once only takes up
      * four queries. Due to the way the result table is built up, we need to do in uch a backwards way. If you
      * dear reader know of a better way, please contribute.
