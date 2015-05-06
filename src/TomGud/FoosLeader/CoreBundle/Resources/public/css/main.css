@@ -142,3 +142,7 @@
   }
 }
 
+ul.pagination > li:first-child {
+    width:70px;
+}
+
