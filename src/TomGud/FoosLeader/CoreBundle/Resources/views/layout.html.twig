@@ -50,7 +50,7 @@
                 {%  block navigation %}
                 <div class="collection">
                     {% block navigation_items %}
-                        <a href="{{ path('fos_user_profile_show', { 'id' : app.user.id}) }}" class="collection-item">
+                        <a href="{{ path('fos_user_profile_show') }}" class="collection-item">
                             {{ app.user.username }} <span class="badge blue darken-4 white-text">{{ app.user.getELORanking() }}</span>
                         </a>
                         <a href="{{ path('new_result') }}" class="collection-item">New result</a>
