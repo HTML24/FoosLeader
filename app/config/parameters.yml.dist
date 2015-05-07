@@ -16,3 +16,6 @@ parameters:
 
     api_key: tomasAPI
     leaderboard_endpoint: "http://infoscreen.html24-dev.dk/api/foosball/leaderboard"
+
+    ruby.bin:          "/usr/bin/ruby"
+    compass.bin:       "/usr/bin/compass"
