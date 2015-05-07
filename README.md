@@ -49,7 +49,7 @@ Please see [the installation](INSTALLATION.md)
 
 ![Your Profile Chart](/../screenshots/screenshots/YourProfileChart.png?raw=true "Chart displaying your changes")
 
-![Your Profile Statistics](/../screenshots/screenshots/YourProfileStatistics.png?raw=true "Few profile statistics")
+![Your Profile Statistics](/../screenshots/screenshots/YourProfileStats.png?raw=true "Few profile statistics")
 
 ### Fine print
 
