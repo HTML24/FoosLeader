@@ -14,8 +14,8 @@ parameters:
     locale:            en
     secret:            tnNln3kNSeDJf44fkZExoWfDcKL2hXcK
 
-    api_key: tomasAPI
-    leaderboard_endpoint: "http://infoscreen.html24-dev.dk/api/foosball/leaderboard"
+    api_key: null
+    leaderboard_endpoint: null
 
     ruby.bin:          "/usr/bin/ruby"
     compass.bin:       "/usr/bin/compass"
