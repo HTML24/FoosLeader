@@ -87,7 +87,7 @@ class UserController extends Controller {
         $rivalLatestHistory->setOldELO($rival->getELORanking());
         $possibleOutcome = $eloCalculatorService->possibleOutcomes($userLatestHistory, $rivalLatestHistory);
         $paginator = $this->container->get('knp_paginator');
-        $pagination =$paginator->paginate($duelResults, $this->container->get('request')->get('page', 1),  5); //
+        $pagination =$paginator->paginate($duelResults, $this->container->get('request')->get('page', 1),  10); //
 
         return $this->render('FoosLeaderCoreBundle:User:rivalry.html.twig',
             array(
