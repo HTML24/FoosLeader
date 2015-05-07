@@ -33,12 +33,23 @@ slipped in there.
 
 # Installation
 
-Please see INSTALLATION
+Please see [the installation](INSTALLATION.md)
 
 # Screenshots
 
-Screenshots will be coming later. When we figure out how to add screenshots to README files on GitHub (aka when we 
-have time).
+![Login](/../screenshots/screenshots/Login.png?raw=true "Login screen")
+
+![New Result](/../screenshots/screenshots/NewResult.png?raw=true "This is how it looks when you add a new result")
+
+![Rivalry](/../screenshots/screenshots/Rivalry.png?raw=true "Small portion of the rivalry overview")
+
+![Statistics Chart](/../screenshots/screenshots/StatisticsChart.png?raw=true "Chart displaying the history of rank changes")
+
+![Statistics](/../screenshots/screenshots/Statistics.png?raw=true "Few statistics")
+
+![Your Profile Chart](/../screenshots/screenshots/YourProfileChart.png?raw=true "Chart displaying your changes")
+
+![Your Profile Statistics](/../screenshots/screenshots/YourProfileStatistics.png?raw=true "Few profile statistics")
 
 ### Fine print
 

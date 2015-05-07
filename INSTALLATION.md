@@ -92,10 +92,11 @@ us what we missed.
 
 Here are some links to get you on your way if you get stuck.
 
-[Symfony](http://symfony.com/doc/current/index.html)
-[Composer](https://getcomposer.org/)
-[Compass](http://compass-style.org/)
-[Materialize.css](http://materializecss.com)
-[Capistrano](http://capistranorb.com/)
-[Capifony](http://capifony.org/)
-[Google](https://www.google.com)
+* [Symfony](http://symfony.com/doc/current/index.html)
+* [Composer](https://getcomposer.org/)
+* [Compass](http://compass-style.org/)
+* [Materialize.css](http://materializecss.com)
+* [Capistrano](http://capistranorb.com/)
+* [Capifony](http://capifony.org/)
+* [Google](https://www.google.com)
+
