@@ -1,3 +1,7 @@
+# Preface
+
+We would like to make a "for dummies" installation guide. However we're pretty busy, so it's hard for us to find the time to really go into detail. Feel free to ask questions about everything here in the guide. Suggestions for changes and additions are also really welcome :-)
+
 # Installation
 
 This application is a built on Symfony. As such it uses several external bundles to accomplish the overall functionality
@@ -71,14 +75,17 @@ You will then be presented with the URL to locate your FoosLeader instance.
 
 # Help! It doesn't work.
 
-Please! Do not create issues for about that you can't get this application to run. This is a hobby project and we can't
-really handhold people to help them install this. Write [us a line](mailto:info@html24.dk) if you are so inclined and
-perhaps you will get lucky and we can help you.
+This is a hobby project and we can't really help everyone install this, since we're always booked with all kinds of other projects. We're however really fond of the system ourselves, so we'll do our best to help anyone who has questions. 
+
+Write [us a line](mailto:info@html24.dk) if you need help. We can't promise anything, since this is just a hobby-project, but we will do our best to help. 
+
+# I'm willing to pay for this
+
+Awesome. Shoot us an e-mail and we'll setup everything for you. Usually it's around a couple of hours of work, which we'll happily charge you for. Please understand that we are a digital agency so we have a lot of clients we have to work for. This means we don't really have much time to make custom installations and help people if it's just for free. That's actually the primary reason we've simply open sourced this so everyone can use it without having to pay a dime (or a danish krone) :-)
 
 ## I hate/am afraid of the terminal
 
-Ok fair enough. We can understand that, but we are big fans of it. So if you are nut sure how to run a command even
-then I am sure you can find some nice manuals out there. You can start 
+Ok fair enough. We can understand that, but we are big fans of it. So if you are nut sure how to run a command even then I am sure you can find some nice manuals out there. You can start 
 [here](http://symfony.com/doc/current/book/installation.html) or [even here](https://www.google.com)
 
 ## I know how to use the terminal
