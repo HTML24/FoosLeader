@@ -11,10 +11,13 @@
         </div>
         <div class="col s4">
             <div class="card-panel orange lighten-2">
-
-                <h4>Best win ratio</h4>
-                <h5>{{ top_ratios[0].player.username }}: {{ (top_ratios[0].getWinRatio()*100)|round(0) }}%</h5>
-                <h6>{{ top_ratios[1].player.username }}: {{ (top_ratios[1].getWinRatio()*100)|round(0) }}%</h6>
+                {% if top_ratios|length == 2 %}
+                    <h4>Best win ratio</h4>
+                    <h5>{{ top_ratios[0].player.username }}: {{ (top_ratios[0].getWinRatio()*100)|round(0) }}%</h5>
+                    <h6>{{ top_ratios[1].player.username }}: {{ (top_ratios[1].getWinRatio()*100)|round(0) }}%</h6>
+                {% else %}
+                    <h4>No win ratios recorded</h4>
+                {% endif %}
             </div>
         </div>
         <div class="col s4">
