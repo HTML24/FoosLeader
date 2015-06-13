@@ -8,8 +8,9 @@
     %}
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet"/>
     {% endstylesheets %}
-    {% stylesheets filter=""
-        '@FoosLeaderCoreBundle/Resources/public/css/main.css'
+    {% stylesheets filter="cssrewrite"
+        'bundles/foosleadercore/css/main.css'
+        'bundles/foosleadercore/css/selectize.css'
     %}
 
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet"/>
