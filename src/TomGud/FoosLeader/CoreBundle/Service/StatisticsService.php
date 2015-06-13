@@ -62,12 +62,17 @@ class StatisticsService {
      */
     public function getTopPlayers($numberOfTopPlayers = 5)
     {
+        $monthAgo = new \DateTime('now', new \DateTimeZone('UTC'));
+        $monthAgo->sub(\DateInterval::createFromDateString('1 month'));
+
         $userQueryBuilder = $this->em->getRepository('FoosLeaderUserBundle:User')->createQueryBuilder('user');
         $userQueryBuilder
             ->leftJoin('TomGud\FoosLeader\CoreBundle\Entity\Result', 'r', \Doctrine\ORM\Query\Expr\Join::WITH,
                 'r.player1 = user.id OR r.player2 = user.id OR r.player3 = user.id OR r.player4 = user.id')
             ->where('r.team1Confirmed = true AND r.team1Confirmed = true')
+            ->andWhere('r.submitted > :monthAgo')
             ->orderBy('user.ELORanking', 'DESC')
+            ->setParameter('monthAgo', $monthAgo)
             ->setMaxResults($numberOfTopPlayers);
         return new Paginator($userQueryBuilder->getQuery(), $fetchJoin = true);
     }
