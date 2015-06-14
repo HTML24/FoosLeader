@@ -9,8 +9,8 @@
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet"/>
     {% endstylesheets %}
     {% stylesheets filter="cssrewrite"
+        'bundles/foosleadercore/css/selectize.bootstrap3.css'
         'bundles/foosleadercore/css/main.css'
-        'bundles/foosleadercore/css/selectize.css'
     %}
 
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet"/>
@@ -18,8 +18,11 @@
     {% javascripts filter=""
         'bundles/foosleadercore/js/jquery-2.1.0.min.js'
         'bundles/foosleadercore/js/highcharts.js'
-        'bundles/foosleadercore/js/*'
+        'bundles/foosleadercore/js/animation.js'
+        'bundles/foosleadercore/js/selectize.min.js'
+        'bundles/foosleadercore/js/global.js'
         'bundles/foosleadercore/js/bin/materialize.min.js'
+        'bundles/foosleadercore/js/result.js'
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>

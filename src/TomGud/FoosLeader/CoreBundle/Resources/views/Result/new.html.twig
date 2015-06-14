@@ -23,10 +23,10 @@
 	<form action="{{ path("create_result") }}" method="post" class="form-horizontal" role="form">
 		<div class="row">
 			<div class="col s6">
-				<h1>White team</h1>
+				<h3>White team</h3>
 			</div>
 			<div class="col s6">
-				<h1>Red team</h1>
+				<h3>Red team</h3>
 			</div>
 		</div>
 		<br />
@@ -36,7 +36,7 @@
 			      <label for="player_1">
 			      	  Player 1
 			      </label>
-			      <select id="player_1" name="player_1" class="form-control col s6 input-lg player-choice">
+			      <select id="player_1" name="player_1" class="col s10 player-choice right">
 			      	{% for user in users %}
 			      		<option {% if app.user.id == user.id %}selected="selected"{% endif %} value="{{ user.id }}">{{ user.username }}</option>
 			      	{% endfor %}
@@ -48,7 +48,7 @@
 				     <label for="player_2">
 				      	  Player 2
 				      </label>
-				      <select id="player_2" name="player_2" class="form-control col s6 input-lg player-choice">
+				      <select id="player_2" name="player_2" class="col s10 player-choice right">
 				      	{% for user in users %}
 				      		<option {% if app.user.id != user.id %}selected="selected"{% endif %} value="{{ user.id }}">{{ user.username }}</option>
 				      	{% endfor %}
@@ -64,7 +64,7 @@
 				      <label for="player_3">
 				      	  Player 3
 				      </label>
-				      <select id="player_3" name="player_3" class="form-control col s6 input-lg player-choice">
+				      <select id="player_3" name="player_3" class="col s10 player-choice right">
 				      	<option value="none-3">None</option>
 				      	{% for user in users %}
 				      		<option value="{{ user.id }}">{{ user.username }}</option>
@@ -78,7 +78,7 @@
 				    <label for="player_4">
 				      	  Player 4
 				      </label>
-				      <select id="player_4" name="player_4" class="form-control col s6 input-lg player-choice">
+				      <select id="player_4" name="player_4" class="col s10 player-choice right">
 					    <option value="none-4">None</option>
 				      	{% for user in users %}
 				      		<option value="{{ user.id }}">{{ user.username }}</option>
@@ -93,7 +93,7 @@
 			<div class="col s6">
 				<div class="input-group">
 					<label for="score_team_1">
-						Score
+						Team 1:
 					</label>
 					<input class="form-control input-lg" type="text" placeholder="Score" id="score_team_1" name="score_1">
 				</div>
@@ -101,7 +101,7 @@
 			<div class="col s6">
 			 	<div class="input-group">
 					<label for="score_team_2">
-						Score
+						Team: 2
 					</label>
 					<input class="form-control input-lg" type="text" placeholder="Score" id="score_team_2" name="score_2">
 				</div>
@@ -109,8 +109,8 @@
 		</div>
 		<br />
 		<div class="row">
-			<div class="col 12 center">
-				<button id="create_result" type="submit" class="btn btn-success btn-lg btn-block">Add result</button>
+			<div class="col 12">
+				<button id="create_result" type="submit" class="btn btn-success btn-lg btn-block right">Add result</button>
 			</div>
 		</div>
 	</form>
