@@ -157,7 +157,7 @@
                 </thead>
                 <tbody>
                 {% for result in pagination %}
-                    <tr>
+                    <tr data-result-id="{{ result.id }}" class="js-result-link pointer">
                         <td>
                             {% if result.player1.id == rival.id %} 
                                 <em>{{ result.player1.username }}</em>

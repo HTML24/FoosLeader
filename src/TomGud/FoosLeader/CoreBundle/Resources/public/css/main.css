@@ -149,3 +149,7 @@ ul.pagination > li:first-child {
 .selectize-input > input[type="text"] {
     height:auto !important;
 }
+
+.pointer {
+    cursor: pointer;
+}

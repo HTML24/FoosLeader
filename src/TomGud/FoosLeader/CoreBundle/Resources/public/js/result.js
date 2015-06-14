@@ -26,6 +26,7 @@
 		$(document).on('click', '#create_result', fbd.result.validateNewResultForm);
 		$(document).on('click', '.confirm-single-result', fbd.result.confirmResult);
 		$(document).on('click', '.invalidate-single-result', fbd.result.invalidateResult);
+        $(document).on('click', '.js-result-link', fbd.result.goToResult);
 	});
 
 	/**
@@ -133,5 +134,13 @@
             }
         });
 
+    };
+
+    fbd.result.goToResult = function() {
+        var $this = $(this),
+            id = $this.data('result-id');
+        if (id) {
+            window.location = Routing.generate('detail_result', { id: id });
+        }
     };
 })(jQuery);

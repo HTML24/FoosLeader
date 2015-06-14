@@ -129,7 +129,7 @@
 					</thead>
 					<tbody>
 						{% for history in pagination %}
-						<tr>
+						<tr data-result-id="{{ history.result.id }}" class="js-result-link pointer">
 							<td>
 							{% if history.result.player1 == app.user %}
 								<strong>{{ history.result.player1 }}</strong>
