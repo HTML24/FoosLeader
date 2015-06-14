@@ -141,7 +141,7 @@ class ResultController extends Controller
 
         $userConfirmed = ($result->userInTeam1($user) && $result->getTeam1Confirmed()) ||
             ($result->userInTeam2($user) && $result->getTeam2Confirmed());
-        $canBeDeleted = !$result->getTeam1Confirmed() && !$result->getTeam2Confirmed();
+        $canBeDeleted = !$result->getTeam1Confirmed() || !$result->getTeam2Confirmed();
 
         //MessageService
         $game_description = $messageService->getMessageForScore($result);
@@ -198,7 +198,7 @@ class ResultController extends Controller
             throw new NotFoundHttpException('Result not found');
         }
 
-        if ($result->userParticipating($user) && !$result->getTeam1Confirmed() && !$result->getTeam2Confirmed()) {
+        if ($result->userParticipating($user) && (!$result->getTeam1Confirmed() || !$result->getTeam2Confirmed())) {
             // Request performed by logged in user who participated in this result, and both team have
             // invalidated the result
             $this->updateELOScores($result);
