@@ -86,11 +86,6 @@
 			alert("Scores can not be greater than 10");
 			return false;
 		}
-
-		if (scoreOne !== 10 && scoreTwo !== 10) {
-			alert("At least one team should have won the game!");
-			return false;
-		}
 	};
 
 	fbd.result.confirmResult = function(e) {

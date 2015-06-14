@@ -49,13 +49,12 @@ class ResultController extends Controller
 		$p_score_2 = $request->get('score_2');
 
 		// Validation
-		if (intval($p_score_1) < 0 || intval($p_score_1) > 10  ||
-			intval($p_score_2) < 0 || intval($p_score_2) > 10) {
+		if (intval($p_score_1) < 0 || intval($p_score_2) < 0 ) {
 			// Not a valid score was entered
 			// Set flash bag error message
 			$this->get('session')->getFlashBag()->add(
 		        'error',
-		        'Scores must be positive integers between 0 and 10 (inclusive)'
+		        'Scores must be positive'
 		    );
 			return $this->redirect($this->generateUrl('new_result'));
 		}
