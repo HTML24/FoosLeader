@@ -55,7 +55,6 @@ doctrine:
         dbname:   "%database_name%"
         user:     "%database_user%"
         password: "%database_password%"
-        charset:  UTF8
         # if using pdo_sqlite as your database driver, add the path in parameters.yml
         # e.g. database_path: "%kernel.root_dir%/data/data.db3"
         # path:     "%database_path%"
@@ -76,6 +75,10 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: TomGud\FoosLeader\UserBundle\Entity\User
+
+services:
+    fos_user.doctrine_registry:
+        alias: doctrine
 
 knp_paginator:
     page_range: 3                      # default page range used in pagination control
