@@ -39,8 +39,8 @@ class StatisticsService {
         $resultQueryBuilder = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('result');
         $resultQueryBuilder
             ->select("COUNT(result.id) as totalGames" )
-            ->where("result.team1Confirmed = 1")
-            ->andWhere("result.team2Confirmed = 1");
+            ->where("result.team1Confirmed = TRUE")
+            ->andWhere("result.team2Confirmed = TRUE");
         $result = $resultQueryBuilder->getQuery()->getSingleResult();
         return $result['totalGames'];
     }
@@ -50,8 +50,8 @@ class StatisticsService {
         $resultQueryBuilder = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('result');
         $resultQueryBuilder
             ->select('SUM(result.team1Score) as totalScore1, SUM(result.team2Score) as totalScore2')
-            ->where("result.team1Confirmed = 1")
-            ->andWhere("result.team2Confirmed = 1");
+            ->where("result.team1Confirmed = TRUE")
+            ->andWhere("result.team2Confirmed = TRUE");
         $result = $resultQueryBuilder->getQuery()->getSingleResult();
         return $result['totalScore1'] + $result['totalScore2'];
     }
@@ -69,7 +69,7 @@ class StatisticsService {
         $userQueryBuilder
             ->leftJoin('TomGud\FoosLeader\CoreBundle\Entity\Result', 'r', \Doctrine\ORM\Query\Expr\Join::WITH,
                 'r.player1 = user.id OR r.player2 = user.id OR r.player3 = user.id OR r.player4 = user.id')
-            ->where('r.team1Confirmed = true AND r.team1Confirmed = true')
+            ->where('r.team1Confirmed = TRUE AND r.team1Confirmed = TRUE')
             ->andWhere('r.submitted > :monthAgo')
             ->orderBy('user.ELORanking', 'DESC')
             ->setParameter('monthAgo', $monthAgo)
@@ -177,8 +177,8 @@ class StatisticsService {
                 'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
                 'COUNT(r) as totalResults')
             ->where('r.team1Score > r.team2Score')
-            ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
-            ->groupBy('r.player1');
+            ->andWhere('r.team1Confirmed = TRUE AND r.team2Confirmed = TRUE')
+            ->groupBy('r.player1, r');
 
         $player1LossCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
         $player1LossCountsQB
@@ -186,8 +186,8 @@ class StatisticsService {
                 'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
                 'COUNT(r) as totalResults')
             ->where('r.team1Score < r.team2Score')
-            ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
-            ->groupBy('r.player1');
+            ->andWhere('r.team1Confirmed = TRUE AND r.team2Confirmed = TRUE')
+            ->groupBy('r.player1, r');
 
         $player2WinCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
         $player2WinCountsQB
@@ -195,8 +195,8 @@ class StatisticsService {
                 'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
                 'COUNT(r) as totalResults')
             ->where('r.team1Score < r.team2Score')
-            ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
-            ->groupBy('r.player2');
+            ->andWhere('r.team1Confirmed = TRUE AND r.team2Confirmed = TRUE')
+            ->groupBy('r.player2, r');
 
         $player2LossCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
         $player2LossCountsQB
@@ -204,8 +204,8 @@ class StatisticsService {
                 'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
                 'COUNT(r) as totalResults')
             ->where('r.team1Score > r.team2Score')
-            ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
-            ->groupBy('r.player2');
+            ->andWhere('r.team1Confirmed = TRUE AND r.team2Confirmed = TRUE')
+            ->groupBy('r.player2, r');
 
         $player3WinCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
         $player3WinCountsQB
@@ -213,9 +213,9 @@ class StatisticsService {
                 'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
                 'COUNT(r) as totalResults')
             ->where('r.team1Score > r.team2Score')
-            ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
+            ->andWhere('r.team1Confirmed = TRUE AND r.team2Confirmed = TRUE')
             ->andWhere('r.player3 IS NOT NULL')
-            ->groupBy('r.player3');
+            ->groupBy('r.player3, r');
 
         $player3LossCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
         $player3LossCountsQB
@@ -223,9 +223,9 @@ class StatisticsService {
                 'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
                 'COUNT(r) as totalResults')
             ->where('r.team1Score < r.team2Score')
-            ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
+            ->andWhere('r.team1Confirmed = TRUE AND r.team2Confirmed = TRUE')
             ->andWhere('r.player3 IS NOT NULL')
-            ->groupBy('r.player3');
+            ->groupBy('r.player3, r');
 
         $player4WinCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
         $player4WinCountsQB
@@ -233,9 +233,9 @@ class StatisticsService {
                 'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
                 'COUNT(r) as totalResults')
             ->where('r.team1Score < r.team2Score')
-            ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
+            ->andWhere('r.team1Confirmed = TRUE AND r.team2Confirmed = TRUE')
             ->andWhere('r.player4 IS NOT NULL')
-            ->groupBy('r.player4');
+            ->groupBy('r.player4, r');
 
         $player4LossCountsQB = $this->em->getRepository('FoosLeaderCoreBundle:Result')->createQueryBuilder('r');
         $player4LossCountsQB
@@ -243,9 +243,9 @@ class StatisticsService {
                 'SUM(r.team1Score AS team1_goals, SUM(r.team2Score) AS team2_goals',
                 'COUNT(r) as totalResults')
             ->where('r.team1Score > r.team2Score')
-            ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
+            ->andWhere('r.team1Confirmed = TRUE AND r.team2Confirmed = TRUE')
             ->andWhere('r.player4 IS NOT NULL')
-            ->groupBy('r.player4');
+            ->groupBy('r.player4, r');
 
         $player1WinCountsResults = $player1WinCountsQB->getQuery()->getResult();
         $player1LossCountsResults = $player1LossCountsQB->getQuery()->getResult();

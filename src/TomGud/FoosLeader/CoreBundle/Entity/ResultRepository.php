@@ -17,7 +17,7 @@ class ResultRepository extends EntityRepository
         $q = $this
             ->createQueryBuilder('r')
             ->where('(r.player1 = :user OR r.player2 = :user OR r.player3 = :user OR r.player4 = :user)
-                AND (r.team1Confirmed = true AND r.team2Confirmed = true)')
+                AND (r.team1Confirmed = TRUE AND r.team2Confirmed = TRUE)')
             ->orderBy('r.submitted', 'DESC')
             ->setParameter('user', $user)
             ->getQuery();
@@ -29,7 +29,7 @@ class ResultRepository extends EntityRepository
 	public function getLatestForAll() {
 		$q = $this
             ->createQueryBuilder('r')
-            ->where('r.team1Confirmed = true and r.team2Confirmed = true')
+            ->where('r.team1Confirmed = TRUE and r.team2Confirmed = TRUE')
             ->orderBy('r.submitted', 'DESC')
             ->getQuery();
 
@@ -40,8 +40,8 @@ class ResultRepository extends EntityRepository
     public function getUnconfirmedResultsForUser(User $user) {
         $qb = $this
             ->createQueryBuilder('r')
-            ->where('((r.player1 = :user OR r.player3 = :user) AND r.team1Confirmed = false) OR
-                    ((r.player2 = :user OR r.player4 = :user) AND r.team2Confirmed = false)')
+            ->where('((r.player1 = :user OR r.player3 = :user) AND r.team1Confirmed = FALSE) OR
+                    ((r.player2 = :user OR r.player4 = :user) AND r.team2Confirmed = FALSE)')
             ->orderBy('r.submitted', 'DESC')
             ->setParameter('user', $user);
 
@@ -60,14 +60,14 @@ class ResultRepository extends EntityRepository
             ->createQueryBuilder('r')
             ->add('select', 'SUM(r.team1Score) as scored, SUM(r.team2Score) as conceded')
             ->add('from', 'FoosLeaderCoreBundle:Result r')
-            ->add('where', '((r.player1 = :user OR r.player3 = :user) AND r.team1Confirmed = true AND r.team2Confirmed = true)')
+            ->add('where', '((r.player1 = :user OR r.player3 = :user) AND r.team1Confirmed = TRUE AND r.team2Confirmed = TRUE)')
             ->setParameter('user', $player)
             ->getQuery();
         $qT2 = $this
             ->createQueryBuilder('r')
             ->add('select', 'SUM(r.team2Score) as scored, SUM(r.team1Score) as conceded')
             ->add('from', 'FoosLeaderCoreBundle:Result r')
-            ->add('where', '((r.player2 = :user OR r.player4 = :user) AND r.team1Confirmed = true AND r.team2Confirmed = true)')
+            ->add('where', '((r.player2 = :user OR r.player4 = :user) AND r.team1Confirmed = TRUE AND r.team2Confirmed = TRUE)')
             ->setParameter('user', $player)
             ->getQuery();
 
@@ -92,15 +92,15 @@ class ResultRepository extends EntityRepository
             ->createQueryBuilder('r')
             ->add('select', 'COUNT(r.id) as won')
             ->add('from', 'FoosLeaderCoreBundle:Result r')
-            ->add('where', '((r.player1 = :user OR r.player3 = :user) AND r.team1Confirmed = true AND r.team2Confirmed = true AND r.team1Score > r.team2Score) OR ' .
-                '((r.player2 = :user OR r.player4 = :user) AND r.team1Confirmed = true AND r.team2Confirmed = true AND r.team2Score > r.team1Score)')
+            ->add('where', '((r.player1 = :user OR r.player3 = :user) AND r.team1Confirmed = TRUE AND r.team2Confirmed = TRUE AND r.team1Score > r.team2Score) OR ' .
+                '((r.player2 = :user OR r.player4 = :user) AND r.team1Confirmed = TRUE AND r.team2Confirmed = TRUE AND r.team2Score > r.team1Score)')
             ->setParameter('user', $player)
             ->getQuery();
         $qT2 = $this
             ->createQueryBuilder('r')
             ->add('select', 'COUNT(r.id) as games')
             ->add('from', 'FoosLeaderCoreBundle:Result r')
-            ->add('where', '((r.player2 = :user OR r.player4 = :user OR r.player1 = :user OR r.player3 = :user) AND r.team1Confirmed = true AND r.team2Confirmed = true)')
+            ->add('where', '((r.player2 = :user OR r.player4 = :user OR r.player1 = :user OR r.player3 = :user) AND r.team1Confirmed = TRUE AND r.team2Confirmed = TRUE)')
             ->setParameter('user', $player)
             ->getQuery();
 
@@ -139,7 +139,7 @@ class ResultRepository extends EntityRepository
     public function getAvailableResults() {
         $qb = $this->createQueryBuilder('r')
             ->where('r.player1 IS NULL AND r.player2 IS NULL AND r.player3 IS NULL AND r.player4 IS NULL')
-            ->andWhere('r.team1Confirmed = 0 AND r.team2Confirmed = 0')
+            ->andWhere('r.team1Confirmed = FALSE AND r.team2Confirmed = FALSE')
             ->orderBy('r.submitted', 'DESC');
         return $qb->getQuery()->getResult();
     }
@@ -151,7 +151,7 @@ class ResultRepository extends EntityRepository
             ->orWhere('r.player1 = :player2 AND r.player1 = :player1')
             ->orWhere('(r.player1 = :player1 OR r.player3 = :player1) AND (r.player2 = :player2 OR r.player4 = :player2)')
             ->orWhere('(r.player1 = :player2 OR r.player3 = :player2) AND (r.player2 = :player1 OR r.player4 = :player1)')
-            ->andWhere('r.team1Confirmed = 1 AND r.team2Confirmed = 1')
+            ->andWhere('r.team1Confirmed = TRUE AND r.team2Confirmed = TRUE')
             ->setParameter('player1', $player1)
             ->setParameter('player2', $player2)
             ->orderBy('r.submitted', 'DESC');
