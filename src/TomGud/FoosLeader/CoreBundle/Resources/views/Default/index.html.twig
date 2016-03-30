@@ -5,8 +5,12 @@
         <div class="col s4">
             <div class="card-panel green lighten-2">
                 <h4>Top score</h4>
-                <h5>{{ top_players[0].username }}: {{ top_players[0].eloRanking }}</h5>
-                <h6>{{ top_players[1].username }}: {{ top_players[1].eloRanking }}</h6>
+                {% if top_players|length == 2 %}
+                    <h5>{{ top_players[0].username }}: {{ top_players[0].eloRanking }}</h5>
+                    <h6>{{ top_players[1].username }}: {{ top_players[1].eloRanking }}</h6>
+                {% else %}
+                    <h6>No top players found.</h6>
+                {% endif %}
             </div>
         </div>
         <div class="col s4">
@@ -33,7 +37,7 @@
             <div class="card-content white-text">
                 <span class="card-title">Your last results</span>
                 {% if latest_user is empty %}
-                    <strong>Looks like you have no results yet</strong>
+                    <br /><strong>Looks like you have no results yet</strong>
                 {% else %}
                     {% for result in latest_user[0:5] %}
                         {% include "FoosLeaderCoreBundle:Widgets:single_result.html.twig"  with { result: result } %}
@@ -48,7 +52,7 @@
                 <span class="card-title">Latest results</span>
 
                 {% if latest_all is empty %}
-                    <strong>Looks like no one has any results yet</strong>
+                    <br /><strong>Looks like no one has any results yet</strong>
                 {% else %}
                     {% for result in latest_all[0:5] %}
                         {% include "FoosLeaderCoreBundle:Widgets:single_result.html.twig"  with { result: result } %}
